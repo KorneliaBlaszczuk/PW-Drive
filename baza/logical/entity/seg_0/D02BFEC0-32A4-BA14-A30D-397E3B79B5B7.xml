@@ -1,0 +1,107 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="D02BFEC0-32A4-BA14-A30D-397E3B79B5B7" name="Users">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 12:04:44 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_user" id="0B45DB40-C6CE-0D57-7DB1-87547300C9B8">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 12:05:21 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="name" id="8FC1F30B-DC80-EB85-23D7-DA9E9D43F7A7">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 12:05:00 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="surname" id="8D0F35CB-54BF-E1D0-8095-BC15889C8FE8">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 12:05:12 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="user_name" id="06507610-8E55-9575-9EF1-758CDA425086">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 12:05:46 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="password" id="073002CE-65E2-4556-CB20-FDF4F5501848">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 12:06:10 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="user_type" id="EB3FB7BF-FA71-B3B7-D505-19FBF7AD1169">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 12:06:40 UTC</createdTime>
+<comment><![CDATA[E(employee)/C(client)]]></comment>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>1 BYTE</dataTypeSize>
+<ownDataTypeParameters>1 BYTE,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="22A91CC8-39CF-2E19-8CD0-410D27603CF7" name="Users PK">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 12:05:44 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>0B45DB40-C6CE-0D57-7DB1-87547300C9B8</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

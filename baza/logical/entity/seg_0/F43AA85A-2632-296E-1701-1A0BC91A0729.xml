@@ -1,0 +1,81 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="F43AA85A-2632-296E-1701-1A0BC91A0729" name="Repairs">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:27:46 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_repair" id="1AAB29ED-6202-2A70-7811-6D811FD55BAB">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:29:04 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_visit" id="C09DFA45-53CD-7BCA-3509-CD5BB8381B42">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:29:14 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="repair_type" id="6FB1A8FD-8F3D-8D55-62D7-D94EE355F117">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:29:42 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="repair_price" id="C5BDFF1F-B4D1-D92A-DE04-4BF4DD883CE9">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:30:06 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="FAEEAC66-7663-EECA-BBB2-BACE8B933512" name="Repairs PK">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:29:13 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>1AAB29ED-6202-2A70-7811-6D811FD55BAB</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

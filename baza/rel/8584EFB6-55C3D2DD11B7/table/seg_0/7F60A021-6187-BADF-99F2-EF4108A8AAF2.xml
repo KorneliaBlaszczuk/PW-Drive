@@ -1,0 +1,81 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="7F60A021-6187-BADF-99F2-EF4108A8AAF2" name="Visits">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:39:36 UTC</createdTime>
+<generatorID>204DABFD-04A2-3E83-4276-2DD3AEB1DAF6</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_visit" id="D3FD7D8F-B121-312C-8FBD-E3D1FF2CF616">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:39:36 UTC</createdTime>
+<generatorID>7D1AC96B-B422-73C6-B77D-A4E21F66A52E</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="id_service" id="A072D5FE-8E5A-0157-D361-202D9E74C23E">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:39:36 UTC</createdTime>
+<generatorID>08E10236-9640-B8AD-5069-FF0C773C18B8</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="id_car" id="785F33B1-EB63-A2BF-160F-326536DE51B5">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:39:36 UTC</createdTime>
+<generatorID>5EE055F8-313D-BA2F-5B7E-DB46B425BBC8</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="time" id="F735C413-34D5-72EF-BC81-0B2E8177C030">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:39:36 UTC</createdTime>
+<generatorID>58E1326A-790C-4489-678D-9E470AC90D35</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT014</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="date" id="4A0F953F-EDFA-7A34-E1BA-9A9EDE3ADD2E">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:39:36 UTC</createdTime>
+<generatorID>FDD91CEA-AEB2-354A-1298-C9EA47886EAC</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="AD3416F9-9E42-D726-335F-0BE420C83734" name="Visits_PK">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:39:36 UTC</createdTime>
+<generatorID>66581F66-65CC-1DEF-3FF6-992BB231E75D</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="D3FD7D8F-B121-312C-8FBD-E3D1FF2CF616"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

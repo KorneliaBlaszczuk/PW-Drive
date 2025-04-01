@@ -1,0 +1,9 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<oracle.dbtools.crest.model.design.relational.RelationalDesign>
+   <object objectType="Table" objectID="126B6CC1-CBC2-2E0D-57B2-7E0CE56EEEA2" name="Cars" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.relational.Table" propertyParentId="8584EFB6-D024-C168-E168-55C3D2DD11B7" propertySourceId="" propertyTargetId=""/>
+   <object objectType="Table" objectID="97B89565-7048-2153-A6C2-649F741A5C19" name="Metadata" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.relational.Table" propertyParentId="8584EFB6-D024-C168-E168-55C3D2DD11B7" propertySourceId="" propertyTargetId=""/>
+   <object objectType="Table" objectID="0803A6DC-C6F6-5E0E-357B-469F9940B8EB" name="Repairs" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.relational.Table" propertyParentId="8584EFB6-D024-C168-E168-55C3D2DD11B7" propertySourceId="" propertyTargetId=""/>
+   <object objectType="Table" objectID="499B3EE2-1A46-1957-3B2A-C8F1391C720D" name="Services" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.relational.Table" propertyParentId="8584EFB6-D024-C168-E168-55C3D2DD11B7" propertySourceId="" propertyTargetId=""/>
+   <object objectType="Table" objectID="4EFA9F30-88C6-9A2E-6744-1317728496D7" name="Users" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.relational.Table" propertyParentId="8584EFB6-D024-C168-E168-55C3D2DD11B7" propertySourceId="" propertyTargetId=""/>
+   <object objectType="Table" objectID="7F60A021-6187-BADF-99F2-EF4108A8AAF2" name="Visits" seqName="seg_0" propertyClassName="oracle.dbtools.crest.model.design.relational.Table" propertyParentId="8584EFB6-D024-C168-E168-55C3D2DD11B7" propertySourceId="" propertyTargetId=""/>
+</oracle.dbtools.crest.model.design.relational.RelationalDesign>
