@@ -1,0 +1,57 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="0E29AF08-DCC0-2A44-DB7B-F44A2E1779CA" name="History_of_ changes">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-02 19:20:10 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_change" id="C3F94305-FC7C-5521-C65E-F737C4360FB1">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-02 19:20:58 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="change_date" id="F7D4928D-DC35-0FB6-D019-70BA24F92BA1">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-02 19:21:07 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="78A3036A-0F78-3396-86D0-FBBEF206E606" name="History_of_ changes PK">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-02 19:21:06 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>C3F94305-FC7C-5521-C65E-F737C4360FB1</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
