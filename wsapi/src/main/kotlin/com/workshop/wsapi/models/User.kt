@@ -15,5 +15,5 @@ class User {
     var surname: String = ""
     var username: String = ""
     var email: String = ""
-    var type: Int = 0;
+    var type: Int = 0
 }

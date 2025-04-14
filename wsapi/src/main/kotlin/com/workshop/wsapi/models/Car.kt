@@ -10,7 +10,7 @@ class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) val id: Long = 0
     @ManyToOne
-    @JoinColumn(name = "car_id")
+    @JoinColumn(name = "id_car")
     var user: User = User()
     var name: String = ""
     val brand: String = ""
