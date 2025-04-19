@@ -1,6 +1,6 @@
-.App-header {
+.appHeader {
     background: linear-gradient(to right, #040240, #2E28DC);
-    height: 10vh;
+    height: 12.5vh;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -8,7 +8,7 @@
     z-index: 800;
 }
 
-.App-logo {
+.appLogo {
     height: 100px;
     width: 100px;
     flex-shrink: 0;
