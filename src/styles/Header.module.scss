@@ -12,4 +12,81 @@
     height: 100px;
     width: 100px;
     flex-shrink: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.appLogo:hover {
+    transform: scale(1.05);
+}
+
+.headerCenter {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    gap: 80px;
+    font-size: large;
+}
+
+.headerCenter p {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.headerCenter p:hover {
+    font-weight: bolder;
+    transform: scale(1.05);
+}
+
+.aboutUs {
+    background-color: #f5f5f5;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 12px;
+}
+
+.aboutUs:hover {
+    background-color: #f0f0f0; //jaśniejsze tło po najechaniu
+}
+
+.headerRight {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    padding: 15px;
+    position: absolute;
+    right: 0;
+    gap: 20px;
+    font-size: large;
+}
+
+.logIn {
+    background-color: #e3e3e3;
+    color: black;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.logIn:hover {
+    background-color: #d0d0d0;
+    font-weight: bolder;
+    transform: scale(1.05);
+}
+
+.register {
+    background-color: #2c2c2c;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.register:hover {
+    background-color: #4f4f4f;
+    font-weight: bolder;
+    transform: scale(1.05);
 }
