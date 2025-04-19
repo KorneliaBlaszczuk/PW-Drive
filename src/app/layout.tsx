@@ -1,5 +1,4 @@
 import React from "react";
-import Header from "@/components/Header";
 import type { Metadata } from "next";
 import { Forum } from "next/font/google";
 import "./globals.css";
@@ -22,7 +21,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={forum.className}>
-        <Header />
         {children}
       </body>
     </html>
