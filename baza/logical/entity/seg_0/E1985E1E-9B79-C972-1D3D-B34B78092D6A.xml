@@ -1,0 +1,136 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="E1985E1E-9B79-C972-1D3D-B34B78092D6A" name="Reservations">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-03 06:27:42 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_reservation" id="D4BDC077-A913-E9C7-AA9D-565A3B77F3DA">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-03 06:28:01 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_service" id="743D93A4-E40C-B69D-C3DF-8FA91DEB52EF">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-03 06:28:12 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_car" id="959B7E18-8753-4198-6353-3AF15CC11D4D">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-03 06:28:32 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="time" id="7F0A0B27-E721-E8B9-3673-AA81A72340E2">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-03 06:28:44 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT014</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="date" id="F9CE12BF-7F25-8C35-7DBE-DBC8B1C03617">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-03 06:28:57 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="created_at" id="A8E55B29-F189-001E-30A9-02DB61CB8FC1">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-03 06:29:05 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>12</dataTypePrecision>
+<dataTypeScale>6</dataTypeScale>
+<ownDataTypeParameters>,12,6</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_car1" id="35776A4C-4FED-DA73-35A0-4F9842B44C0F">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 09:32:44 UTC</createdTime>
+<generatorID>F411520E-E625-4D7C-8892-A5DBEA5DA1DF</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<referedAttribute>FC3B2C9C-F1EE-A06C-040F-392801B84827</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_service1" id="777FDFFF-D1A8-29B2-F7B0-7AF83A372D99">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 09:47:51 UTC</createdTime>
+<generatorID>4203B293-0D56-3269-DE1B-C5875907E96E</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<referedAttribute>7160EF3D-FF0C-5DBA-B93D-048576CA430C</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="72B8D0F5-46F3-FE23-038E-F25130FF2980" name="Reservations PK">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-03 06:28:11 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>D4BDC077-A913-E9C7-AA9D-565A3B77F3DA</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
