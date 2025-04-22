@@ -4,7 +4,7 @@
 <createdTime>2025-04-01 11:40:12 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
 </engineerTo>
 <adequatelyNormalized>NO</adequatelyNormalized>
 <expectedVolumes>0</expectedVolumes>
@@ -20,39 +20,11 @@
 <createdTime>2025-04-01 11:44:46 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT040</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="opening_time" id="3230EB64-7535-E399-44E6-9166199AE26D">
-<createdBy>a_rac</createdBy>
-<createdTime>2025-04-01 11:42:23 UTC</createdTime>
-<comment><![CDATA[default 8.00]]></comment>
-<ownerDesignName>baza</ownerDesignName>
-<engineerTo>
-<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
-</engineerTo>
-<nullsAllowed>true</nullsAllowed>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT014</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="closing_time" id="AD93C5A5-448B-F21D-4FE4-B0B96584872C">
-<createdBy>a_rac</createdBy>
-<createdTime>2025-04-01 11:43:27 UTC</createdTime>
-<comment><![CDATA[dafault 16.00]]></comment>
-<ownerDesignName>baza</ownerDesignName>
-<engineerTo>
-<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
-</engineerTo>
-<nullsAllowed>true</nullsAllowed>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT014</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 <Attribute name="  simultaneous_number_of_visits" id="DA0D09E2-2E53-483D-2E11-16A29476F106">
@@ -61,7 +33,7 @@
 <comment><![CDATA[default 1]]></comment>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
@@ -74,7 +46,7 @@
 <createdTime>2025-04-01 11:46:53 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -86,7 +58,7 @@
 <createdTime>2025-04-01 11:47:37 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -98,7 +70,7 @@
 <createdTime>2025-04-01 11:47:56 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -110,7 +82,7 @@
 <createdTime>2025-04-02 18:43:44 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="8584EFB6-D024-C168-E168-55C3D2DD11B7" value="true"/>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>

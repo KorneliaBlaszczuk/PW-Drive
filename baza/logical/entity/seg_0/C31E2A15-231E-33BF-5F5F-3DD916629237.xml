@@ -1,7 +1,7 @@
 <?xml version = '1.0' encoding = 'UTF-8'?>
-<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="0E29AF08-DCC0-2A44-DB7B-F44A2E1779CA" name="History_of_ changes">
-<createdBy>a_rac</createdBy>
-<createdTime>2025-04-02 19:20:10 UTC</createdTime>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="C31E2A15-231E-33BF-5F5F-3DD916629237" name="Opening Hours">
+<createdBy>Brydzix</createdBy>
+<createdTime>2025-04-17 21:00:39 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
 <item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
@@ -15,21 +15,9 @@
 <minVolumes>0</minVolumes>
 <normalForm>Third</normalForm>
 <attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
-<Attribute name="id_change" id="C3F94305-FC7C-5521-C65E-F737C4360FB1">
-<createdBy>a_rac</createdBy>
-<createdTime>2025-04-02 19:20:58 UTC</createdTime>
-<ownerDesignName>baza</ownerDesignName>
-<engineerTo>
-<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
-</engineerTo>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT011</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="id_car" id="BC353C6A-EDA3-EC7D-D9B7-BAD838FA95F7">
+<Attribute name="id_hours" id="3C38828D-E461-F22B-72FB-7C023897866C">
 <createdBy>Brydzix</createdBy>
-<createdTime>2025-04-17 21:07:12 UTC</createdTime>
+<createdTime>2025-04-17 21:00:55 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
 <item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
@@ -39,44 +27,69 @@
 <logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
-<Attribute name="change_date" id="F7D4928D-DC35-0FB6-D019-70BA24F92BA1">
-<createdBy>a_rac</createdBy>
-<createdTime>2025-04-02 19:21:07 UTC</createdTime>
-<ownerDesignName>baza</ownerDesignName>
-<engineerTo>
-<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
-</engineerTo>
-<useDomainConstraints>false</useDomainConstraints>
-<use>1</use>
-<logicalDatatype>LOGDT007</logicalDatatype>
-<ownDataTypeParameters>,,</ownDataTypeParameters>
-</Attribute>
-<Attribute name="id_car1" id="D7A9E934-0D7B-5240-3DA2-99F4C5AAA496">
+<Attribute name="day_of_the_week" id="119C2DBA-F338-E17A-CF6C-74F37305609B">
 <createdBy>Brydzix</createdBy>
-<createdTime>2025-04-17 21:07:49 UTC</createdTime>
-<generatorID>66B2F126-AB01-9C47-27DE-55B1BE1A4FF9</generatorID>
+<createdTime>2025-04-17 21:01:42 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
 <item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
 </engineerTo>
-<referedAttribute>FC3B2C9C-F1EE-A06C-040F-392801B84827</referedAttribute>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="is_open" id="3B72329E-6838-10C5-148A-20DCEFCE0615">
+<createdBy>Brydzix</createdBy>
+<createdTime>2025-04-17 21:02:30 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="open_hour" id="07BEE9D0-8A7A-F57B-4E6D-424B59E6CA69">
+<createdBy>Brydzix</createdBy>
+<createdTime>2025-04-17 21:02:05 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT014</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="close_hour" id="EFBEF87F-6415-B05A-140D-8ABA74999D6B">
+<createdBy>Brydzix</createdBy>
+<createdTime>2025-04-17 21:02:18 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT014</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
-<identifier id="78A3036A-0F78-3396-86D0-FBBEF206E606" name="History_of_ changes PK">
-<createdBy>a_rac</createdBy>
-<createdTime>2025-04-02 19:21:06 UTC</createdTime>
+<identifier id="D5AB9F85-38BD-AB4E-303F-4736B848CCE5" name="Opening Hours PK">
+<createdBy>Brydzix</createdBy>
+<createdTime>2025-04-17 21:01:12 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
 <item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
-<attributeRef>C3F94305-FC7C-5521-C65E-F737C4360FB1</attributeRef>
+<attributeRef>3C38828D-E461-F22B-72FB-7C023897866C</attributeRef>
 </usedAttributes>
 </identifier>
 </identifiers>
