@@ -4,13 +4,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2vh;
+    padding: 2vh 3vw;
     z-index: 800;
 }
 
 .appLogo {
-    height: 10vh;
-    width: 10vh;
+    height: 11.5vh;
+    width: 11.5vh;
     flex-shrink: 0;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -61,8 +61,8 @@
 }
 
 .navInactive {
-    background-color: white;
-    color: black;
+    background-color: rgba(255, 255, 255, 0);
+    color: rgb(255, 255, 255);
 }
 
 .headerRight {
