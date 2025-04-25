@@ -4,13 +4,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
+    padding: 2vh;
     z-index: 800;
 }
 
 .appLogo {
-    height: 100px;
-    width: 100px;
+    height: 10vh;
+    width: 10vh;
     flex-shrink: 0;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -25,24 +25,28 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 15px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    gap: 80px;
-    font-size: large;
+    padding: 2vh;
+    gap: 3vw;
+    font-size: 1.3vw;
+    flex-grow: 1;
+    max-width: 60vw;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.headerCenter p,
+.headerCenter Button,
 .headerCenter a {
+    font-size: 1.3vw;
     cursor: pointer;
     transition: all 0.3s ease;
-    padding: 10px 20px;
-    border-radius: 12px;
+    padding: 0vh 5vw;
+    border-radius: 1.5vh;
     text-decoration: none;
+    width: 10vw;
+    height: 5vh;
 }
 
-.headerCenter p:hover,
+.headerCenter Button:hover,
 .headerCenter a:hover {
     font-weight: bolder;
     transform: scale(1.05);
@@ -63,22 +67,19 @@
 
 .headerRight {
     display: flex;
-    justify-content: right;
+    justify-content: flex-end;
     align-items: center;
-    padding: 15px;
-    position: absolute;
-    right: 0;
-    gap: 20px;
-    font-size: large;
+    gap: 1vw;
+    font-size: 1.5vw;
 }
 
 .logIn,
 .register {
     cursor: pointer;
     transition: all 0.3s ease;
-    padding: 10px 20px;
-    border-radius: 12px;
-    font-size: 16px;
+    padding: 1.5vh 3vw;
+    border-radius: 1.5vh;
+    font-size: 1.3vw;
 }
 
 .logIn {

@@ -14,10 +14,40 @@ export default function Header() {
                 <img className={styles.appLogo} src='/logo_white.png' alt='App logo' />
             </Link>
             <div className={styles.headerCenter}>
-                <Link href="/about" className={isActive("/about") ? styles.navActive : styles.navInactive}>O nas</Link>
-                <Link href="/book" className={isActive("/book") ? styles.navActive : styles.navInactive}>Umów wizytę</Link>
-                <Link href="contact" className={isActive("/conntact") ? styles.navActive : styles.navInactive}>Kontakt</Link>
-                <Link href="pricing" className={isActive("/pricing") ? styles.navActive : styles.navInactive}>Cennik</Link>
+                <Link href="/about" passHref>
+                    <Button
+                        size="lg"
+                        className={isActive("/about") ? styles.navActive : styles.navInactive}
+                    >
+                        O nas
+                    </Button>
+                </Link>
+                <Link href="/book" passHref>
+                    <Button
+                        size="sm"
+                        className={isActive("/book") ? styles.navActive : styles.navInactive}
+                    >
+                        Umów wizytę
+                    </Button>
+                </Link>
+
+                <Link href="/contact" passHref>
+                    <Button
+                        size="sm"
+                        className={isActive("/contact") ? styles.navActive : styles.navInactive}
+                    >
+                        Kontakt
+                    </Button>
+                </Link>
+
+                <Link href="/pricing" passHref>
+                    <Button
+                        size="sm"
+                        className={isActive("/pricing") ? styles.navActive : styles.navInactive}
+                    >
+                        Cennik
+                    </Button>
+                </Link>
             </div>
             <div className={styles.headerRight}>
                 <Button className={styles.logIn} variant="outline">Zaloguj</Button>
