@@ -1,16 +1,24 @@
 package com.workshop.wsapi.models
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import java.sql.Time
+import io.hypersistence.utils.hibernate.type.interval.PostgreSQLIntervalType
+import jakarta.persistence.*
+import org.hibernate.annotations.Type
+import java.time.Duration
 
 @Entity
+
+@Table(name = "Services")
 class Service {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO) val id: Long = 0
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_service", nullable = false)
+    val id: Long? = null
+
     val name: String = ""
     var price: Int = 0
-    var time: Time = Time(0)
+    
+    @Type(PostgreSQLIntervalType::class)
+    @Column(name = "time_in_service", columnDefinition = "interval")
+    var time: Duration? = null
 }
 

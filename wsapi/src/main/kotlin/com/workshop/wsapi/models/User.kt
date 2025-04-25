@@ -1,16 +1,17 @@
 package com.workshop.wsapi.models
 
-import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
-import jakarta.persistence.Id
-import jakarta.persistence.OneToMany
-import jakarta.persistence.CascadeType
+import jakarta.persistence.*
+
 @Entity
 class User {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO) val id: Long = 0
-    @OneToMany(mappedBy = "user",cascade = [CascadeType.ALL])
-    private var cars: MutableList<Car> = mutableListOf()
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_user", nullable = false)
+    val id: Long? = null
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var cars: MutableList<Car> = mutableListOf()
+
     var name: String = ""
     var surname: String = ""
     var username: String = ""
