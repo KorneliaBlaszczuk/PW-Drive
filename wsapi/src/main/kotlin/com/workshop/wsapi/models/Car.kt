@@ -26,6 +26,6 @@ class Car {
     var nextInspection: Date? = null
 
     @OneToMany(mappedBy = "car", orphanRemoval = true)
-    var reservations: MutableList<Reservation> = mutableListOf()
+    var visits: MutableList<Visit> = mutableListOf()
 }
 

@@ -4,7 +4,7 @@ import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
 
 @Embeddable
-class Mileage(
+class Mileage (
     @Column(name = "old_value")
     val oldValue: Int = 0,
 

@@ -19,7 +19,8 @@ class Visit {
 
     @ManyToOne(optional = false)
     var car: Car? = null
-
+    var createdAt: Date = Date(0)
+    var isReserved: Boolean = false
     var time: Time = Time(0)
     var date: Date = Date(0)
     var status: String = ""
