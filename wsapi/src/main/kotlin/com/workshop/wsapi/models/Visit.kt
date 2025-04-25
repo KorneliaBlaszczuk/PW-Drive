@@ -1,6 +1,7 @@
 package com.workshop.wsapi.models
 
 import jakarta.persistence.*
+import org.hibernate.annotations.CreationTimestamp
 import java.sql.Date
 import java.sql.Time
 
@@ -19,6 +20,7 @@ class Visit {
 
     @ManyToOne(optional = false)
     var car: Car? = null
+    @CreationTimestamp
     var createdAt: Date = Date(0)
     var isReserved: Boolean = false
     var time: Time = Time(0)

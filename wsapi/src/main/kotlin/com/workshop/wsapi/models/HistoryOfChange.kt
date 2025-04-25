@@ -1,6 +1,7 @@
 package com.workshop.wsapi.models
 
 import jakarta.persistence.*
+import org.hibernate.annotations.CreationTimestamp
 import java.sql.Date
 
 @Entity
@@ -15,6 +16,7 @@ class HistoryOfChange {
     val car: Car? = null
 
     @Column(name = "change_date")
+    @CreationTimestamp
     var changeDate: Date = Date(0)
 
     @Embedded

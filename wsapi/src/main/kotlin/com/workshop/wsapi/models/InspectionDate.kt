@@ -1,11 +1,11 @@
 package com.workshop.wsapi.models
 
-import jakarta.persistence.Column
-import jakarta.persistence.Embeddable
+import jakarta.persistence.*
 import java.sql.Date
 
 @Embeddable
 class InspectionDate(
+
     @Column(name = "old_value")
     val oldValue: Date = Date(0),
 

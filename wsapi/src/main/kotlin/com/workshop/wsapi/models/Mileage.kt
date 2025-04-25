@@ -1,10 +1,11 @@
 package com.workshop.wsapi.models
 
-import jakarta.persistence.Column
-import jakarta.persistence.Embeddable
+import jakarta.persistence.*
 
 @Embeddable
+@Table(name = "Mileage")
 class Mileage (
+
     @Column(name = "old_value")
     val oldValue: Int = 0,
 
