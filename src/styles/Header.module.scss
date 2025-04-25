@@ -33,25 +33,32 @@
     font-size: large;
 }
 
-.headerCenter p {
+.headerCenter p,
+.headerCenter a {
     cursor: pointer;
     transition: all 0.3s ease;
+    padding: 10px 20px;
+    border-radius: 12px;
+    text-decoration: none;
 }
 
-.headerCenter p:hover {
+.headerCenter p:hover,
+.headerCenter a:hover {
     font-weight: bolder;
     transform: scale(1.05);
 }
 
-.aboutUs {
-    background-color: #f5f5f5;
+/* Active and inactive states */
+.navActive {
+    background-color: white;
     color: black;
-    padding: 10px 20px;
-    border-radius: 12px;
+    transform: scale(1.05);
+    font-weight: bolder;
 }
 
-.aboutUs:hover {
-    background-color: #f0f0f0; //jaśniejsze tło po najechaniu
+.navInactive {
+    background-color: white;
+    color: black;
 }
 
 .headerRight {
@@ -65,11 +72,18 @@
     font-size: large;
 }
 
+.logIn,
+.register {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 16px;
+}
+
 .logIn {
     background-color: #e3e3e3;
     color: black;
-    cursor: pointer;
-    transition: all 0.3s ease;
 }
 
 .logIn:hover {
@@ -81,8 +95,6 @@
 .register {
     background-color: #2c2c2c;
     color: white;
-    cursor: pointer;
-    transition: all 0.3s ease;
 }
 
 .register:hover {
