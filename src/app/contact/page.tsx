@@ -17,7 +17,7 @@ export default function Contact() {
 
             const map = L.map("map", {
                 center: [52.219068, 21.011937],
-                zoom: 13,
+                zoom: 10,
             });
 
             L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
@@ -32,7 +32,7 @@ export default function Contact() {
             const marker = L.marker([52.219068, 21.011937], { icon: customIcon }).addTo(map);
 
             marker
-                .bindPopup("<b>Jesteś tutaj!</b><br>To jest przykładowe miejsce na mapie.")
+                .bindPopup("<b>Tutaj jesteśmy!</b>")
                 .openPopup();
 
             return () => {
@@ -42,8 +42,22 @@ export default function Contact() {
     }, [isLeafletLoaded]);
 
     return (
-        <div>
-            <h1>Kontakt</h1>
+        <div className={styles.container}>
+            <div className={styles.contactInfo}>
+                <div className={styles.infoItem}>
+                    <img src="https://img.icons8.com/ios/50/000000/phone.png" alt="Telefon" className={styles.icon} />
+                    <p>+48 123 456 789</p>
+                </div>
+                <div className={styles.infoItem}>
+                    <img src="https://img.icons8.com/ios/50/000000/mail.png" alt="Email" className={styles.icon} />
+                    <p>kontakt@example.com</p>
+                </div>
+                <div className={styles.infoItem}>
+                    <img src="https://img.icons8.com/ios/50/000000/map-marker.png" alt="Ulica" className={styles.icon} />
+                    <p>Warszawa, Nowowiejska 15/19</p>
+                </div>
+            </div>
+
             {isLeafletLoaded && <div id="map" className={styles.map}></div>}
         </div>
     );

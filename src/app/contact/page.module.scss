@@ -1,5 +1,36 @@
+.container {
+    display: flex;
+    justify-content: space-between;
+    padding: 10vh 10vw;
+}
+
+.contactInfo {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    gap: 8vh;
+    justify-content: center;
+}
+
+.infoItem {
+    display: flex;
+    align-items: center;
+    gap: 5vw;
+
+    p {
+        font-weight: 800;
+        font-size: 1.4vw;
+    }
+}
+
+
+.icon {
+    width: 8vh;
+    height: 8vh;
+}
+
 .map {
-    width: 80vw;
+    width: 40vw;
     height: 60vh;
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
 }
