@@ -1,6 +1,7 @@
-import React from "react";
 import type { Metadata } from "next";
 import { Forum } from "next/font/google";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import "./globals.css";
 
 const forum = Forum({ subsets: ['latin'], weight: '400' });
@@ -21,7 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={forum.className}>
-        {children}
+        <Header />
+        <main>{children}</main>
+        <Footer />
       </body>
     </html>
   );

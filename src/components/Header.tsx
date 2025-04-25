@@ -1,7 +1,5 @@
-import React from 'react'
 import { Button } from "@/components/ui/button"
-// import { useNavigate } from 'react-router-dom';
-// import { Link, NavLink } from 'react-router-dom';
+import Link from 'next/link';
 import styles from '../styles/Header.module.scss';
 
 export default function Header() {
@@ -12,7 +10,7 @@ export default function Header() {
             <img className={styles.appLogo} src='/logo_white.png' alt='App logo' />
             {/* </Link> */}
             <div className={styles.headerCenter}>
-                <p className={styles.aboutUs}>O nas</p>
+                <Link href="/about" className={styles.aboutUs}>O nas</Link>
                 <p>Umów wizytę</p>
                 <p>Kontakt</p>
                 <p>Cennik</p>
