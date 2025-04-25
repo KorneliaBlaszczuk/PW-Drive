@@ -1,0 +1,33 @@
+.aboutContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+    padding: 10vh;
+}
+
+.aboutText {
+    width: 60%;
+    text-align: left;
+}
+
+.aboutText h2 {
+    font-size: 3vw;
+    color: #040240;
+    font-weight: bold;
+    margin-bottom: 2vh;
+}
+
+.aboutText p {
+    font-size: 1.4vw;
+    line-height: 1.6;
+    margin-bottom: 2vh;
+    color: #333;
+}
+
+.appLogo {
+    padding-left: 5vw;
+    max-width: 40vw;
+    max-height: 40vh;
+    object-fit: contain;
+}
