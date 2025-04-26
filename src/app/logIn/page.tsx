@@ -1,4 +1,6 @@
+'use client';
 import styles from './page.module.scss';
+import Link from 'next/link';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
@@ -10,7 +12,9 @@ export default function Log() {
             <div className={styles.LogLeft}>
                 <h1>Witaj!</h1>
                 <p>Pierwszy raz w naszym serwisie?</p>
-                <Button className={styles.LeftButton} variant="outline">Zarejestruj się!</Button>
+                <Link href="/register" passHref>
+                    <Button className={styles.LeftButton} variant="outline">Zarejestruj się!</Button>
+                </Link>
             </div>
             <div className={styles.LogRight}>
                 <img className={styles.appLogo} src='/logo_black.png' alt='App logo black' />

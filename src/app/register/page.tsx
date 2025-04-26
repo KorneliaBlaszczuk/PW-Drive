@@ -1,9 +1,9 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './page.module.scss';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-
+import Link from 'next/link';;
 
 export default function Register() {
     const [password, setPassword] = useState('');
@@ -57,7 +57,9 @@ export default function Register() {
             <div className={styles.RegisterRight}>
                 <h1>Witaj z powrotem!</h1>
                 <p>Masz juz konto?</p>
-                <Button className={styles.RightButton} variant="outline">Zaloguj się!</Button>
+                <Link href="/logIn" passHref>
+                    <Button className={styles.RightButton} variant="outline">Zaloguj się!</Button>
+                </Link>
             </div>
         </div>
     )
