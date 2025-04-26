@@ -3,6 +3,7 @@ package com.workshop.wsapi.models
 import jakarta.persistence.*
 
 @Entity
+@Table(name = "users")
 class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
