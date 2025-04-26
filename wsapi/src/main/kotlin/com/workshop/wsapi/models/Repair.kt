@@ -8,7 +8,7 @@ class Repair {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
 
-    var type: String = ""
+    var description: String = ""
     var price: Int = 0
 
     @ManyToOne(optional = false)
