@@ -2,17 +2,61 @@
     background-color: #f5f5f7;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
     text-align: center;
     font-family: 'Forum', sans-serif;
 }
 
 :global(main) {
     flex: 1;
+    height: 100%;
 }
 
-.App-content {
+.AppContent {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+}
+
+.HomeLeft {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
     align-items: center;
+    flex-direction: column;
+    padding-top: 10vh;
+}
+
+.HomeLeft h1 {
+    font-size: 5vw;
+    font-weight: bold;
+    margin-bottom: 2vw;
+}
+
+.Offer {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4vw;
+    align-items: flex-start;
+}
+
+.Offer li {
+    display: flex;
+    align-items: center;
+    gap: 5vw;
+    font-size: 2vw
+}
+
+.Icons {
+    width: 4vw;
+    height: 4vw;
+}
+
+
+.HomeRight {
+    height: 87.5vh;
+    width: 45vw;
 }
