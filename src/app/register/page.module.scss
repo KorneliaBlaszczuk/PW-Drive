@@ -1,47 +1,46 @@
-.LogContainer {
+.RegisterContainer {
     display: flex;
     justify-content: space-between;
     text-align: center;
 }
 
-.LeftBox {
+.RightBox {
     position: absolute;
-    left: 0;
+    right: 0;
     top: 0;
     width: 40vw;
     height: 100vh;
     background-color: #284CDC;
     opacity: 78%;
-    border-top-right-radius: 200px;
-    border-bottom-right-radius: 200px;
+    border-top-left-radius: 200px;
+    border-bottom-left-radius: 200px;
     z-index: -1;
 }
 
-.LogLeft {
+.RegisterRight {
     color: white;
     font-weight: bold;
     flex: 1;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
     padding-top: 10vh;
     position: relative;
-    top: 20vh;
-    left: -7vw;
+    right: -5.5vw;
 }
 
-.LogLeft h1 {
+.RegisterRight h1 {
     font-size: 5vw;
     margin-bottom: 1vw;
 }
 
-.LogLeft p {
+.RegisterRight p {
     font-size: 2vw;
     margin-bottom: 2vw;
 }
 
-.LeftButton {
+.RightButton {
     font-size: 1.5vw;
     background: transparent;
     border: 1px solid white;
@@ -50,29 +49,22 @@
     border-radius: 0px;
 }
 
-.LeftButton:hover {
+.RightButton:hover {
     transform: scale(1.05);
     color: white;
     font-weight: bolder;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.LogRight {
+.RegisterLeft {
     flex: 1;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     flex-direction: column;
-    padding-top: 10vh;
+    padding-top: 20vh;
     position: relative;
-    left: -4vw;
-}
-
-.appLogo {
-    opacity: 60%;
-    width: 30vh;
-    height: 30vh;
-    margin-bottom: 8vh;
+    right: -4vw;
 }
 
 .Input {
@@ -84,7 +76,7 @@
     background-color: #D9D9D9;
 }
 
-.RightButton {
+.LeftButton {
     background-color: #284CDC;
     border: 1px solid #2E28DC;
     opacity: 78%;
@@ -95,7 +87,7 @@
     transition: all 0.3s ease;
 }
 
-.RightButton:hover {
+.LeftButton:hover {
     font-weight: bolder;
     background-color: #2E28DC;
     border-color: #284CDC;
