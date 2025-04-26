@@ -50,9 +50,13 @@ export default function Header() {
                 </Link>
             </div>
             <div className={styles.headerRight}>
-                <Button className={styles.logIn} variant="outline">Zaloguj</Button>
-                <Button className={styles.register} variant="outline">Zarejestruj</Button>
+                <Link href="/logIn" passHref>
+                    <Button className={styles.logIn} variant="outline">Zaloguj</Button>
+                </Link>
+                <Link href="/register" passHref>
+                    <Button className={styles.register} variant="outline">Zarejestruj</Button>
+                </Link>
             </div>
-        </header>
+        </header >
     );
 };
