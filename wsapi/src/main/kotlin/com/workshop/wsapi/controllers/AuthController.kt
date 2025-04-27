@@ -57,7 +57,6 @@ class AuthController {
 
     @PostMapping("/signup")
     fun registerUser(@Valid @RequestBody signUpRequest: SignUpRequest): ResponseEntity<*> {
-        println("Received signup request: ${signUpRequest}")
 
         if (userRepository.existsByUsername(signUpRequest.username)) {
             return ResponseEntity.badRequest().body(MessageResponse("Error: Username is already taken!"))

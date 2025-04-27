@@ -51,8 +51,6 @@ class UserDetailsImpl(
         fun build(user: User): UserDetailsImpl {
             val authorities: List<GrantedAuthority> = listOf(SimpleGrantedAuthority(user.role.name))
 
-            println(user.role.name)
-
             return UserDetailsImpl(
                 user.id,
                 user.username,
