@@ -1,0 +1,66 @@
+.addCarContainer {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    max-width: 100vw;
+    max-height: 100vh;
+    gap: 2vw;
+}
+
+.addCarLeft {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10vw;
+    max-width: 90vw;
+    max-height: 82vh;
+}
+
+.Input {
+    margin-bottom: 4vh;
+    font-size: 1.5vw;
+    width: 30vw;
+    height: 3vw;
+    color: black;
+    background-color: #D9D9D9;
+}
+
+.calendarInput {
+    margin-bottom: 4vh;
+    font-size: 1.5vw;
+    width: 30vw;
+    height: 3vw;
+    color: #2c2c2c;
+    background-color: #d9d9d9;
+    display: flex;
+    align-items: center;
+    padding: 0 1vw;
+    justify-content: flex-start;
+}
+
+.calendarPlaceholder {
+    color: var(--muted-foreground);
+    pointer-events: none;
+    user-select: none;
+    font-size: 1.5vw;
+}
+
+.addCarButton {
+    font-size: 1.5vw;
+    width: 10vw;
+    height: 3vw;
+}
+
+.pageImg {
+    height: 85vh;
+}
+
+.successMessage {
+    position: absolute;
+    font-size: 1.2vw;
+    color: green;
+    width: 100%;
+    text-align: center;
+    top: 90vh;
+}
