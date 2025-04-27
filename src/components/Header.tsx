@@ -8,6 +8,9 @@ import { usePathname } from "next/navigation";
 export default function Header() {
     const pathname = usePathname();
     const isActive = (path: string) => pathname === path;
+
+    const isLoggedIn = false; // do zmiany po podpięciu do bazy
+
     return (
         <header className={styles.appHeader}>
             <Link href="/" className="logoLink">
@@ -50,12 +53,21 @@ export default function Header() {
                 </Link>
             </div>
             <div className={styles.headerRight}>
-                <Link href="/logIn" passHref>
-                    <Button className={styles.logIn} variant="outline">Zaloguj</Button>
-                </Link>
-                <Link href="/register" passHref>
-                    <Button className={styles.register} variant="outline">Zarejestruj</Button>
-                </Link>
+                {isLoggedIn ? (
+                    <>
+                        <Link href="/profile" passHref>
+                            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png" alt="Użytkownik" className={styles.icon} />                    </Link>
+                        <Button className={styles.logIn}>Wyloguj</Button>
+                    </>
+                ) : (
+                    <>
+                        <Link href="/logIn" passHref>
+                            <Button className={styles.logIn} variant="outline">Zaloguj</Button>
+                        </Link>
+                        <Link href="/register" passHref>
+                            <Button className={styles.register} variant="outline">Zarejestruj</Button>
+                        </Link>
+                    </>)}
             </div>
         </header >
     );
