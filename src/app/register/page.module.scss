@@ -1,7 +1,14 @@
+body {
+    overflow-x: hidden;
+}
+
 .RegisterContainer {
     display: flex;
     justify-content: space-between;
     text-align: center;
+    max-width: 100vw;
+    max-height: 100vh;
+    overflow-x: hidden;
 }
 
 .RightBox {

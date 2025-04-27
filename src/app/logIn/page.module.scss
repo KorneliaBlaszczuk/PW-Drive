@@ -15,6 +15,7 @@
     border-top-right-radius: 200px;
     border-bottom-right-radius: 200px;
     z-index: -1;
+    transition: width 1s ease, right 1s ease;
 }
 
 .LogLeft {
