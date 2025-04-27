@@ -51,6 +51,11 @@ export default function Log() {
                 <Input className={styles.Input} placeholder="login" />
                 <Input className={styles.Input} placeholder="hasło" type="password" />
                 <Button className={styles.RightButton}>Zaloguj</Button>
+                <Link href="/" passHref>
+                    <Button className={styles.HomeButton} variant="outline">
+                        Powrót na stronę główną
+                    </Button>
+                </Link>
             </div>
         </div>
     )

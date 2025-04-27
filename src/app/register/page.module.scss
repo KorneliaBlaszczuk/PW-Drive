@@ -1,5 +1,5 @@
 body {
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .RegisterContainer {
@@ -8,7 +8,7 @@ body {
     text-align: center;
     max-width: 100vw;
     max-height: 100vh;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .RightBox {
@@ -126,4 +126,22 @@ body {
 .ErrorText {
     color: #D22B2B;
     font-size: 1.2vw;
+}
+
+.HomeButton {
+    margin-top: 2vh;
+    color: rgb(0, 0, 0);
+    border: 1px solid #2E28DC;
+    opacity: 70%;
+    font-size: 1.1vw;
+    width: 13vw;
+    height: 2vw;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.HomeButton:hover {
+    transform: scale(1.05);
+    font-weight: bolder;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }

@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import styles from './page.module.scss';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Link from 'next/link';
 
 export default function Register() {
     const router = useRouter();
@@ -105,6 +106,11 @@ export default function Register() {
                 <Button className={styles.LeftButton} disabled={!passwordMatch}>
                     Zarejestruj
                 </Button>
+                <Link href="/" passHref>
+                    <Button className={styles.HomeButton} variant="outline">
+                        Powrót na stronę główną
+                    </Button>
+                </Link>
             </div>
 
             <div className={styles.RegisterRight}>
