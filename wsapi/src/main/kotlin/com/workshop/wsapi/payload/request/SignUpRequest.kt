@@ -14,10 +14,10 @@ data class SignUpRequest(
     @field:Size(max = 50)
     @field:Email
     val email: String,
-    
+
 
     @field:NotBlank
-    @field:Size(min = 6, max = 40)
+    @field:Size(min = 8, max = 120)
     val password: String,
 
     @field:NotBlank

@@ -40,7 +40,7 @@ class AuthController {
     lateinit var jwtUtils: JwtUtils
 
     @PostMapping("/signin")
-    fun authenticateUser(@RequestBody loginRequest: @Valid LoginRequest): ResponseEntity<*> {
+    fun authenticateUser(@Valid @RequestBody loginRequest: LoginRequest): ResponseEntity<*> {
         val authentication: Authentication = authenticationManager
             .authenticate(UsernamePasswordAuthenticationToken(loginRequest.username, loginRequest.password))
 
@@ -56,7 +56,9 @@ class AuthController {
     }
 
     @PostMapping("/signup")
-    fun registerUser(@RequestBody signUpRequest: @Valid SignUpRequest): ResponseEntity<*> {
+    fun registerUser(@Valid @RequestBody signUpRequest: SignUpRequest): ResponseEntity<*> {
+        println("Received signup request: ${signUpRequest}")
+
         if (userRepository.existsByUsername(signUpRequest.username)) {
             return ResponseEntity.badRequest().body(MessageResponse("Error: Username is already taken!"))
         }
