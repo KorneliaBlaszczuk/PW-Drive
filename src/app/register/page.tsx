@@ -43,17 +43,23 @@ export default function Register() {
             <motion.div
                 className={styles.RightBox}
                 animate={isAnimating ? {
-                    width: "100vw",
-                    height: "100vh",
-                    left: 0,
-                    right: "auto",
+                    x: "-60vw",
                     borderTopLeftRadius: "0px",
                     borderBottomLeftRadius: "0px",
-                    zIndex: 999,
-                } : {}}
+                    borderTopRightRadius: "200px",
+                    borderBottomRightRadius: "200px",
+                } : {
+                    x: 0,
+                    borderTopLeftRadius: "200px",
+                    borderBottomLeftRadius: "200px",
+                    borderTopRightRadius: "0px",
+                    borderBottomRightRadius: "0px",
+                }}
                 transition={{ duration: 1.2, ease: "easeInOut" }}
             />
-            <div className={styles.RegisterLeft}>
+
+            <motion.div className={styles.RegisterLeft} animate={isAnimating ? { opacity: 0, filter: "blur(10px)" } : { opacity: 1, filter: "blur(0px)" }}
+                transition={{ duration: 0.8 }}>
                 <Input
                     className={styles.Input}
                     placeholder="imię"
@@ -111,9 +117,10 @@ export default function Register() {
                         Powrót na stronę główną
                     </Button>
                 </Link>
-            </div>
+            </motion.div>
 
-            <div className={styles.RegisterRight}>
+            <motion.div className={styles.RegisterRight} animate={isAnimating ? { opacity: 0, filter: "blur(10px)" } : { opacity: 1, filter: "blur(0px)" }}
+                transition={{ duration: 0.8 }}>
                 <h1>Witaj z powrotem!</h1>
                 <p>Masz już konto?</p>
                 <Button
@@ -123,7 +130,7 @@ export default function Register() {
                 >
                     Zaloguj się!
                 </Button>
-            </div>
+            </motion.div>
         </div>
     );
 }

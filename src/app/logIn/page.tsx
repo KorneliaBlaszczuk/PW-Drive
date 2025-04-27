@@ -25,17 +25,22 @@ export default function Log() {
         <div className={styles.LogContainer}>
             <motion.div className={styles.LeftBox}
                 animate={isAnimating ? {
-                    width: "100vw",
-                    height: "100vh",
-                    right: 0,
-                    left: "auto",
+                    x: "60vw",
                     borderTopRightRadius: "0px",
                     borderBottomRightRadius: "0px",
-                    zIndex: 999,
-                } : {}}
+                    borderTopLeftRadius: "200px",
+                    borderBottomLeftRadius: "200px",
+                } : {
+                    x: 0,
+                    borderTopRightRadius: "200px",
+                    borderBottomRightRadius: "200px",
+                    borderTopLeftRadius: "0px",
+                    borderBottomLeftRadius: "0px",
+                }}
                 transition={{ duration: 1.2, ease: "easeInOut" }}
             />
-            <div className={styles.LogLeft}>
+            <motion.div className={styles.LogLeft} animate={isAnimating ? { opacity: 0, filter: "blur(10px)" } : { opacity: 1, filter: "blur(0px)" }}
+                transition={{ duration: 0.8 }}>
                 <h1>Witaj!</h1>
                 <p>Pierwszy raz w naszym serwisie?</p>
                 <Button
@@ -45,8 +50,9 @@ export default function Log() {
                 >
                     Zarejestruj się!
                 </Button>
-            </div>
-            <div className={styles.LogRight}>
+            </motion.div>
+            <motion.div className={styles.LogRight} animate={isAnimating ? { opacity: 0, filter: "blur(10px)" } : { opacity: 1, filter: "blur(0px)" }}
+                transition={{ duration: 0.8 }}>
                 <img className={styles.appLogo} src='/logo_black.png' alt='App logo black' />
                 <Input className={styles.Input} placeholder="login" />
                 <Input className={styles.Input} placeholder="hasło" type="password" />
@@ -56,7 +62,7 @@ export default function Log() {
                         Powrót na stronę główną
                     </Button>
                 </Link>
-            </div>
+            </motion.div>
         </div>
     )
 }
