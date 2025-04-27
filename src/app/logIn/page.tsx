@@ -39,7 +39,7 @@ export default function Log() {
                 <h1>Witaj!</h1>
                 <p>Pierwszy raz w naszym serwisie?</p>
                 <Button
-                    className={styles.RightButton}
+                    className={styles.LeftButton}
                     variant="outline"
                     onClick={handleGoToRegister}
                 >
