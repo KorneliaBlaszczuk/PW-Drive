@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired
 import java.sql.Date
 import com.workshop.wsapi.repositories.CarRepository
 import com.workshop.wsapi.repositories.VisitRepository
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import java.util.*
 
 @Service
@@ -26,4 +28,6 @@ class CarService {
     fun getCarVisits(id:Long): Optional<List<Visit>>{
         return visitRepository.getCarVisits(id)
     }
+
+
 }

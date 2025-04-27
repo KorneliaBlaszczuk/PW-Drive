@@ -6,6 +6,8 @@ import com.workshop.wsapi.repositories.CarRepository
 import com.workshop.wsapi.repositories.VisitRepository
 import com.workshop.wsapi.services.CarService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -33,6 +35,7 @@ class CarController {
         return "Car $id deleted"
     }
 
+    @GetMapping("{id}/visits")
     fun getCarVisits(@PathVariable id: Long): Optional<List<Visit>> {
         return carService.getCarVisits(id)
     }

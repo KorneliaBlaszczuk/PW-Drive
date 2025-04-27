@@ -1,10 +1,12 @@
 package com.workshop.wsapi.controllers
 
 import com.workshop.wsapi.models.Car
+import com.workshop.wsapi.models.CarDto
 import com.workshop.wsapi.models.Visit
 import com.workshop.wsapi.services.CarService
 import com.workshop.wsapi.services.UserService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -22,8 +24,8 @@ class UserController {
     }
 
     @PostMapping("/{id}/cars")
-    fun addCar(@PathVariable id: Int, @RequestBody @Validated car: Car): String {
-        return "Added car $car for user $id"
+    fun addCar(@PathVariable id: Int, @RequestBody @Validated car: CarDto): ResponseEntity<Car> {
+        return userService.addCar(car)
     }
 
     @GetMapping("/{id}/visits")

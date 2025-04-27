@@ -14,4 +14,5 @@ interface UserRepository : JpaRepository<User, Long> {
     @NativeQuery(value = "" +
             "SELECT * FROM CARS WHERE ID_USER = :id")
     fun getUserCars(@Param("id") id: Long): Optional<List<Car>>
+
 }
