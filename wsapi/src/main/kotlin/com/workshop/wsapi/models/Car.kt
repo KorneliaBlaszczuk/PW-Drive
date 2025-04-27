@@ -1,5 +1,7 @@
 package com.workshop.wsapi.models
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.*
 import java.sql.Date
 
@@ -14,6 +16,7 @@ class Car {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user")
+    @JsonIgnore
     val user: User? = null
 
     var name: String = ""
@@ -26,6 +29,7 @@ class Car {
     var nextInspection: Date? = null
 
     @OneToMany(mappedBy = "car", orphanRemoval = true)
+    @JsonManagedReference
     var visits: MutableList<Visit> = mutableListOf()
 }
 

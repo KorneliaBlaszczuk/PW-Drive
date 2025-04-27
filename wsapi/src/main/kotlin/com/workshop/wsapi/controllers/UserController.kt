@@ -2,16 +2,23 @@ package com.workshop.wsapi.controllers
 
 import com.workshop.wsapi.models.Car
 import com.workshop.wsapi.models.Visit
+import com.workshop.wsapi.services.CarService
+import com.workshop.wsapi.services.UserService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import java.util.*
 
 @RestController
 @RequestMapping("/api/users")
 class UserController {
 
+
+    @Autowired
+    lateinit var userService: UserService
     @GetMapping("/{id}/cars")
-    fun getCars(@PathVariable id: Int): String {
-        return "Getting cars for user with: $id"
+    fun getCars(@PathVariable id: Long): Optional<List<Car>> {
+        return userService.getUserCars(id)
     }
 
     @PostMapping("/{id}/cars")

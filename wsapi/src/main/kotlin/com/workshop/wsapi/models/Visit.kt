@@ -1,5 +1,6 @@
 package com.workshop.wsapi.models
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import java.sql.Date
@@ -19,6 +20,8 @@ class Visit {
     val service: Service = Service()
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "id_car", nullable = false)
+    @JsonBackReference
     var car: Car? = null
     @CreationTimestamp
     var createdAt: Date = Date(0)

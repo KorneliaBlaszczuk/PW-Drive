@@ -1,7 +1,9 @@
 package com.workshop.wsapi.controllers
 
 import com.workshop.wsapi.models.Car
+import com.workshop.wsapi.models.Visit
 import com.workshop.wsapi.repositories.CarRepository
+import com.workshop.wsapi.repositories.VisitRepository
 import com.workshop.wsapi.services.CarService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.validation.annotation.Validated
@@ -14,6 +16,7 @@ class CarController {
 
     @Autowired
     lateinit var carService: CarService
+
 
     @GetMapping("/{id}")
     fun getCarById(@PathVariable id: Long): Optional<Car> {
@@ -28,6 +31,10 @@ class CarController {
     @DeleteMapping("/{id}")
     fun deleteCar(@PathVariable id: Int): String {
         return "Car $id deleted"
+    }
+
+    fun getCarVisits(@PathVariable id: Long): Optional<List<Visit>> {
+        return carService.getCarVisits(id)
     }
 
 
