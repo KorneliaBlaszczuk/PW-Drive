@@ -9,7 +9,7 @@ export default function Header() {
     const pathname = usePathname();
     const isActive = (path: string) => pathname === path;
 
-    const isLoggedIn = false; // do zmiany po podpięciu do bazy
+    const isLoggedIn = true; // do zmiany po podpięciu do bazy
 
     const handleLogout = () => { };
 
