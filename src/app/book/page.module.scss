@@ -1,0 +1,18 @@
+.BookPage {
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+    margin: 3vh;
+}
+
+.Select {
+    width: 20vw;
+    background-color: #D9D9D9;
+    border-color: black;
+    font-size: large;
+}
+
+.BookPage h1 {
+    font-size: larger;
+    font-weight: bolder;
+}
