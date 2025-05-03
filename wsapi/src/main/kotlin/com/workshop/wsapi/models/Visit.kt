@@ -19,7 +19,9 @@ class Visit {
     val service: Service = Service()
 
     @ManyToOne(optional = false)
+    @JoinColumn(name = "id_car", nullable = false)
     var car: Car? = null
+
     @CreationTimestamp
     var createdAt: Date = Date(0)
     var isReserved: Boolean = false
