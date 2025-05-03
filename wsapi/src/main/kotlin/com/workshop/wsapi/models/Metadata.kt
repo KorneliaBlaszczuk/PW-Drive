@@ -21,5 +21,6 @@ class Metadata {
     @Column(name = "phone_number")
     val phoneNumber: String = ""
 
+    @Column(name = "description", columnDefinition = "TEXT")
     val description: String = ""
 }

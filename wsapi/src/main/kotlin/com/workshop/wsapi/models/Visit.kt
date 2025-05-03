@@ -23,6 +23,7 @@ class Visit {
     @JoinColumn(name = "id_car", nullable = false)
     @JsonBackReference
     var car: Car? = null
+
     @CreationTimestamp
     var createdAt: Date = Date(0)
     var isReserved: Boolean = false
