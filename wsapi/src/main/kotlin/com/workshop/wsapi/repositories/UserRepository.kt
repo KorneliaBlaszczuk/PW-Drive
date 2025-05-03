@@ -14,4 +14,10 @@ interface UserRepository : JpaRepository<User, Long> {
     fun existsByUsername(username: String): Boolean
 
     fun existsByEmail(email: String): Boolean
+
+    @NativeQuery(value = "" +
+            "SELECT * FROM CARS WHERE ID_USER = :id")
+    fun getUserCars(@Param("id") id: Long): Optional<List<Car>>
+
+
 }

@@ -37,8 +37,8 @@ class User(
     @Column(name = "id_user", nullable = false)
     val id: Long? = null
 
-    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
-    var cars: MutableList<Car> = mutableListOf()
+//    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
+//    var cars: MutableList<Car> = mutableListOf()
 
 }
 
