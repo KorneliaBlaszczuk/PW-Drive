@@ -1,7 +1,6 @@
 package com.workshop.wsapi.models
 
 import com.fasterxml.jackson.annotation.JsonBackReference
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.*
 import java.sql.Date
@@ -33,19 +32,6 @@ data class Car(
     @JsonManagedReference
     var visits: MutableList<Visit> = mutableListOf()
 ) {
-    constructor() : this(
-        id = null,
-        user = User(),
-        name = "",
-        brand = "",
-        model = "",
-        year = 0,
-        mileage = 0,
-        nextInspection = null,
-        visits = mutableListOf()  // Default empty list
-    )
-
-    // Secondary constructor to initialize the Car with some parameters
     constructor(user: User, name: String, brand: String, model: String, year: Int, mileage: Int, nextInspection: Date?) : this(
         user = user,
         name = name,
@@ -59,7 +45,6 @@ data class Car(
 }
 
 data class CarDto(
-    var id: Long? = null,
     var user: Long? = null,
     var name: String? = null,
     var brand: String? = null,

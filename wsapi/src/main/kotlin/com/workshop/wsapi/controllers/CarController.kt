@@ -2,6 +2,7 @@ package com.workshop.wsapi.controllers
 
 import com.workshop.wsapi.models.Car
 import com.workshop.wsapi.models.Visit
+import com.workshop.wsapi.models.VisitDto
 import com.workshop.wsapi.repositories.CarRepository
 import com.workshop.wsapi.repositories.VisitRepository
 import com.workshop.wsapi.services.CarService
@@ -38,6 +39,11 @@ class CarController {
     @GetMapping("{id}/visits")
     fun getCarVisits(@PathVariable id: Long): Optional<List<Visit>> {
         return carService.getCarVisits(id)
+    }
+
+    @PostMapping("{id}/visits")
+    fun addVisit(@RequestBody @Validated visit: VisitDto): ResponseEntity<Visit> {
+        return carService.addCarVisit(visit)
     }
 
 

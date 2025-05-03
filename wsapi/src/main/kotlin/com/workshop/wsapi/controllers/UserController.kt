@@ -18,6 +18,9 @@ class UserController {
 
     @Autowired
     lateinit var userService: UserService
+
+    @Autowired
+    lateinit var carService: CarService
     @GetMapping("/{id}/cars")
     fun getCars(@PathVariable id: Long): Optional<List<Car>> {
         return userService.getUserCars(id)
@@ -27,6 +30,8 @@ class UserController {
     fun addCar(@PathVariable id: Int, @RequestBody @Validated car: CarDto): ResponseEntity<Car> {
         return userService.addCar(car)
     }
+
+
 
     @GetMapping("/{id}/visits")
     fun getVisits(@PathVariable id: Int): String {
@@ -42,8 +47,5 @@ class UserController {
     fun getRepairs(@PathVariable id: Int): String {
         return "Getting repairs for user $id"
     }
-
-
-
 
 }
