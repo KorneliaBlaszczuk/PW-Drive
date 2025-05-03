@@ -45,12 +45,12 @@ data class Car(
 }
 
 data class CarDto(
-    var user: Long? = null,
-    var name: String? = null,
-    var brand: String? = null,
-    var nextInspection: Date? = null,
-    var model: String? = null,
-    var year: Int? = null,
-    var mileage: Int? = null
+    var user: Long ,
+    var name: String ,
+    var brand: String ,
+    var nextInspection: Date ,
+    var model: String ,
+    var year: Int ,
+    var mileage: Int
 )
 

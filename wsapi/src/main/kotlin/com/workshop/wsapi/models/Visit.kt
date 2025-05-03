@@ -52,5 +52,5 @@ data class VisitDto(
     val time: Time,
     val date: Date,
     val status: String,
-    val comment: String?
+    val comment: String
 )
