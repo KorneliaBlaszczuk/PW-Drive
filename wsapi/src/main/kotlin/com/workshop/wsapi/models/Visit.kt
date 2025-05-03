@@ -1,5 +1,6 @@
 package com.workshop.wsapi.models
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import java.sql.Date
@@ -20,6 +21,7 @@ class Visit {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_car", nullable = false)
+    @JsonBackReference
     var car: Car? = null
 
     @CreationTimestamp
