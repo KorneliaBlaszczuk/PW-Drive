@@ -21,8 +21,7 @@ class UserController {
     lateinit var userService: UserService
 
 
-    @Autowired
-    lateinit var carService: CarService
+
     @GetMapping("/{id}/cars")
     fun getCars(@PathVariable id: Long, @AuthenticationPrincipal userDetails: UserDetails): ResponseEntity<Any> {
         val userId = userService.getUserByUsername(userDetails.username).id

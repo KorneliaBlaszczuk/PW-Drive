@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -30,20 +29,14 @@ class CarService {
     @Autowired
     lateinit var visitRepository: VisitRepository
 
-    //    fun createCar(name: String, brand: String, model: String, year: Date, mileage: Int, next_inspection: Date, user: Long): Car {
-//        return Car()
-//    }
     @Autowired
     lateinit var serviceRepository: ServiceRepository
 
-//    fun createCar(name: String, brand: String, model: String, year: Date, mileage: Int, next_inspection: Date, user: Long): Car {
-//        return Car()
-//    }
     fun getCar(id: Long): Optional<Car> {
         return carRepository.findById(id)
     }
 
-    fun getCarVisits(id: Long): Optional<List<Visit>> {
+
 
     fun editCar(@PathVariable id: Long, @RequestBody @Validated edited_car: CarDto): ResponseEntity<Car> {
         val old_car =
