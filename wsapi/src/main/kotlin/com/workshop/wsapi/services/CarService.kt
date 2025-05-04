@@ -80,7 +80,7 @@ class CarService {
         }
         if(service != null && car != null) {
             val newVisit = Visit(service = service, car = car, isReserved = visitDto.isReserved, time = visitDto.time, date = visitDto.date, status =  visitDto.status, comment = visitDto.comment   )
-            var savedVisit = visitRepository.save(newVisit)
+            val savedVisit = visitRepository.save(newVisit)
             return ResponseEntity.ok().body(savedVisit)
         }
         return ResponseEntity(HttpStatus.NOT_ACCEPTABLE)

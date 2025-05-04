@@ -1,17 +1,25 @@
 package com.workshop.wsapi.controllers
 
+import com.workshop.wsapi.models.CarDto
 import com.workshop.wsapi.models.Visit
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import com.workshop.wsapi.models.VisitDto
+import com.workshop.wsapi.services.VisitService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.*
 
 
 @RestController
 @RequestMapping("/api/visits")
 class VisitsController {
+
+
+    @Autowired
+    lateinit var visitService: VisitService
+
 
     @GetMapping("/{id}")
     fun getVisitByID(@PathVariable id: Int): String {
@@ -19,8 +27,8 @@ class VisitsController {
     }
 
     @PutMapping("/{id}")
-    fun editVisit(@PathVariable id: Int): String {
-        return "Editing visit by id: $id"
+    fun editVisit(@PathVariable id: Long, @RequestBody @Validated visit: VisitDto, @AuthenticationPrincipal userDetails: UserDetails): ResponseEntity<Visit> {
+        return visitService.editVisit(id, visit, userDetails)
     }
 
     @DeleteMapping("/{id}")

@@ -11,7 +11,5 @@ import java.util.*
 
 @Repository
 interface CarRepository : JpaRepository<Car, Long> {
-    @NativeQuery(value = "" +
-            "SELECT * FROM CARS WHERE id_car = :id")
-    fun findCarById(@Param("id") id: Long): Optional<Car>
+
 }
