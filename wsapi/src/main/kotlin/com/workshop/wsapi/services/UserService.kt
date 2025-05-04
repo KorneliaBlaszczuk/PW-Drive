@@ -34,24 +34,23 @@ class UserService {
             }
     }
 
-    fun addCar(carDto: CarDto): ResponseEntity<Car> {
-        val usr = carDto.user?.let {
-            userRepository.findById(it).orElseThrow {
-                IllegalArgumentException("User not found with id: ${carDto.user}")
+    fun addCar(id: Long, carDto: CarDto): ResponseEntity<Car> {
+        val usr = userRepository.findById(id).orElseThrow {
+                IllegalArgumentException("User not found with id: ${id}")
             }
-        }
-        val newCar = usr?.let {
+
+        val newCar =
             Car(
-                user = it,
-                name = carDto.name ?: "",
-                brand = carDto.brand ?: "",
-                model = carDto.model ?: "",
-                year = carDto.year ?: 0,
-                mileage = carDto.mileage ?: 0,
+                user = usr,
+                name = carDto.name,
+                brand = carDto.brand ,
+                model = carDto.model ,
+                year = carDto.year,
+                mileage = carDto.mileage ,
                 nextInspection = carDto.nextInspection
             )
-        }
-        var savedCar = newCar?.let { carRepository.save(it) }
+
+        var savedCar =  carRepository.save(newCar)
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCar)
     }
 

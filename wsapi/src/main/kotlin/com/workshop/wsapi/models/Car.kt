@@ -40,12 +40,22 @@ data class Car(
         year = year,
         mileage = mileage,
         nextInspection = nextInspection,
-        visits = mutableListOf() // Default empty list
+        visits = mutableListOf()
+    )
+    constructor(id: Long, user: User, name: String, brand: String, model: String, year: Int, mileage: Int, nextInspection: Date?) : this(
+        id = id,
+        user = user,
+        name = name,
+        brand = brand,
+        model = model,
+        year = year,
+        mileage = mileage,
+        nextInspection = nextInspection,
+        visits = mutableListOf()
     )
 }
 
 data class CarDto(
-    var user: Long ,
     var name: String ,
     var brand: String ,
     var nextInspection: Date ,

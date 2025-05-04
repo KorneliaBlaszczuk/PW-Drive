@@ -38,8 +38,8 @@ class UserController {
     }
 
     @PostMapping("/{id}/cars")
-    fun addCar(@PathVariable id: Int, @RequestBody @Validated car: CarDto): ResponseEntity<Car> {
-        return userService.addCar(car)
+    fun addCar(@PathVariable id: Long, @RequestBody @Validated car: CarDto): ResponseEntity<Car> {
+        return userService.addCar(id, car)
     }
 
 

@@ -10,6 +10,8 @@ import com.workshop.wsapi.services.CarService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.annotation.AuthenticationPrincipal
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import java.util.*
@@ -28,8 +30,8 @@ class CarController {
     }
 
     @PutMapping("/{id}")
-    fun editCar(@PathVariable id: Long, @RequestBody @Validated car: CarDto): ResponseEntity<Car>  {
-        return carService.editCar(id, car)
+    fun editCar(@PathVariable id: Long, @RequestBody @Validated car: CarDto, @AuthenticationPrincipal userDetails: UserDetails): ResponseEntity<Car>  {
+        return carService.editCar(id, car, userDetails)
     }
 
     @DeleteMapping("/{id}")

@@ -12,6 +12,7 @@ import com.workshop.wsapi.repositories.UserRepository
 import com.workshop.wsapi.repositories.VisitRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
@@ -32,13 +33,16 @@ class CarService {
     @Autowired
     lateinit var serviceRepository: ServiceRepository
 
+    @Autowired
+    lateinit var userService: UserService
+
     fun getCar(id: Long): Optional<Car> {
         return carRepository.findById(id)
     }
 
 
 
-    fun editCar(@PathVariable id: Long, @RequestBody @Validated edited_car: CarDto): ResponseEntity<Car> {
+    fun editCar(@PathVariable id: Long, @RequestBody @Validated edited_car: CarDto, userDetails: UserDetails): ResponseEntity<Car> {
         val old_car =
             carRepository.findById(id).orElseThrow {
                 IllegalArgumentException("Car not found with id ${id}")
@@ -49,9 +53,12 @@ class CarService {
                 IllegalArgumentException("User not found with id ${old_car.user.id}")
             }
         }
-        if(old_car != null && user != null){
-            val updatedCar = Car(user=user, name=edited_car.name, brand = edited_car.brand, nextInspection = edited_car.nextInspection, model = edited_car.model, year = edited_car.year, mileage = edited_car.mileage)
-            return ResponseEntity.ok().body(carRepository.save(updatedCar))
+        if (user != null) {
+            if(user.id == userService.getUserByUsername(userDetails.username).id)
+                if(old_car != null){
+                    val updatedCar = Car(id = old_car.id, user=user, name=edited_car.name, brand = edited_car.brand, nextInspection = edited_car.nextInspection, model = edited_car.model, year = edited_car.year, mileage = edited_car.mileage)
+                    return ResponseEntity.ok().body(carRepository.save(updatedCar))
+                }
         }
         return ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
     }
