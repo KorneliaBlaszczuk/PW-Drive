@@ -63,10 +63,10 @@ class WebSecurityConfig {
                 )
             }
             .authorizeHttpRequests { auth ->
-                auth.requestMatchers("/api/auth/signup").permitAll()
-                    .requestMatchers("/api/auth/signin").permitAll()
+                auth.requestMatchers("/api/auth/**").permitAll()
                     .requestMatchers("/api/test/**").permitAll()
-                    .anyRequest().authenticated()
+                    .requestMatchers("/api/**").authenticated()
+                    .anyRequest().permitAll() // allow unmatched endpoints for automatic 404 responses
             }
 
         http.exceptionHandling { exception: ExceptionHandlingConfigurer<HttpSecurity?> ->

@@ -28,7 +28,7 @@ class AuthTokenFilter : OncePerRequestFilter() {
         response: HttpServletResponse,
         filterChain: FilterChain
     ) {
-        logger.info("AuthTokenFilter called for URI: ${request.requestURI}");
+        Companion.logger.info("AuthTokenFilter called for URI: ${request.requestURI}");
         try {
             val jwt = parseJwt(request)
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {

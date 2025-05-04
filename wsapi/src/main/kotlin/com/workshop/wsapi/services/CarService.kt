@@ -1,6 +1,5 @@
 package com.workshop.wsapi.services
 
-import org.springframework.stereotype.Service
 import com.workshop.wsapi.models.Car
 import com.workshop.wsapi.models.CarDto
 import com.workshop.wsapi.models.Visit
@@ -16,6 +15,8 @@ import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
@@ -29,6 +30,9 @@ class CarService {
     @Autowired
     lateinit var visitRepository: VisitRepository
 
+    //    fun createCar(name: String, brand: String, model: String, year: Date, mileage: Int, next_inspection: Date, user: Long): Car {
+//        return Car()
+//    }
     @Autowired
     lateinit var serviceRepository: ServiceRepository
 
@@ -38,6 +42,8 @@ class CarService {
     fun getCar(id: Long): Optional<Car> {
         return carRepository.findById(id)
     }
+
+    fun getCarVisits(id: Long): Optional<List<Visit>> {
 
     fun editCar(@PathVariable id: Long, @RequestBody @Validated edited_car: CarDto): ResponseEntity<Car> {
         val old_car =
