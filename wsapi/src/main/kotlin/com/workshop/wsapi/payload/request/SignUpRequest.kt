@@ -23,7 +23,7 @@ data class SignUpRequest(
     @field:NotBlank(message = "Name cannot be blank")
     val name: String,
 
-    @field:NotBlank(message = "Name cannot be blank")
+    @field:NotBlank(message = "Surname cannot be blank")
     val surname: String
 
 )
