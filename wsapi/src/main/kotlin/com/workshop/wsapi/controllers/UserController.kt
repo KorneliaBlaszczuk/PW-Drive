@@ -20,6 +20,8 @@ class UserController {
     @Autowired
     lateinit var userService: UserService
 
+
+
     @GetMapping("/{id}/cars")
     fun getCars(@PathVariable id: Long, @AuthenticationPrincipal userDetails: UserDetails): ResponseEntity<Any> {
         val userId = userService.getUserByUsername(userDetails.username).id
@@ -36,9 +38,18 @@ class UserController {
     }
 
     @PostMapping("/{id}/cars")
-    fun addCar(@PathVariable id: Int, @RequestBody @Validated car: CarDto): ResponseEntity<Car> {
-        return userService.addCar(car)
+    fun addCar(@PathVariable id: Long, @RequestBody @Validated car: CarDto, @AuthenticationPrincipal userDetails: UserDetails): ResponseEntity<Any> {
+        val userId = userService.getUserByUsername(userDetails.username).id
+
+        if (userId != id && !userDetails.isAdmin()) {
+            return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body("You can only access cars from your own account")
+        }
+       return userService.addCar(id, car)
     }
+
+
 
     @GetMapping("/{id}/visits")
     fun getVisits(@PathVariable id: Int): String {

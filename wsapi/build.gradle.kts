@@ -28,6 +28,7 @@ dependencies {
     implementation("io.hypersistence:hypersistence-utils-hibernate-63:3.9.9")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("io.jsonwebtoken:jjwt-api:0.12.3")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.3")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3")
     developmentOnly("org.springframework.boot:spring-boot-devtools")

@@ -32,15 +32,7 @@ data class Car(
     @JsonManagedReference
     var visits: MutableList<Visit> = mutableListOf()
 ) {
-    constructor(
-        user: User,
-        name: String,
-        brand: String,
-        model: String,
-        year: Int,
-        mileage: Int,
-        nextInspection: Date?
-    ) : this(
+    constructor(user: User, name: String, brand: String, model: String, year: Int, mileage: Int, nextInspection: Date?) : this(
         user = user,
         name = name,
         brand = brand,
@@ -48,18 +40,27 @@ data class Car(
         year = year,
         mileage = mileage,
         nextInspection = nextInspection,
-        visits = mutableListOf() // Default empty list
+        visits = mutableListOf()
+    )
+    constructor(id: Long, user: User, name: String, brand: String, model: String, year: Int, mileage: Int, nextInspection: Date?) : this(
+        id = id,
+        user = user,
+        name = name,
+        brand = brand,
+        model = model,
+        year = year,
+        mileage = mileage,
+        nextInspection = nextInspection,
+        visits = mutableListOf()
     )
 }
 
 data class CarDto(
-    var id: Long? = null,
-    var user: Long? = null,
-    var name: String? = null,
-    var brand: String? = null,
-    var nextInspection: Date? = null,
-    var model: String? = null,
-    var year: Int? = null,
-    var mileage: Int? = null
+    var name: String ,
+    var brand: String ,
+    var nextInspection: Date ,
+    var model: String ,
+    var year: Int ,
+    var mileage: Int
 )
 

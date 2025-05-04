@@ -12,4 +12,5 @@ interface VisitRepository : JpaRepository<Visit, Long> {
     @NativeQuery(value = "" +
             "SELECT * FROM VISITS WHERE ID_CAR = :id")
     fun getCarVisits(@Param("id") id: Long): Optional<List<Visit>>
+
 }
