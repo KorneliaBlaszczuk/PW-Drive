@@ -85,4 +85,16 @@ class CarService {
         }
         return ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
     }
+
+    fun deleteCar(id: Long, userDetails: UserDetails) {
+        val car =
+            carRepository.findById(id).orElseThrow {
+                IllegalArgumentException("Car not found with id ${id}")
+
+            }
+        if(car == null || car.user.id != userService.getUserByUsername(userDetails.username).id )
+            throw IllegalArgumentException("Invalid car id $id")
+        return carRepository.deleteById(id)
+
+    }
 }

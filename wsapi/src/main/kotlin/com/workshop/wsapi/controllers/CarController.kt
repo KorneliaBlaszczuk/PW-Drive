@@ -35,8 +35,8 @@ class CarController {
     }
 
     @DeleteMapping("/{id}")
-    fun deleteCar(@PathVariable id: Int): String {
-        return "Car $id deleted"
+    fun deleteCar(@PathVariable id: Long,  @AuthenticationPrincipal userDetails: UserDetails) {
+        return carService.deleteCar(id, userDetails)
     }
 
     @GetMapping("{id}/visits")
