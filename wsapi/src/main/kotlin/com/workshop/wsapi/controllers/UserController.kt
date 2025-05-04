@@ -38,8 +38,15 @@ class UserController {
     }
 
     @PostMapping("/{id}/cars")
-    fun addCar(@PathVariable id: Long, @RequestBody @Validated car: CarDto): ResponseEntity<Car> {
-        return userService.addCar(id, car)
+    fun addCar(@PathVariable id: Long, @RequestBody @Validated car: CarDto, @AuthenticationPrincipal userDetails: UserDetails): ResponseEntity<Any> {
+        val userId = userService.getUserByUsername(userDetails.username).id
+
+        if (userId != id && !userDetails.isAdmin()) {
+            return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body("You can only access cars from your own account")
+        }
+       return userService.addCar(id, car)
     }
 
 

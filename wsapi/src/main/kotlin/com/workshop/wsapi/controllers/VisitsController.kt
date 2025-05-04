@@ -1,7 +1,5 @@
 package com.workshop.wsapi.controllers
 
-import com.workshop.wsapi.models.CarDto
-import com.workshop.wsapi.models.Visit
 import com.workshop.wsapi.models.VisitDto
 import com.workshop.wsapi.services.VisitService
 import org.springframework.beans.factory.annotation.Autowired
@@ -27,7 +25,11 @@ class VisitsController {
     }
 
     @PutMapping("/{id}")
-    fun editVisit(@PathVariable id: Long, @RequestBody @Validated visit: VisitDto, @AuthenticationPrincipal userDetails: UserDetails): ResponseEntity<Visit> {
+    fun editVisit(
+        @PathVariable id: Long,
+        @RequestBody @Validated visit: VisitDto,
+        @AuthenticationPrincipal userDetails: UserDetails
+    ): ResponseEntity<Any> {
         return visitService.editVisit(id, visit, userDetails)
     }
 
@@ -35,7 +37,6 @@ class VisitsController {
     fun deleteVisit(@PathVariable id: Int): String {
         return "Deleting visit by id: $id"
     }
-
 
 
 }

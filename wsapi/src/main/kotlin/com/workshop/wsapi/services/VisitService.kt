@@ -31,7 +31,7 @@ class VisitService {
     @Autowired
     lateinit var serviceRepository: ServiceRepository
 
-    fun editVisit(id: Long, visit: VisitDto, userDetails: UserDetails): ResponseEntity<Visit> {
+    fun editVisit(id: Long, visit: VisitDto, userDetails: UserDetails): ResponseEntity<Any> {
         val oldVisit = visitRepository.findById(id).orElseThrow {
             IllegalArgumentException("Visit not found")
         }
@@ -44,7 +44,7 @@ class VisitService {
             }
         }
         val usr = car?.user?.id?.let {
-            userRepository.findById(it).orElseThrow{
+            userRepository.findById(it).orElseThrow {
                 IllegalArgumentException("User not found with id ${car.user.id}")
             }
         }
@@ -53,23 +53,26 @@ class VisitService {
                 IllegalArgumentException("Service not found")
             }
         }
-        if (usr != null) {
-            if(usr.id == userService.getUserByUsername(userDetails.username).id) {
-                val new_visit = Visit(
-                    id = id,
-                    service = serv ,
-                    car = car,
-                    isReserved = visit.isReserved,
-                    time = visit.time ?: Time.valueOf("00:00:00"),
-                    date = visit.date,
-                    status = visit.status ?: "PENDING",
-                    comment = visit.comment
-                )
-                visitRepository.save(new_visit)
-                return ResponseEntity.ok().body(new_visit)
-            }
-
+        if (usr == null || usr.id != userService.getUserByUsername(userDetails.username).id) {
+            return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body("You can only access visits from your own account")
         }
-        return ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
+
+        val new_visit = Visit(
+            id = id,
+            service = serv,
+            car = car,
+            isReserved = visit.isReserved,
+            time = visit.time ?: Time.valueOf("00:00:00"),
+            date = visit.date,
+            status = visit.status ?: "PENDING",
+            comment = visit.comment
+        )
+        visitRepository.save(new_visit)
+        return ResponseEntity.ok().body(new_visit)
+
+
     }
+
 }

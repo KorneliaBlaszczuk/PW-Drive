@@ -34,7 +34,7 @@ class UserService {
             }
     }
 
-    fun addCar(id: Long, carDto: CarDto): ResponseEntity<Car> {
+    fun addCar(id: Long, carDto: CarDto): ResponseEntity<Any> {
         val usr = userRepository.findById(id).orElseThrow {
                 IllegalArgumentException("User not found with id: ${id}")
             }
