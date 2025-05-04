@@ -4,11 +4,8 @@ import com.workshop.wsapi.models.Car
 import com.workshop.wsapi.models.CarDto
 import com.workshop.wsapi.models.Visit
 import com.workshop.wsapi.models.VisitDto
-import com.workshop.wsapi.repositories.CarRepository
-import com.workshop.wsapi.repositories.VisitRepository
 import com.workshop.wsapi.services.CarService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.core.userdetails.UserDetails
@@ -30,13 +27,17 @@ class CarController {
     }
 
     @PutMapping("/{id}")
-    fun editCar(@PathVariable id: Long, @RequestBody @Validated car: CarDto, @AuthenticationPrincipal userDetails: UserDetails): ResponseEntity<Car>  {
+    fun editCar(
+        @PathVariable id: Long,
+        @RequestBody @Validated car: CarDto,
+        @AuthenticationPrincipal userDetails: UserDetails
+    ): ResponseEntity<Car> {
         return carService.editCar(id, car, userDetails)
     }
 
     @DeleteMapping("/{id}")
-    fun deleteCar(@PathVariable id: Long,  @AuthenticationPrincipal userDetails: UserDetails) {
-        return carService.deleteCar(id, userDetails)
+    fun deleteCar(@PathVariable id: Long, @AuthenticationPrincipal userDetails: UserDetails): ResponseEntity<Any> {
+        return ResponseEntity.ok().body(carService.deleteCar(id, userDetails))
     }
 
     @GetMapping("{id}/visits")
@@ -48,8 +49,6 @@ class CarController {
     fun addVisit(@PathVariable id: Long, @RequestBody @Validated visit: VisitDto): ResponseEntity<Visit> {
         return carService.addCarVisit(id, visit)
     }
-
-
 
 
 }

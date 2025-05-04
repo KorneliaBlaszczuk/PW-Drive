@@ -71,8 +71,10 @@ class VisitService {
         )
         visitRepository.save(new_visit)
         return ResponseEntity.ok().body(new_visit)
+    }
 
-
+    fun deleteVisit(id: Long): ResponseEntity<Any> {
+        return ResponseEntity.ok().body(visitRepository.deleteById(id))
     }
 
 }

@@ -34,8 +34,8 @@ class VisitsController {
     }
 
     @DeleteMapping("/{id}")
-    fun deleteVisit(@PathVariable id: Int): String {
-        return "Deleting visit by id: $id"
+    fun deleteVisit(@PathVariable id: Long): ResponseEntity<Any> {
+        return visitService.deleteVisit(id)
     }
 
 
