@@ -29,6 +29,9 @@ export default function Header() {
 
     const handleLogout = () => {
         setIsLoggedIn(false);
+        setAdmin(false);
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('role');
     };
 
     return (
