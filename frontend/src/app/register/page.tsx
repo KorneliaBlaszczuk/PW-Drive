@@ -11,15 +11,21 @@ import Link from 'next/link';
 export default function Register() {
     const router = useRouter();
 
+    const [name, setName] = useState('');
+    const [surname, setSurname] = useState('');
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false);
     const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
     const [passwordMatch, setPasswordMatch] = useState(true);
+    const [error, setError] = useState<string | null>(null);
     const [isAnimating, setIsAnimating] = useState(false);
 
     const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
+        setPasswordMatch(e.target.value === confirmPassword);
     };
 
     const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +42,50 @@ export default function Register() {
         setTimeout(() => {
             router.push('/logIn');
         }, 1500);
+    };
+
+    const handleRegister = async () => {
+        setError(null);
+
+        if (!name || !surname || !username || !password || !confirmPassword) {
+            setError('Wszystkie pola są wymagane.');
+            return;
+        }
+
+        if (!passwordMatch) {
+            setError('Hasła muszą być takie same!');
+            return;
+        }
+
+        try {
+            const res = await fetch('http://localhost:8080/api/auth/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username,
+                    email,
+                    password,
+                    name,
+                    surname
+                }),
+            });
+
+            if (!res.ok) {
+                const errorData = await res.json();
+
+                if (errorData.errors && Array.isArray(errorData.errors) && errorData.errors.length > 0) {
+                    throw new Error(errorData.errors[0].message);  // Bierz pierwszy błąd
+                }
+
+                throw new Error(errorData.message || 'Rejestracja nie powiodła się.');
+            }
+
+
+            alert('Rejestracja udana! Zaloguj się.');
+            router.push('/logIn');
+        } catch (err: any) {
+            setError(err.message || 'Coś poszło nie tak.');
+        }
     };
 
     return (
@@ -63,14 +113,26 @@ export default function Register() {
                 <Input
                     className={styles.Input}
                     placeholder="imię"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                 />
                 <Input
                     className={styles.Input}
                     placeholder="nazwisko"
+                    value={surname}
+                    onChange={(e) => setSurname(e.target.value)}
+                />
+                <Input
+                    className={styles.Input}
+                    placeholder="e-mail"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
                 <Input
                     className={styles.Input}
                     placeholder="login"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                 />
                 <div className={styles.PasswordContainer}>
                     <Input
@@ -109,7 +171,10 @@ export default function Register() {
                 {!passwordMatch && (
                     <p className={styles.ErrorText}>Hasła muszą być takie same!</p>
                 )}
-                <Button className={styles.LeftButton} disabled={!passwordMatch}>
+
+                {error && <p className={styles.ErrorText}>{error}</p>}
+
+                <Button className={styles.LeftButton} disabled={!passwordMatch} onClick={handleRegister}>
                     Zarejestruj
                 </Button>
                 <Link href="/" passHref>

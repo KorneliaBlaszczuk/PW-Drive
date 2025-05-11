@@ -36,9 +36,11 @@ export default function Header() {
 
     return (
         <header className={styles.appHeader}>
-            <Link href="/" className="logoLink">
+            {!isAdmin ? (<Link href="/" className="logoLink">
                 <img className={styles.appLogo} src='/logo_white.png' alt='App logo' />
-            </Link>
+            </Link>) : (<Link href="/admin_home" className="logoLink">
+                <img className={styles.appLogo} src='/logo_white.png' alt='App logo' />
+            </Link>)}
             <div className={styles.headerCenter}>
                 <Link href="/about" passHref>
                     <Button

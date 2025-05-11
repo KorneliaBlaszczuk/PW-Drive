@@ -37,7 +37,7 @@ export default function Log() {
             });
 
             if (!res.ok) {
-                throw new Error('Invalid credentials');
+                throw new Error('Błędny login lub hasło');
             }
 
             const data = await res.json();
