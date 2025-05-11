@@ -48,7 +48,7 @@ export default function Header() {
                         O nas
                     </Button>
                 </Link>
-                {!isAdmin ? (
+                {!isAdmin && isLoggedIn ? (
                     <Link href="/book" passHref>
                         <Button
                             size="sm"
@@ -56,12 +56,13 @@ export default function Header() {
                         >
                             Umów wizytę
                         </Button>
-                    </Link>) : (<Link href="/visits" passHref>
+                    </Link>) : (
+                    <Link href="" passHref>
                         <Button
                             size="sm"
-                            className={isActive("/visits") ? styles.navActive : styles.navInactive}
+                            className={styles.notUser}
                         >
-                            Wizyty
+                            Umów wizytę
                         </Button>
                     </Link>)}
 
