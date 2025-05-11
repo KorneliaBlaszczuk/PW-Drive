@@ -12,6 +12,9 @@ import Link from 'next/link';
 export default function Log() {
     const router = useRouter();
     const [isAnimating, setIsAnimating] = useState(false);
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
 
     const handleGoToRegister = () => {
         setIsAnimating(true);
@@ -20,6 +23,37 @@ export default function Log() {
             router.push('/register');
         }, 1500);
     };
+
+    const handleLogin = async () => {
+        setError(null); // Clear previous errors
+
+        try {
+            const res = await fetch('http://localhost:8080/api/auth/signin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            if (!res.ok) {
+                throw new Error('Invalid credentials');
+            }
+
+            const data = await res.json();
+            const token = data.accessToken;
+            const role = data.roles;
+            sessionStorage.setItem('token', token);
+            sessionStorage.setItem('role', role)
+
+            // redirect to home page
+            router.push('/');
+
+        } catch (err: any) {
+            setError(err.message || 'Something went wrong');
+        }
+    };
+
 
     return (
         <div className={styles.LogContainer}>
@@ -54,9 +88,21 @@ export default function Log() {
             <motion.div className={styles.LogRight} animate={isAnimating ? { opacity: 0, filter: "blur(10px)" } : { opacity: 1, filter: "blur(0px)" }}
                 transition={{ duration: 0.8 }}>
                 <img className={styles.appLogo} src='/logo_black.png' alt='App logo black' />
-                <Input className={styles.Input} placeholder="login" />
-                <Input className={styles.Input} placeholder="hasło" type="password" />
-                <Button className={styles.RightButton}>Zaloguj</Button>
+                <Input className={styles.Input}
+                    placeholder="login"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)} />
+                <Input className={styles.Input}
+                    placeholder="hasło"
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)} />
+                {error && (
+                    <div className={styles.errorMessage}>
+                        <p>{error}</p>
+                    </div>
+                )}
+                <Button className={styles.RightButton} onClick={handleLogin}>Zaloguj</Button>
                 <Link href="/" passHref>
                     <Button className={styles.HomeButton} variant="outline">
                         Powrót na stronę główną

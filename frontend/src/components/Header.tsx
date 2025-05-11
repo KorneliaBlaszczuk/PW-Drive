@@ -1,15 +1,23 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button"
 import Link from 'next/link';
 import styles from '../styles/Header.module.scss';
 import { usePathname } from "next/navigation";
+import { jwtDecode } from 'jwt-decode';
 
 export default function Header() {
     const pathname = usePathname();
     const isActive = (path: string) => pathname === path;
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const isLoggedIn = true; // do zmiany po podpięciu do bazy
+    useEffect(() => {
+        const token = sessionStorage.getItem('token');
+        if (token) {
+            setIsLoggedIn(true);
+        }
+    }, []);
 
     const handleLogout = () => { };
 
