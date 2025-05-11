@@ -11,6 +11,7 @@ export default function Header() {
     const pathname = usePathname();
     const isActive = (path: string) => pathname === path;
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isAdmin, setAdmin] = useState(false);
 
     useEffect(() => {
         const token = sessionStorage.getItem('token');
@@ -19,7 +20,16 @@ export default function Header() {
         }
     }, []);
 
-    const handleLogout = () => { };
+    useEffect(() => {
+        const role = sessionStorage.getItem('role');
+        if (role == "WORKSHOP") {
+            setAdmin(true);
+        }
+    }, []);
+
+    const handleLogout = () => {
+        setIsLoggedIn(false);
+    };
 
     return (
         <header className={styles.appHeader}>
@@ -35,14 +45,22 @@ export default function Header() {
                         O nas
                     </Button>
                 </Link>
-                <Link href="/book" passHref>
-                    <Button
-                        size="sm"
-                        className={isActive("/book") ? styles.navActive : styles.navInactive}
-                    >
-                        Umów wizytę
-                    </Button>
-                </Link>
+                {!isAdmin ? (
+                    <Link href="/book" passHref>
+                        <Button
+                            size="sm"
+                            className={isActive("/book") ? styles.navActive : styles.navInactive}
+                        >
+                            Umów wizytę
+                        </Button>
+                    </Link>) : (<Link href="/visits" passHref>
+                        <Button
+                            size="sm"
+                            className={isActive("/visits") ? styles.navActive : styles.navInactive}
+                        >
+                            Wizyty
+                        </Button>
+                    </Link>)}
 
                 <Link href="/contact" passHref>
                     <Button
