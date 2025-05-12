@@ -1,0 +1,128 @@
+.appHeader {
+    background: linear-gradient(to right, #040240, #2E28DC);
+    height: 12.5vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2vh 3vw;
+    z-index: 800;
+}
+
+.appLogo {
+    height: 12vh;
+    width: 12vh;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.appLogo:hover {
+    transform: scale(1.05);
+}
+
+.headerCenter {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2vh;
+    gap: 3vw;
+    font-size: 1.3vw;
+    flex-grow: 1;
+    max-width: 60vw;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.headerCenter Button,
+.headerCenter a {
+    font-size: 1.3vw;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0vh 5vw;
+    border-radius: 1.5vh;
+    text-decoration: none;
+    width: 10vw;
+    height: 5vh;
+}
+
+.headerCenter Button:hover,
+.headerCenter a:hover {
+    font-weight: bolder;
+    transform: scale(1.05);
+}
+
+/* Active and inactive states */
+.navActive {
+    background-color: white;
+    color: black;
+    transform: scale(1.05);
+    font-weight: bolder;
+}
+
+.navActive:hover {
+    font-weight: bolder;
+    transform: scale(1.05);
+}
+
+.navInactive {
+    background-color: rgba(255, 255, 255, 0);
+    color: rgb(255, 255, 255);
+}
+
+.notUser {
+    background-color: rgba(255, 255, 255, 0);
+    color: rgb(99, 99, 99);
+}
+
+.headerRight {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1vw;
+    font-size: 1.5vw;
+}
+
+.logIn,
+.register {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 1.5vh 3vw;
+    border-radius: 1.5vh;
+    font-size: 1.3vw;
+}
+
+.logIn {
+    background-color: #e3e3e3;
+    color: black;
+}
+
+.logIn:hover {
+    background-color: #d0d0d0;
+    font-weight: bolder;
+    transform: scale(1.05);
+}
+
+.register {
+    background-color: #2c2c2c;
+    color: white;
+}
+
+.register:hover {
+    background-color: #4f4f4f;
+    font-weight: bolder;
+    transform: scale(1.05);
+}
+
+.icon {
+    width: 6vh;
+    height: 6vh;
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0);
+    padding: 0.5vh;
+}
+
+.icon:hover {
+    transform: scale(1.05);
+}
