@@ -1,6 +1,5 @@
 package com.workshop.wsapi.controllers
 
-import com.workshop.wsapi.models.Service
 import com.workshop.wsapi.models.ServiceDto
 import com.workshop.wsapi.security.isAdmin
 import com.workshop.wsapi.services.ServiceService
@@ -48,7 +47,7 @@ class ServicesController<Optional> {
 
     @PostMapping("")
     fun addService(
-        @RequestBody @Validated service: Service,
+        @RequestBody @Validated service: ServiceDto,
         @AuthenticationPrincipal userDetails: UserDetails
     ): ResponseEntity<Any> {
         if (!userDetails.isAdmin()) {

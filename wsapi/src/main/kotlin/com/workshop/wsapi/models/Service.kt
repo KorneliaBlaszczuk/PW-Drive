@@ -21,12 +21,12 @@ data class Service(
     @Column(name = "time_in_service", columnDefinition = "interval")
     var time: Duration? = null
 ) {
-//    constructor(id: Long, name: String, price: Int, time: Duration) : this(
-//        id = id,
-//        name = name,
-//        price = price,
-//        time = time
-//    )
+    constructor(name: String, price: Int, time: Duration) : this(
+        id = null,
+        name = name,
+        price = price,
+        time = time
+    )
 }
 
 data class ServiceDto(
