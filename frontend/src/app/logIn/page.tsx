@@ -43,8 +43,12 @@ export default function Log() {
             const data = await res.json();
             const token = data.accessToken;
             const role = data.roles;
+            const id = data.id;
+            const name = data.username;
             sessionStorage.setItem('token', token);
-            sessionStorage.setItem('role', role)
+            sessionStorage.setItem('role', role);
+            sessionStorage.setItem('id', id);
+            sessionStorage.setItem('username', name);
 
             // redirect to home page
             router.push('/');

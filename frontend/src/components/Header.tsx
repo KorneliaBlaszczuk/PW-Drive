@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button"
 import Link from 'next/link';
 import styles from '../styles/Header.module.scss';
@@ -8,6 +9,7 @@ import { usePathname } from "next/navigation";
 import { jwtDecode } from 'jwt-decode';
 
 export default function Header() {
+    const router = useRouter();
     const pathname = usePathname();
     const isActive = (path: string) => pathname === path;
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -30,17 +32,16 @@ export default function Header() {
     const handleLogout = () => {
         setIsLoggedIn(false);
         setAdmin(false);
-        sessionStorage.removeItem('token');
-        sessionStorage.removeItem('role');
+        sessionStorage.clear;
+        // redirect to home page
+        router.push('/');
     };
 
     return (
         <header className={styles.appHeader}>
-            {!isAdmin ? (<Link href="/" className="logoLink">
+            <Link href="/" className="logoLink">
                 <img className={styles.appLogo} src='/logo_white.png' alt='App logo' />
-            </Link>) : (<Link href="/admin_home" className="logoLink">
-                <img className={styles.appLogo} src='/logo_white.png' alt='App logo' />
-            </Link>)}
+            </Link>
             <div className={styles.headerCenter}>
                 <Link href="/about" passHref>
                     <Button
