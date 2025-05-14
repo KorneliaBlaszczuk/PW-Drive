@@ -21,6 +21,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import styles from './page.module.scss';
+import Image from "next/image";
 
 type Visit = {
     created_at: string
@@ -166,7 +167,7 @@ export default function Profile() {
 
                     {/* Nadchodzące */}
                     <AccordionItem value="upcoming">
-                        <AccordionTrigger>Nadchodzące</AccordionTrigger>
+                        <AccordionTrigger className="text-xl mt-4">Nadchodzące</AccordionTrigger>
                         <AccordionContent>
                             {upcomingVisits.slice(0, visibleUpcoming).map(visit => (
                                 <div key={visit.id_visit} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
@@ -194,7 +195,7 @@ export default function Profile() {
 
                     {/* Aktualne */}
                     <AccordionItem value="current">
-                        <AccordionTrigger>Aktualne</AccordionTrigger>
+                        <AccordionTrigger className="text-xl mt-4">Aktualne</AccordionTrigger>
                         <AccordionContent>
                             {currentVisits.slice(0, visibleCurrent).map(visit => (
                                 <div key={visit.id_visit} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
@@ -222,7 +223,7 @@ export default function Profile() {
 
                     {/* Historia */}
                     <AccordionItem value="history">
-                        <AccordionTrigger>Historia</AccordionTrigger>
+                        <AccordionTrigger className="text-xl mt-4">Historia</AccordionTrigger>
                         <AccordionContent>
                             {historyVisits.slice(0, visibleHistory).map(visit => (
                                 <div key={visit.id_visit} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
@@ -253,15 +254,21 @@ export default function Profile() {
 
             {/* Right section for cars and user name */}
             <div className={styles.rightSection}>
+                <Image
+                    src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png"
+                    alt="Użytkownik"
+                    width={24}
+                    height={24}
+                    className={styles.icon}
+                />
                 <div className={styles.userName}>Witaj, {username}</div>
-
                 {!isAdmin ? (
                     <>
                         <h2 className={styles.carsHeader}>Twoje samochody</h2>
                         <div className="space-y-4">
                             {paginatedCars.map(car => (
                                 <div key={car.id_car}
-                                     className="flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-2">
+                                     className="flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-2 text-lg">
                                     <span>{car.brand} {car.model} ({car.year})</span>
                                 </div>
                             ))}
@@ -276,6 +283,7 @@ export default function Profile() {
                                             e.preventDefault();
                                             setCurrentCarsPage((prev) => Math.max(prev - 1, 1));
                                         }}
+                                        size={"lg"}
                                     />
                                 </PaginationItem>
 
@@ -283,11 +291,13 @@ export default function Profile() {
                                     <PaginationItem key={i}>
                                         <PaginationLink
                                             href="#"
+                                            className="text-lg font-medium"
                                             isActive={currentCarsPage === i + 1}
                                             onClick={(e) => {
                                                 e.preventDefault();
                                                 setCurrentCarsPage(i + 1);
                                             }}
+                                            size={"lg"}
                                         >
                                             {i + 1}
                                         </PaginationLink>
@@ -303,12 +313,13 @@ export default function Profile() {
                                             e.preventDefault();
                                             setCurrentCarsPage((prev) => Math.min(prev + 1, totalCarsPages));
                                         }}
+                                        size={"lg"}
                                     />
                                 </PaginationItem>
                             </PaginationContent>
                         </Pagination>
 
-                        <div className="flex justify-center mt-4">
+                        <div className={styles.addCarButton}>
                             <Link href="/addCar" passHref>
                                 <Button>Dodaj samochód</Button>
                             </Link>
