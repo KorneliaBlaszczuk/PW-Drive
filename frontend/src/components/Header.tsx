@@ -39,11 +39,9 @@ export default function Header() {
 
     return (
         <header className={styles.appHeader}>
-            {!isAdmin ? (<Link href="/" className="logoLink">
+            <Link href="/" className="logoLink">
                 <img className={styles.appLogo} src='/logo_white.png' alt='App logo' />
-            </Link>) : (<Link href="/admin_home" className="logoLink">
-                <img className={styles.appLogo} src='/logo_white.png' alt='App logo' />
-            </Link>)}
+            </Link>
             <div className={styles.headerCenter}>
                 <Link href="/about" passHref>
                     <Button
@@ -92,8 +90,13 @@ export default function Header() {
             <div className={styles.headerRight}>
                 {isLoggedIn ? (
                     <>
-                        <Link href="/profile" passHref>
-                            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png" alt="Użytkownik" className={styles.icon} />                    </Link>
+                        {isAdmin ? (
+                            <Link href="/admin_profile" passHref>
+                                <img src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png" alt="Użytkownik" className={styles.icon} />                    </Link>
+                        ) : (
+                            <Link href="/profile" passHref>
+                                <img src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png" alt="Użytkownik" className={styles.icon} />                    </Link>
+                        )}
                         <Button className={styles.logIn} onClick={handleLogout}>Wyloguj</Button>
                     </>
                 ) : (
