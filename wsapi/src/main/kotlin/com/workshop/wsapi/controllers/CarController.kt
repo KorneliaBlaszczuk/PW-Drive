@@ -1,9 +1,6 @@
 package com.workshop.wsapi.controllers
 
-import com.workshop.wsapi.models.Car
-import com.workshop.wsapi.models.CarDto
-import com.workshop.wsapi.models.Visit
-import com.workshop.wsapi.models.VisitDto
+import com.workshop.wsapi.models.*
 import com.workshop.wsapi.services.CarService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -48,6 +45,17 @@ class CarController {
     @PostMapping("{id}/visits")
     fun addVisit(@PathVariable id: Long, @RequestBody @Validated visit: VisitDto): ResponseEntity<Visit> {
         return carService.addCarVisit(id, visit)
+    }
+
+
+    @PostMapping("{id}/history")
+    fun addHistory(
+        @PathVariable id: Long,
+        @RequestBody @Validated history: History,
+        @AuthenticationPrincipal userDetails: UserDetails
+    ): ResponseEntity<Any> {
+
+        return history.accept(id, carService, userDetails)
     }
 
 
