@@ -3,6 +3,15 @@
 import { useState, useEffect } from "react"
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+    PaginationEllipsis,
+} from "@/components/ui/pagination";
 import Link from 'next/link';
 import {
     Select,
@@ -47,11 +56,12 @@ export default function Profile() {
     const [visibleCurrent, setVisibleCurrent] = useState(5)
     const [visibleHistory, setVisibleHistory] = useState(5)
 
-    const [visibleCars, setVisibleCars] = useState(3) // Set the max number of cars to show
-
     const [visitsCount, setVisitsCount] = useState(5);  // Przykładowa liczba wizyt
     const [startTime, setStartTime] = useState('09:00');
     const [endTime, setEndTime] = useState('17:00');
+
+    const [currentCarsPage, setCurrentCarsPage] = useState(1);
+    const carsPerPage = 3;
 
     useEffect(() => {
         const storedUserId = sessionStorage.getItem('id');
@@ -145,9 +155,8 @@ export default function Profile() {
     const handleShowMoreHistory = () => setVisibleHistory(prev => prev + 5);
     const handleShowLessHistory = () => setVisibleHistory(5);
 
-    // Handle the "Show More" / "Show Less" actions for cars
-    const handleShowMoreCars = () => setVisibleCars(prev => prev + 3);
-    const handleShowLessCars = () => setVisibleCars(3);
+    const totalCarsPages = Math.ceil(cars.length / carsPerPage);
+    const paginatedCars = cars.slice((currentCarsPage - 1) * carsPerPage, currentCarsPage * carsPerPage);
 
     return (
         <div className={styles.profilePage}>
@@ -250,30 +259,54 @@ export default function Profile() {
                     <>
                         <h2 className={styles.carsHeader}>Twoje samochody</h2>
                         <div className="space-y-4">
-                            {cars.slice(0, visibleCars).map(car => (
-                                <div
-                                    key={car.id_car}
-                                    className="flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-2"
-                                >
-                                    <span>
-                                        {car.brand} {car.model} ({car.year})
-                                    </span>
+                            {paginatedCars.map(car => (
+                                <div key={car.id_car}
+                                     className="flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-2">
+                                    <span>{car.brand} {car.model} ({car.year})</span>
                                 </div>
                             ))}
                         </div>
 
-                        <div className="flex justify-center mt-2 space-x-2">
-                            {visibleCars < cars.length && (
-                                <Button variant="ghost" onClick={handleShowMoreCars}>
-                                    Pokaż więcej
-                                </Button>
-                            )}
-                            {visibleCars > 3 && (
-                                <Button variant="ghost" onClick={handleShowLessCars}>
-                                    Pokaż mniej
-                                </Button>
-                            )}
-                        </div>
+                        <Pagination>
+                            <PaginationContent>
+                                <PaginationItem>
+                                    <PaginationPrevious
+                                        href="#"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setCurrentCarsPage((prev) => Math.max(prev - 1, 1));
+                                        }}
+                                    />
+                                </PaginationItem>
+
+                                {[...Array(totalCarsPages)].map((_, i) => (
+                                    <PaginationItem key={i}>
+                                        <PaginationLink
+                                            href="#"
+                                            isActive={currentCarsPage === i + 1}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                setCurrentCarsPage(i + 1);
+                                            }}
+                                        >
+                                            {i + 1}
+                                        </PaginationLink>
+                                    </PaginationItem>
+                                ))}
+
+                                {totalCarsPages > 5 && <PaginationItem><PaginationEllipsis /></PaginationItem>}
+
+                                <PaginationItem>
+                                    <PaginationNext
+                                        href="#"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setCurrentCarsPage((prev) => Math.min(prev + 1, totalCarsPages));
+                                        }}
+                                    />
+                                </PaginationItem>
+                            </PaginationContent>
+                        </Pagination>
 
                         <div className="flex justify-center mt-4">
                             <Link href="/addCar" passHref>
