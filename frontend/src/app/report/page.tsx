@@ -36,8 +36,8 @@ export default function Report() {
     const [date, setDate] = useState<Date>();
     const [przebieg, setPrzebieg] = useState("");
     const [rows, setRows] = useState([
-        { service: "Wymiana oleju", price: "40 zł" },
-        { service: "Wymiana klocków", price: "50 zł" },
+        { service: "Wymiana oleju", price: "40" },
+        { service: "Wymiana klocków", price: "50" },
     ]);
 
     const [newService, setNewService] = useState("");
@@ -45,7 +45,7 @@ export default function Report() {
 
     const handleAddRow = () => {
         if (!newService || !newPrice) return;
-        setRows([...rows, { service: newService, price: newPrice }]);
+        setRows([...rows, { service: newService, price: newPrice.trim() }]);
         setNewService("");
         setNewPrice("");
     };
@@ -100,25 +100,25 @@ export default function Report() {
                             {rows.map((row, index) => (
                                 <TableRow key={index}>
                                     <TableCell className="font-medium">{row.service}</TableCell>
-                                    <TableCell className="text-right">{row.price}</TableCell>
+                                    <TableCell className="text-right">{row.price} zł</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
-                    <div className="mb-4 flex gap-4">
+                    <div className="mb-4 mt-4 flex gap-10">
                         <input
                             type="text"
                             placeholder="Usługa"
                             value={newService}
                             onChange={(e) => setNewService(e.target.value)}
-                            className="border rounded px-3 py-1 w-1/2"
+                            className="border rounded px-3 py-0.5 w-1/2"
                         />
                         <input
                             type="text"
                             placeholder="Cena"
                             value={newPrice}
                             onChange={(e) => setNewPrice(e.target.value)}
-                            className="border rounded px-3 py-1 w-1/4"
+                            className="border rounded px-3 py-0.5 w-1/4"
                         />
                         <button
                             onClick={handleAddRow}
@@ -130,8 +130,18 @@ export default function Report() {
                 </div>
             </div>
 
-            <div className={styles.bottomtSection}>
-
+            <div className={styles.bottomSection}>
+                <Select>
+                    <SelectTrigger className={styles.select}>
+                        <SelectValue placeholder="Status wizyty" />
+                    </SelectTrigger>
+                    <SelectContent className="select-content">
+                        <SelectItem value="ready">Gotowe do odbioru</SelectItem>
+                        <SelectItem value="inprogress">W trakcie</SelectItem>
+                        <SelectItem value="waiting">Nadchodzące</SelectItem>
+                    </SelectContent>
+                </Select>
+                <Button className={styles.button}>Zapisz</Button>
             </div>
         </div>
     )

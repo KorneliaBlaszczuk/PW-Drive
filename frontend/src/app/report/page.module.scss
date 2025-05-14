@@ -81,3 +81,31 @@
     border-radius: 12px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+.bottomSection {
+    position: fixed;
+    bottom: 23.5vh;
+    right: 2vw;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-end;
+    z-index: 100;
+}
+
+.select {
+    width: 20vw;
+    position: relative;
+    z-index: 200;
+    max-height: 30vh;
+    font-size: large;
+    padding: 0.5vw;
+}
+
+.button {
+    width: 20vw;
+    background-color: #3B82F6;
+    color: white;
+    font-size: large;
+    padding: 0.5vw;
+}
