@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
+import Link from 'next/link';
 import {
     Select,
     SelectContent,
@@ -275,7 +276,9 @@ export default function Profile() {
                         </div>
 
                         <div className="flex justify-center mt-4">
-                            <Button>Dodaj samochód</Button>
+                            <Link href="/addCar" passHref>
+                                <Button>Dodaj samochód</Button>
+                            </Link>
                         </div>
                     </>
                 ) : (
