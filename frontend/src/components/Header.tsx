@@ -90,13 +90,8 @@ export default function Header() {
             <div className={styles.headerRight}>
                 {isLoggedIn ? (
                     <>
-                        {isAdmin ? (
-                            <Link href="/admin_profile" passHref>
-                                <img src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png" alt="Użytkownik" className={styles.icon} />                    </Link>
-                        ) : (
-                            <Link href="/profile" passHref>
-                                <img src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png" alt="Użytkownik" className={styles.icon} />                    </Link>
-                        )}
+                        <Link href="/profile" passHref>
+                            <img src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png" alt="Użytkownik" className={styles.icon} />                    </Link>
                         <Button className={styles.logIn} onClick={handleLogout}>Wyloguj</Button>
                     </>
                 ) : (

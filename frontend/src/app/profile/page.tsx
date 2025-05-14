@@ -3,6 +3,13 @@
 import { useState, useEffect } from "react"
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 import styles from './page.module.scss';
 
 type Visit = {
@@ -32,6 +39,8 @@ export default function Profile() {
     const [visits, setVisits] = useState<Visit[]>([])
     const [cars, setCars] = useState<Car[]>([])
     const [userId, setUserId] = useState<string | null>(null);
+    const [username, setUsername] = useState<string | null>(null);
+    const [isAdmin, setAdmin] = useState(false);
 
     const [visibleUpcoming, setVisibleUpcoming] = useState(5)
     const [visibleCurrent, setVisibleCurrent] = useState(5)
@@ -39,10 +48,16 @@ export default function Profile() {
 
     const [visibleCars, setVisibleCars] = useState(3) // Set the max number of cars to show
 
+    const [visitsCount, setVisitsCount] = useState(5);  // Przykładowa liczba wizyt
+    const [startTime, setStartTime] = useState('09:00');
+    const [endTime, setEndTime] = useState('17:00');
+
     useEffect(() => {
         const storedUserId = sessionStorage.getItem('id');
+        const storedUsername = sessionStorage.getItem('username');
         if (storedUserId) {
             setUserId(storedUserId);
+            setUsername(storedUsername);
         }
     }, []);
 
@@ -94,6 +109,25 @@ export default function Profile() {
             console.log("Brak userId, zapytanie nie zostało wysłane");
         }
     }, [userId]);
+
+    useEffect(() => {
+        const role = sessionStorage.getItem('role');
+        if (role == "WORKSHOP") {
+            setAdmin(true);
+        }
+    }, []);
+
+    const handleStartTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setStartTime(e.target.value);
+    };
+
+    const handleEndTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setEndTime(e.target.value);
+    };
+
+    const handleVisitsCountChange = (value: string) => {
+        setVisitsCount(Number(value));
+    };
 
     // Filter visits based on status
     const upcomingVisits = visits.filter(v => v.status === "upcoming");
@@ -209,37 +243,85 @@ export default function Profile() {
 
             {/* Right section for cars and user name */}
             <div className={styles.rightSection}>
-                <div className={styles.userName}>Witaj, użytkowniku</div>
-                <h2 className={styles.carsHeader}>Twoje samochody</h2>
-                <div className="space-y-4">
-                    {cars.slice(0, visibleCars).map(car => (
-                        <div key={car.id_car}
-                             className="flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-2">
-                            <span>
-                                {car.brand} {car.model} ({car.year})
-                            </span>
+                <div className={styles.userName}>Witaj, {username}</div>
+
+                {!isAdmin ? (
+                    <>
+                        <h2 className={styles.carsHeader}>Twoje samochody</h2>
+                        <div className="space-y-4">
+                            {cars.slice(0, visibleCars).map(car => (
+                                <div
+                                    key={car.id_car}
+                                    className="flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-2"
+                                >
+                                    <span>
+                                        {car.brand} {car.model} ({car.year})
+                                    </span>
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
 
-                <div className="flex justify-center mt-2 space-x-2">
-                    {visibleCars < cars.length && (
-                        <Button variant="ghost" onClick={handleShowMoreCars}>
-                            Pokaż więcej
-                        </Button>
-                    )}
-                    {visibleCars > 3 && (
-                        <Button variant="ghost" onClick={handleShowLessCars}>
-                            Pokaż mniej
-                        </Button>
-                    )}
-                </div>
+                        <div className="flex justify-center mt-2 space-x-2">
+                            {visibleCars < cars.length && (
+                                <Button variant="ghost" onClick={handleShowMoreCars}>
+                                    Pokaż więcej
+                                </Button>
+                            )}
+                            {visibleCars > 3 && (
+                                <Button variant="ghost" onClick={handleShowLessCars}>
+                                    Pokaż mniej
+                                </Button>
+                            )}
+                        </div>
 
-                <div className="flex justify-center mt-4">
-                    <Button>
-                        Dodaj samochód
-                    </Button>
-                </div>
+                        <div className="flex justify-center mt-4">
+                            <Button>Dodaj samochód</Button>
+                        </div>
+                    </>
+                ) : (
+                    <div className={styles.workshop}>
+                        <div>
+                            <p>Godziny pracy:</p>
+                            <div className="flex items-center space-x-4">
+                                <div className="flex flex-col">
+                                    <label className="mb-1 text-sm text-gray-700">Godzina rozpoczęcia</label>
+                                    <input
+                                        type="time"
+                                        value={startTime}
+                                        onChange={handleStartTimeChange}
+                                        className="border px-3 py-2 rounded-md"
+                                    />
+                                </div>
+                                <div className="flex flex-col">
+                                    <label className="mb-1 text-sm text-gray-700">Godzina zakończenia</label>
+                                    <input
+                                        type="time"
+                                        value={endTime}
+                                        onChange={handleEndTimeChange}
+                                        className="border px-3 py-2 rounded-md"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p>Liczba jednoczesnych wizyt:</p>
+                            <Select value={visitsCount.toString()} onValueChange={handleVisitsCountChange}>
+                                <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="Wybierz liczbę" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {Array.from({ length: 10 }, (_, i) => (
+                                        <SelectItem key={i + 1} value={(i + 1).toString()}>
+                                            {i + 1}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    </div>
+                )
+                }
             </div>
         </div>
     )

@@ -6,6 +6,7 @@
   .leftSection {
     padding: 5vh;
     width: 50%;
+
     .visits {
       margin-bottom: 2rem;
     }
@@ -22,7 +23,7 @@
 
     .userName {
       font-size: 1.5rem;
-      font-weight: bold;
+      font-weight: bolder;
       margin-bottom: 1rem;
     }
 
@@ -34,6 +35,7 @@
 
     .cars {
       width: 100%;
+
       .carItem {
         display: flex;
         justify-content: space-between;
@@ -82,4 +84,10 @@ button:hover {
 
 .accordionItem {
   margin-bottom: 1rem;
+}
+
+.workshop {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
