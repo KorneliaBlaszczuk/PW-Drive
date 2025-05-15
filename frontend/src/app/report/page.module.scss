@@ -1,0 +1,111 @@
+.reportContainer {
+    display: flex;
+    justify-content: space-between;
+    max-width: 100vw;
+    height: 100vh;
+}
+
+.leftSection {
+    text-align: left;
+    margin: 2vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    gap: 2vw;
+}
+
+.leftSection h1 {
+    font-size: x-large;
+    font-weight: bolder;
+}
+
+.leftSection h3 {
+    font-size: large;
+    font-weight: bold;
+}
+
+.leftSection p {
+    background-color: #D9D9D9; // jasne tło (możesz dostosować)
+    padding: 0.5vw;
+    border-radius: 8px; // zaokrąglenie rogów
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: medium;
+}
+
+.Input {
+    background-color: #D9D9D9; // jasne tło (możesz dostosować)
+    padding: 0.5vw;
+    border-radius: 8px; // zaokrąglenie rogów
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: medium;
+}
+
+.calendarInput {
+    margin-bottom: 4vh;
+    font-size: medium;
+    width: 30vw;
+    height: 3vw;
+    color: #2c2c2c;
+    background-color: #d9d9d9;
+    display: flex;
+    align-items: center;
+    padding: 0 1vw;
+    justify-content: flex-start;
+}
+
+.calendarPlaceholder {
+    color: var(--muted-foreground);
+    pointer-events: none;
+    user-select: none;
+    font-size: medium;
+}
+
+.rightSection {
+    flex: 1;
+    margin: 2vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 2vw;
+    padding-top: 2vh;
+}
+
+.tableContainer {
+    width: 80%;
+    max-width: 600px;
+    margin-left: auto; // najważniejsze!
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bottomSection {
+    position: fixed;
+    bottom: 23.5vh;
+    right: 2vw;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-end;
+    z-index: 100;
+}
+
+.select {
+    width: 20vw;
+    position: relative;
+    z-index: 200;
+    max-height: 30vh;
+    font-size: large;
+    padding: 0.5vw;
+}
+
+.button {
+    width: 20vw;
+    background-color: #3B82F6;
+    color: white;
+    font-size: large;
+    padding: 0.5vw;
+}
