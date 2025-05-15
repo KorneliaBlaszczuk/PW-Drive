@@ -24,22 +24,22 @@ import styles from './page.module.scss';
 import Image from "next/image";
 
 type Visit = {
-    created_at: string
+    createdAt: string
     date: string
-    is_reserved: boolean
+    isReserved: boolean
     time: string
-    id_car: number
-    id_service: number
-    id_visit: number
+    car: Car
+    serviceId: number
+    id: number
     comment: string
     status: string
 }
 
 type Car = {
     mileage: number
-    next_inspection: string
+    nextInspection: string
     year: number
-    id_car: number
+    id: number
     id_user: number
     brand: string
     model: string
@@ -170,9 +170,9 @@ export default function Profile() {
                         <AccordionTrigger className="text-xl mt-4">Nadchodzące</AccordionTrigger>
                         <AccordionContent>
                             {upcomingVisits.slice(0, visibleUpcoming).map(visit => (
-                                <div key={visit.id_visit} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
+                                <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.service_name} {visit.date} {visit.time} — {visit.car_brand} {visit.car_model}
+                                        {visit.id} {visit.date} {visit.time} — {visit.car.name}
                                     </span>
                                     <Button variant="link" className="text-primary">Pobierz raport →</Button>
                                 </div>
@@ -198,9 +198,9 @@ export default function Profile() {
                         <AccordionTrigger className="text-xl mt-4">Aktualne</AccordionTrigger>
                         <AccordionContent>
                             {currentVisits.slice(0, visibleCurrent).map(visit => (
-                                <div key={visit.id_visit} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
+                                <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.service_name} {visit.date} {visit.time} — {visit.car_brand} {visit.car_model}
+                                        {visit.id} {visit.date} {visit.time} — {visit.car.name}
                                     </span>
                                     <Button variant="link" className="text-primary">Pobierz raport →</Button>
                                 </div>
@@ -226,9 +226,9 @@ export default function Profile() {
                         <AccordionTrigger className="text-xl mt-4">Historia</AccordionTrigger>
                         <AccordionContent>
                             {historyVisits.slice(0, visibleHistory).map(visit => (
-                                <div key={visit.id_visit} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
+                                <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.service_name} {visit.date} {visit.time} — {visit.car_brand} {visit.car_model}
+                                        {visit.serviceId} {visit.date} {visit.time} — {visit.car.name}
                                     </span>
                                     <Button variant="link" className="text-primary">Pobierz raport →</Button>
                                 </div>
@@ -265,12 +265,17 @@ export default function Profile() {
                 {!isAdmin ? (
                     <>
                         <h2 className={styles.carsHeader}>Twoje samochody</h2>
-                        <div className="space-y-4">
+                        <div className={styles.cars}>
                             {paginatedCars.map(car => (
-                                <div key={car.id_car}
-                                     className="flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-2 text-lg">
-                                    <span>{car.brand} {car.model} ({car.year})</span>
-                                </div>
+                                <Link
+                                    key={car.id}
+                                    href={`/carInfo?carId=${car.id}`}
+                                    passHref
+                                >
+                                    <Button>
+                                        {car.brand} {car.model} ({car.year})
+                                    </Button>
+                                </Link>
                             ))}
                         </div>
 
