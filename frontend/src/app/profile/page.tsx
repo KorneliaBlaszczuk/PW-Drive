@@ -57,7 +57,7 @@ export default function Profile() {
     const [visibleCurrent, setVisibleCurrent] = useState(5)
     const [visibleHistory, setVisibleHistory] = useState(5)
 
-    const [visitsCount, setVisitsCount] = useState(5);  // Przykładowa liczba wizyt
+    const [visitsCount, setVisitsCount] = useState(5);
     const [startTime, setStartTime] = useState('09:00');
     const [endTime, setEndTime] = useState('17:00');
 

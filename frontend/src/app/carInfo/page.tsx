@@ -9,6 +9,7 @@ import {
     AccordionContent,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import styles from './page.module.scss';
 
 type Visit = {
     createdAt: string;
@@ -91,25 +92,22 @@ export default function CarInfo() {
     const currentVisits = visits.filter(v => v.status === "current");
     const historyVisits = visits.filter(v => v.status === "history");
 
-    const renderVisits = (data: Visit[], visible: number) =>
-        data.slice(0, visible).map(visit => (
-            <div
-                key={visit.id}
-                className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2"
-            >
-                <span>
-                    {visit.date} {visit.time} — Komentarz: {visit.comment || '—'}
-                </span>
-                <Button variant="link" className="text-primary">Pobierz raport →</Button>
-            </div>
-        ));
+    const handleShowMoreUpcoming = () => setVisibleUpcoming(prev => prev + 5);
+    const handleShowLessUpcoming = () => setVisibleUpcoming(5);
+
+    const handleShowMoreCurrent = () => setVisibleCurrent(prev => prev + 5);
+    const handleShowLessCurrent = () => setVisibleCurrent(5);
+
+    const handleShowMoreHistory = () => setVisibleHistory(prev => prev + 5);
+    const handleShowLessHistory = () => setVisibleHistory(5);
 
     return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold mb-4">Informacje o samochodzie</h1>
+        <div className={styles.carInfo}>
+        <div className={styles.leftSection}>
+            <h1 className={styles.infoHeader}>Informacje o samochodzie</h1>
 
             {car ? (
-                <div className="mb-6">
+                <div className={styles.carDetails}>
                     <p><strong>Nazwa:</strong> {car.name}</p>
                     <p><strong>Marka:</strong> {car.brand}</p>
                     <p><strong>Model:</strong> {car.model}</p>
@@ -123,76 +121,104 @@ export default function CarInfo() {
             ) : (
                 <p>Ładowanie danych samochodu...</p>
             )}
+        </div>
 
-            <h2 className="text-xl font-semibold mt-8 mb-4">Wizyty</h2>
-            {visits.length > 0 ? (
-                <Accordion type="multiple" className="w-full">
-                    {/* Upcoming */}
-                    <AccordionItem value="upcoming">
-                        <AccordionTrigger className="text-lg">Nadchodzące</AccordionTrigger>
-                        <AccordionContent>
-                            {renderVisits(upcomingVisits, visibleUpcoming)}
+            <div className={styles.rightSection}>
+                <h2 className={styles.name}>Wizyty</h2>
+                <div className={styles.visitsAccordion}>
+                {visits.length > 0 ? (
+                    <Accordion type="multiple" className="w-full">
 
-                            <div className="flex justify-center mt-2 space-x-2">
-                                {visibleUpcoming < upcomingVisits.length && (
-                                    <Button variant="ghost" onClick={() => setVisibleUpcoming(v => v + 5)}>
-                                        Pokaż więcej
-                                    </Button>
-                                )}
-                                {visibleUpcoming > 5 && (
-                                    <Button variant="ghost" onClick={() => setVisibleUpcoming(5)}>
-                                        Pokaż mniej
-                                    </Button>
-                                )}
-                            </div>
-                        </AccordionContent>
-                    </AccordionItem>
+                        {/* Nadchodzące */}
+                        <AccordionItem value="upcoming">
+                            <AccordionTrigger className="text-xl mt-4">Nadchodzące</AccordionTrigger>
+                            <AccordionContent>
+                                {upcomingVisits.slice(0, visibleUpcoming).map(visit => (
+                                    <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
+                                    <span>
+                                        {visit.id} {visit.date} {visit.time} — {visit.car.name}
+                                    </span>
+                                        <Button variant="link" className="text-primary">Pobierz raport →</Button>
+                                    </div>
+                                ))}
 
-                    {/* Current */}
-                    <AccordionItem value="current">
-                        <AccordionTrigger className="text-lg">Aktualne</AccordionTrigger>
-                        <AccordionContent>
-                            {renderVisits(currentVisits, visibleCurrent)}
+                                <div className="flex justify-center mt-2 space-x-2">
+                                    {visibleUpcoming < upcomingVisits.length && (
+                                        <Button variant="ghost" onClick={handleShowMoreUpcoming}>
+                                            Pokaż więcej
+                                        </Button>
+                                    )}
+                                    {visibleUpcoming > 5 && (
+                                        <Button variant="ghost" onClick={handleShowLessUpcoming}>
+                                            Pokaż mniej
+                                        </Button>
+                                    )}
+                                </div>
+                            </AccordionContent>
+                        </AccordionItem>
 
-                            <div className="flex justify-center mt-2 space-x-2">
-                                {visibleCurrent < currentVisits.length && (
-                                    <Button variant="ghost" onClick={() => setVisibleCurrent(v => v + 5)}>
-                                        Pokaż więcej
-                                    </Button>
-                                )}
-                                {visibleCurrent > 5 && (
-                                    <Button variant="ghost" onClick={() => setVisibleCurrent(5)}>
-                                        Pokaż mniej
-                                    </Button>
-                                )}
-                            </div>
-                        </AccordionContent>
-                    </AccordionItem>
+                        {/* Aktualne */}
+                        <AccordionItem value="current">
+                            <AccordionTrigger className="text-xl mt-4">Aktualne</AccordionTrigger>
+                            <AccordionContent>
+                                {currentVisits.slice(0, visibleCurrent).map(visit => (
+                                    <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
+                                    <span>
+                                        {visit.id} {visit.date} {visit.time} — {visit.car.name}
+                                    </span>
+                                        <Button variant="link" className="text-primary">Pobierz raport →</Button>
+                                    </div>
+                                ))}
 
-                    {/* History */}
-                    <AccordionItem value="history">
-                        <AccordionTrigger className="text-lg">Historia</AccordionTrigger>
-                        <AccordionContent>
-                            {renderVisits(historyVisits, visibleHistory)}
+                                <div className="flex justify-center mt-2 space-x-2">
+                                    {visibleCurrent < currentVisits.length && (
+                                        <Button variant="ghost" onClick={handleShowMoreCurrent}>
+                                            Pokaż więcej
+                                        </Button>
+                                    )}
+                                    {visibleCurrent > 5 && (
+                                        <Button variant="ghost" onClick={handleShowLessCurrent}>
+                                            Pokaż mniej
+                                        </Button>
+                                    )}
+                                </div>
+                            </AccordionContent>
+                        </AccordionItem>
 
-                            <div className="flex justify-center mt-2 space-x-2">
-                                {visibleHistory < historyVisits.length && (
-                                    <Button variant="ghost" onClick={() => setVisibleHistory(v => v + 5)}>
-                                        Pokaż więcej
-                                    </Button>
-                                )}
-                                {visibleHistory > 5 && (
-                                    <Button variant="ghost" onClick={() => setVisibleHistory(5)}>
-                                        Pokaż mniej
-                                    </Button>
-                                )}
-                            </div>
-                        </AccordionContent>
-                    </AccordionItem>
-                </Accordion>
-            ) : (
-                <p>Brak zaplanowanych wizyt dla tego samochodu.</p>
-            )}
+                        {/* Historia */}
+                        <AccordionItem value="history">
+                            <AccordionTrigger className="text-xl mt-4">Historia</AccordionTrigger>
+                            <AccordionContent>
+                                {historyVisits.slice(0, visibleHistory).map(visit => (
+                                    <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
+                                    <span>
+                                        {visit.serviceId} {visit.date} {visit.time} — {visit.car.name}
+                                    </span>
+                                        <Button variant="link" className="text-primary">Pobierz raport →</Button>
+                                    </div>
+                                ))}
+
+                                <div className="flex justify-center mt-2 space-x-2">
+                                    {visibleHistory < historyVisits.length && (
+                                        <Button variant="ghost" onClick={handleShowMoreHistory}>
+                                            Pokaż więcej
+                                        </Button>
+                                    )}
+                                    {visibleHistory > 5 && (
+                                        <Button variant="ghost" onClick={handleShowLessHistory}>
+                                            Pokaż mniej
+                                        </Button>
+                                    )}
+                                </div>
+                            </AccordionContent>
+                        </AccordionItem>
+
+                    </Accordion>
+                ) : (
+                    <p>Brak zaplanowanych wizyt dla tego samochodu.</p>
+                )}
+                </div>
+            </div>
         </div>
     );
 }
