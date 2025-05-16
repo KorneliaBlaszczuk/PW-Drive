@@ -32,4 +32,34 @@ class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body)
     }
+
+    @ExceptionHandler(IllegalArgumentException::class)
+    fun handleIllegalArgumentException(
+        ex: IllegalArgumentException,
+        request: WebRequest
+    ): ResponseEntity<Map<String, Any>> {
+        val body = mapOf(
+            "status" to HttpStatus.NOT_FOUND.value(),
+            "error" to "Not Found",
+            "message" to (ex.message ?: "No message"),
+            "path" to request.getDescription(false).removePrefix("uri="),
+        )
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body)
+    }
+
+    @ExceptionHandler(NoSuchElementException::class)
+    fun handleNoSuchElementException(
+        ex: NoSuchElementException,
+        request: WebRequest
+    ): ResponseEntity<Map<String, Any>> {
+        val body = mapOf(
+            "status" to HttpStatus.NOT_FOUND.value(),
+            "error" to "Not Found",
+            "message" to (ex.message ?: "No message"),
+            "path" to request.getDescription(false).removePrefix("uri="),
+        )
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body)
+    }
 }
