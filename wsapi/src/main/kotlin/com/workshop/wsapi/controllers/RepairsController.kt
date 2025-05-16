@@ -13,7 +13,7 @@ class RepairsController {
     fun getRepairById(@PathVariable id: Int): String {
         return "Get repair from $id"
     }
-
+    
 
     @PutMapping("/{id}")
     fun editRepairById(@PathVariable id: Int, @RequestBody @Validated repair: Repair): String {
