@@ -58,5 +58,13 @@ class CarController {
         return history.accept(id, carService, userDetails)
     }
 
+    @GetMapping("{id}/history")
+    fun getHistory(
+        @PathVariable id: Long,
+        @AuthenticationPrincipal userDetails: UserDetails
+    ): ResponseEntity<Optional<List<HistoryOfChange>>> {
+        return carService.getHistory(id, userDetails)
+    }
+
 
 }

@@ -37,6 +37,19 @@ class CarService {
         return carRepository.findById(id)
     }
 
+
+    fun getHistory(id: Long, userDetails: UserDetails): ResponseEntity<Optional<List<HistoryOfChange>>> {
+        val car = carRepository.findById(id).orElseThrow {
+            IllegalArgumentException("Car not found with id ${id}")
+        }
+        if (car.user.id != userService.getUserByUsername(userDetails.username).id) {
+            ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body("You can only access history of cars from your own account")
+        }
+        return ResponseEntity.ok().body(historyRepository.getCarHistory(id))
+    }
+
     fun addHistory(
         @PathVariable id: Long,
         @RequestBody @Validated history: InspectionDate,

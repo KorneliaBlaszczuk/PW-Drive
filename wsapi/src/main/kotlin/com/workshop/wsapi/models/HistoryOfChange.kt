@@ -1,5 +1,6 @@
 package com.workshop.wsapi.models
 
+import com.fasterxml.jackson.annotation.JsonBackReference
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.workshop.wsapi.services.CarService
@@ -18,6 +19,7 @@ data class HistoryOfChange(
     val id: Long? = null,
 
     @ManyToOne(optional = false)
+    @JsonBackReference
     val car: Car? = null,
 
     @Column(name = "change_date")
