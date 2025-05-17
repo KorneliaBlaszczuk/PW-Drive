@@ -16,6 +16,8 @@ type Props = {
 
 export default function WeekCalendar({ slots = [], onSelectSlot }: Props) {
     const [offset, setOffset] = useState(0);
+    const [selectedSlot, setSelectedSlot] = useState<{ date: string; time: string } | null>(null);
+
 
     const getWeekDates = () => {
         const start = startOfWeek(new Date(), { weekStartsOn: 1 }); // Monday
@@ -93,10 +95,16 @@ export default function WeekCalendar({ slots = [], onSelectSlot }: Props) {
                                 daySlots.times.map((time) => (
                                     <button
                                         key={time}
-                                        className="cursor-pointer mb-2 px-3 py-1 rounded bg-[#749BFF] text-white font-semibold hover:bg-[#5f7fe0] w-full max-w-[100px]"
-                                        onClick={() =>
-                                            onSelectSlot && onSelectSlot(format(date, "yyyy-MM-dd"), time)
-                                        }
+                                        className={`cursor-pointer mb-2 px-3 py-1 rounded font-semibold w-full max-w-[100px]
+                                                ${selectedSlot?.date === format(date, "yyyy-MM-dd") && selectedSlot?.time === time
+                                                ? "bg-green-500 ring-2 ring-green-700"
+                                                : "bg-[#749BFF] hover:bg-[#5f7fe0] text-white"
+                                            }`}
+
+                                        onClick={() => {
+                                            setSelectedSlot({ date: format(date, "yyyy-MM-dd"), time });
+                                            onSelectSlot?.(format(date, "yyyy-MM-dd"), time);
+                                        }}
                                         type="button"
                                     >
                                         {time}
