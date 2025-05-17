@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select"
 import styles from './page.module.scss';
 import Image from "next/image";
+import {useRouter} from "next/navigation";
 
 type Visit = {
     createdAt: string
@@ -29,10 +30,17 @@ type Visit = {
     isReserved: boolean
     time: string
     car: Car
-    serviceId: number
+    service: Service
     id: number
     comment: string
     status: string
+}
+
+type Service = {
+    id: number
+    name: string
+    price: number
+    time: string
 }
 
 type Car = {
@@ -63,6 +71,7 @@ export default function Profile() {
 
     const [currentCarsPage, setCurrentCarsPage] = useState(1);
     const carsPerPage = 3;
+    const router = useRouter();
 
     useEffect(() => {
         const storedUserId = sessionStorage.getItem('id');
@@ -70,6 +79,13 @@ export default function Profile() {
         if (storedUserId) {
             setUserId(storedUserId);
             setUsername(storedUsername);
+        }
+    }, []);
+
+    useEffect(() => {
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+            router.push('/logIn'); // przekierowanie jeśli nie ma tokena
         }
     }, []);
 
@@ -172,7 +188,7 @@ export default function Profile() {
                             {upcomingVisits.slice(0, visibleUpcoming).map(visit => (
                                 <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.id} {visit.date} {visit.time} — {visit.car.name}
+                                        {visit.service.name} {visit.date} {visit.time} — {visit.car}
                                     </span>
                                     <Button variant="link" className="text-primary">Pobierz raport →</Button>
                                 </div>
@@ -200,7 +216,7 @@ export default function Profile() {
                             {currentVisits.slice(0, visibleCurrent).map(visit => (
                                 <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.id} {visit.date} {visit.time} — {visit.car.name}
+                                        {visit.service.name} {visit.date} {visit.time} — {visit.car}
                                     </span>
                                     <Button variant="link" className="text-primary">Pobierz raport →</Button>
                                 </div>
@@ -228,7 +244,7 @@ export default function Profile() {
                             {historyVisits.slice(0, visibleHistory).map(visit => (
                                 <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.serviceId} {visit.date} {visit.time} — {visit.car.name}
+                                        {visit.service.name} {visit.date} {visit.time} — {visit.car}
                                     </span>
                                     <Button variant="link" className="text-primary">Pobierz raport →</Button>
                                 </div>
