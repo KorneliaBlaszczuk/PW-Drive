@@ -59,7 +59,7 @@ class VisitService {
                 .body("You can only access visits from your own account")
         }
 
-        val new_visit = Visit(
+        val newVisit = Visit(
             id = id,
             service = serv,
             car = car,
@@ -69,8 +69,8 @@ class VisitService {
             status = visit.status ?: "PENDING",
             comment = visit.comment
         )
-        visitRepository.save(new_visit)
-        return ResponseEntity.ok().body(new_visit)
+        visitRepository.save(newVisit)
+        return ResponseEntity.ok().body(newVisit)
     }
 
     fun deleteVisit(id: Long): ResponseEntity<Any> {
