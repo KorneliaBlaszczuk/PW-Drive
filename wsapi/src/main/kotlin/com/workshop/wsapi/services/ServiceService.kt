@@ -31,7 +31,7 @@ class ServiceService {
     fun editService(id: Long, service: ServiceDto): ResponseEntity<Any> {
         val oldService =
             serviceRepository.findById(id).orElseThrow {
-                IllegalArgumentException("Service not found with id ${id}")
+                IllegalArgumentException("Service not found with id $id")
 
             }
         val editedService = ServiceModel(oldService.id, service.name, service.price, service.time)

@@ -55,7 +55,7 @@ class UserService {
                 nextInspection = carDto.nextInspection
             )
 
-        var savedCar = carRepository.save(newCar)
+        val savedCar = carRepository.save(newCar)
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCar)
     }
 
