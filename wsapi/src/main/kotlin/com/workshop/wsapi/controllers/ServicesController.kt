@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/services")
-class ServicesController<Optional> {
+class ServicesController {
 
     @Autowired
     private lateinit var serviceService: ServiceService
@@ -55,7 +55,7 @@ class ServicesController<Optional> {
                 .status(HttpStatus.FORBIDDEN)
                 .body("You can only access this resource from an Admin Account")
         }
-        return serviceService.addService(service);
+        return serviceService.addService(service)
     }
 
 
