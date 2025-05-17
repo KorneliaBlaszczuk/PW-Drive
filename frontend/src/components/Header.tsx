@@ -32,8 +32,7 @@ export default function Header() {
     const handleLogout = () => {
         setIsLoggedIn(false);
         setAdmin(false);
-        sessionStorage.clear;
-        // redirect to home page
+        sessionStorage.clear();
         router.push('/');
     };
 

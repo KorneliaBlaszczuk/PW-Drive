@@ -6,6 +6,8 @@
   .leftSection {
     padding: 5vh;
     width: 50%;
+    font-size: 5vh;
+    font-weight: bold;
 
     .visits {
       margin-bottom: 2rem;
@@ -17,77 +19,98 @@
     width: 50%;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    background-color: #f9f9f9;
-    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(40, 76, 220, 0.55);
+    gap: 1rem;
+
+    .icon {
+      width: 15vh;
+      height: 15vh;
+      border: 2px solid rgb(255, 255, 255);
+      border-radius: 50%;
+      padding: 0.5vh;
+    }
 
     .userName {
-      font-size: 1.5rem;
+      margin: 1rem;
+      font-size: 5vh;
       font-weight: bolder;
-      margin-bottom: 1rem;
     }
 
     .carsHeader {
-      font-size: 1.25rem;
+      font-size: 3.5vh;
       font-weight: bold;
       margin-bottom: 1rem;
     }
 
     .cars {
-      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Wyśrodkowanie przycisków w poziomie */
+      justify-content: center; /* Wyśrodkowanie w pionie jeśli potrzebne */
+      width: 20vw;
+      gap: 1vh; /* odstęp między przyciskami */
 
       .carItem {
-        display: flex;
-        justify-content: space-between;
-        padding: 1rem;
-        background-color: #e0e0e0;
-        border-radius: 8px;
-        margin-bottom: 0.5rem;
+        background-color: white;
+        color: black;
+        font-weight: bold;
+        font-size: 2.5vh;
         width: 100%;
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+        border: 1.5px solid black;
+      }
+
+      .carItem:hover {
+        background-color: #f0f0f0;
+        cursor: pointer;
+      }
+
+
+    Button {
+        background-color: white;
+        color: black;
+        font-weight: bold;
+        font-size: 2.5vh;
+        width: 100%;
+        padding: 1rem;
+        margin-top: 1vh;
+        border-radius: 8px;
+      }
+
+      Button:hover {
+        background-color: #f0f0f0; /* Lekki efekt na hover */
       }
     }
 
-    .addCarButton {
-      margin-top: 1rem;
-      width: 100%;
-      text-align: center;
-      background-color: #4CAF50;
-      color: white;
-      padding: 0.75rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
   }
+
 }
 
-button:hover {
+Button:hover {
   cursor: pointer;
-}
-
-.accordionTrigger {
-  font-weight: bold;
-  font-size: 1.125rem;
-  padding: 0.75rem 1rem;
-  background-color: #4CAF50;
-  color: white;
-  border-radius: 8px;
-}
-
-.accordionContent {
-  padding: 1rem;
-  background-color: #f1f1f1;
-  border-radius: 8px;
-  margin-top: 0.5rem;
-}
-
-.accordionItem {
-  margin-bottom: 1rem;
+  font-weight: bolder;
+  transform: scale(1.05);
 }
 
 .workshop {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+
+.addCarButton {
+  Button {
+    font-weight: bold;
+    color: black;
+    background: none;
+    border: 1px solid black;
+    font-size: 2.5vh;
+    padding: 1rem;
+    margin-top: 1vh;
+    border-radius: 8px;
+  }
 }
