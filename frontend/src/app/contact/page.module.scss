@@ -34,3 +34,29 @@
     height: 60vh;
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
 }
+
+.buttonGroup {
+    display: flex;
+    gap: 1rem;
+}
+
+.saveButton,
+.cancelButton {
+    background-color: #284CDC;
+    border: 1px solid #2E28DC;
+    opacity: 78%;
+    font-size: 1.5vw;
+    width: 8vw;
+    height: 3vw;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.saveButton:hover,
+.cancelButton:hover {
+    font-weight: bolder;
+    background-color: #2E28DC;
+    border-color: #284CDC;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
