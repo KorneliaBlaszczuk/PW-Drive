@@ -7,9 +7,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
-import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestBody
 import java.util.*
 
 @Service
@@ -51,12 +48,12 @@ class CarService {
     }
 
     fun addHistory(
-        @PathVariable id: Long,
-        @RequestBody @Validated history: InspectionDate,
+        id: Long,
+        history: InspectionDate,
         userDetails: UserDetails
     ): ResponseEntity<Any> {
         val car = carRepository.findById(id).orElseThrow {
-            IllegalArgumentException("Car not found with id ${id}")
+            IllegalArgumentException("Car not found with id $id")
         }
         if (car.user.id != userService.getUserByUsername(userDetails.username).id) {
             ResponseEntity
@@ -69,12 +66,12 @@ class CarService {
     }
 
     fun addHistory(
-        @PathVariable id: Long,
-        @RequestBody @Validated history: Mileage,
+        id: Long,
+        history: Mileage,
         userDetails: UserDetails
     ): ResponseEntity<Any> {
         val car = carRepository.findById(id).orElseThrow {
-            IllegalArgumentException("Car not found with id ${id}")
+            IllegalArgumentException("Car not found with id $id")
         }
         if (car.user.id != userService.getUserByUsername(userDetails.username).id) {
             ResponseEntity
@@ -88,32 +85,32 @@ class CarService {
 
 
     fun editCar(
-        @PathVariable id: Long,
-        @RequestBody @Validated edited_car: CarDto,
+        id: Long,
+        editedCar: CarDto,
         userDetails: UserDetails
     ): ResponseEntity<Car> {
-        val old_car =
+        val oldCar =
             carRepository.findById(id).orElseThrow {
-                IllegalArgumentException("Car not found with id ${id}")
+                IllegalArgumentException("Car not found with id $id")
 
             }
-        val user = old_car.user.id?.let {
+        val user = oldCar.user.id?.let {
             userRepository.findById(it).orElseThrow {
-                IllegalArgumentException("User not found with id ${old_car.user.id}")
+                IllegalArgumentException("User not found with id ${oldCar.user.id}")
             }
         }
         if (user != null) {
             if (user.id == userService.getUserByUsername(userDetails.username).id)
-                if (old_car != null) {
+                if (oldCar != null) {
                     val updatedCar = Car(
-                        id = old_car.id,
+                        id = oldCar.id,
                         user = user,
-                        name = edited_car.name,
-                        brand = edited_car.brand,
-                        nextInspection = edited_car.nextInspection,
-                        model = edited_car.model,
-                        year = edited_car.year,
-                        mileage = edited_car.mileage
+                        name = editedCar.name,
+                        brand = editedCar.brand,
+                        nextInspection = editedCar.nextInspection,
+                        model = editedCar.model,
+                        year = editedCar.year,
+                        mileage = editedCar.mileage
                     )
                     return ResponseEntity.ok().body(carRepository.save(updatedCar))
                 }
@@ -128,7 +125,7 @@ class CarService {
     fun addCarVisit(id: Long, visitDto: VisitDto): ResponseEntity<Visit> {
         val car =
             carRepository.findById(id).orElseThrow {
-                IllegalArgumentException("Car not found with id ${id}")
+                IllegalArgumentException("Car not found with id $id")
 
             }
         val service = visitDto.serviceId?.let {
@@ -155,7 +152,7 @@ class CarService {
     fun deleteCar(id: Long, userDetails: UserDetails) {
         val car =
             carRepository.findById(id).orElseThrow {
-                IllegalArgumentException("Car not found with id ${id}")
+                IllegalArgumentException("Car not found with id $id")
 
             }
         if (car == null || car.user.id != userService.getUserByUsername(userDetails.username).id)
