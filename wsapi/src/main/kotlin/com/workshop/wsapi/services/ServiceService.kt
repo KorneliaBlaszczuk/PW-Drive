@@ -16,9 +16,11 @@ class ServiceService {
     lateinit var serviceRepository: ServiceRepository
 
 
-    fun addService(service: ServiceModel): ResponseEntity<Any> {
-
-        val savedService = serviceRepository.save(service)
+    fun addService(service: ServiceDto): ResponseEntity<Any> {
+        val newService = ServiceModel(
+            service.name, service.price, service.time
+        )
+        val savedService = serviceRepository.save(newService)
         return ResponseEntity.status(HttpStatus.CREATED).body(savedService)
     }
 

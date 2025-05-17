@@ -1,7 +1,6 @@
 package com.workshop.wsapi.repositories
 
 import com.workshop.wsapi.models.HistoryOfChange
-import com.workshop.wsapi.models.Service
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.NativeQuery
 import org.springframework.data.repository.query.Param
@@ -10,6 +9,10 @@ import java.util.*
 
 
 @Repository
-interface ServiceRepository : JpaRepository<Service, Long> {
-    
+interface HistoryRepository : JpaRepository<HistoryOfChange, Long> {
+    @NativeQuery(
+        value = "" +
+                "SELECT * FROM history_of_changes where car_id_car = :id"
+    )
+    fun getCarHistory(@Param("id") id: Long): Optional<List<HistoryOfChange>>
 }

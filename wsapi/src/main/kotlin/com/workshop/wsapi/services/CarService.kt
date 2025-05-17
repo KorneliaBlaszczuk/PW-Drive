@@ -1,22 +1,15 @@
 package com.workshop.wsapi.services
 
-import com.workshop.wsapi.models.Car
-import com.workshop.wsapi.models.CarDto
-import com.workshop.wsapi.models.Visit
-import com.workshop.wsapi.models.VisitDto
+import com.workshop.wsapi.models.*
+import com.workshop.wsapi.repositories.*
 import org.springframework.beans.factory.annotation.Autowired
-import java.sql.Date
-import com.workshop.wsapi.repositories.CarRepository
-import com.workshop.wsapi.repositories.ServiceRepository
-import com.workshop.wsapi.repositories.UserRepository
-import com.workshop.wsapi.repositories.VisitRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.stereotype.Service
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
@@ -33,6 +26,10 @@ class CarService {
     @Autowired
     lateinit var serviceRepository: ServiceRepository
 
+
+    @Autowired
+    lateinit var historyRepository: HistoryRepository
+
     @Autowired
     lateinit var userService: UserService
 
@@ -41,29 +38,90 @@ class CarService {
     }
 
 
+    fun getHistory(id: Long, userDetails: UserDetails): ResponseEntity<Optional<List<HistoryOfChange>>> {
+        val car = carRepository.findById(id).orElseThrow {
+            IllegalArgumentException("Car not found with id ${id}")
+        }
+        if (car.user.id != userService.getUserByUsername(userDetails.username).id) {
+            ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body("You can only access history of cars from your own account")
+        }
+        return ResponseEntity.ok().body(historyRepository.getCarHistory(id))
+    }
 
-    fun editCar(@PathVariable id: Long, @RequestBody @Validated edited_car: CarDto, userDetails: UserDetails): ResponseEntity<Car> {
+    fun addHistory(
+        @PathVariable id: Long,
+        @RequestBody @Validated history: InspectionDate,
+        userDetails: UserDetails
+    ): ResponseEntity<Any> {
+        val car = carRepository.findById(id).orElseThrow {
+            IllegalArgumentException("Car not found with id ${id}")
+        }
+        if (car.user.id != userService.getUserByUsername(userDetails.username).id) {
+            ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body("You can only access history of cars from your own account")
+        }
+        val newHist = HistoryOfChange(null, car, inspectionDate = history)
+        val savedHist = historyRepository.save(newHist)
+        return ResponseEntity.ok().body(savedHist)
+    }
+
+    fun addHistory(
+        @PathVariable id: Long,
+        @RequestBody @Validated history: Mileage,
+        userDetails: UserDetails
+    ): ResponseEntity<Any> {
+        val car = carRepository.findById(id).orElseThrow {
+            IllegalArgumentException("Car not found with id ${id}")
+        }
+        if (car.user.id != userService.getUserByUsername(userDetails.username).id) {
+            ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body("You can only access history of cars from your own account")
+        }
+        val newHist = HistoryOfChange(null, car, mileage = history)
+        val savedHist = historyRepository.save(newHist)
+        return ResponseEntity.ok().body(savedHist)
+    }
+
+
+    fun editCar(
+        @PathVariable id: Long,
+        @RequestBody @Validated edited_car: CarDto,
+        userDetails: UserDetails
+    ): ResponseEntity<Car> {
         val old_car =
             carRepository.findById(id).orElseThrow {
                 IllegalArgumentException("Car not found with id ${id}")
 
             }
         val user = old_car.user.id?.let {
-            userRepository.findById(it).orElseThrow{
+            userRepository.findById(it).orElseThrow {
                 IllegalArgumentException("User not found with id ${old_car.user.id}")
             }
         }
         if (user != null) {
-            if(user.id == userService.getUserByUsername(userDetails.username).id)
-                if(old_car != null){
-                    val updatedCar = Car(id = old_car.id, user=user, name=edited_car.name, brand = edited_car.brand, nextInspection = edited_car.nextInspection, model = edited_car.model, year = edited_car.year, mileage = edited_car.mileage)
+            if (user.id == userService.getUserByUsername(userDetails.username).id)
+                if (old_car != null) {
+                    val updatedCar = Car(
+                        id = old_car.id,
+                        user = user,
+                        name = edited_car.name,
+                        brand = edited_car.brand,
+                        nextInspection = edited_car.nextInspection,
+                        model = edited_car.model,
+                        year = edited_car.year,
+                        mileage = edited_car.mileage
+                    )
                     return ResponseEntity.ok().body(carRepository.save(updatedCar))
                 }
         }
         return ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
     }
 
-    fun getCarVisits(id:Long): Optional<List<Visit>>{
+    fun getCarVisits(id: Long): Optional<List<Visit>> {
         return visitRepository.getCarVisits(id)
     }
 
@@ -72,14 +130,22 @@ class CarService {
             carRepository.findById(id).orElseThrow {
                 IllegalArgumentException("Car not found with id ${id}")
 
-        }
+            }
         val service = visitDto.serviceId?.let {
             serviceRepository.findById(it).orElseThrow {
                 IllegalArgumentException("Service not found with id ${visitDto.serviceId}")
             }
         }
-        if(service != null && car != null) {
-            val newVisit = Visit(service = service, car = car, isReserved = visitDto.isReserved, time = visitDto.time, date = visitDto.date, status =  visitDto.status, comment = visitDto.comment   )
+        if (service != null && car != null) {
+            val newVisit = Visit(
+                service = service,
+                car = car,
+                isReserved = visitDto.isReserved,
+                time = visitDto.time,
+                date = visitDto.date,
+                status = visitDto.status,
+                comment = visitDto.comment
+            )
             val savedVisit = visitRepository.save(newVisit)
             return ResponseEntity.ok().body(savedVisit)
         }
@@ -92,7 +158,7 @@ class CarService {
                 IllegalArgumentException("Car not found with id ${id}")
 
             }
-        if(car == null || car.user.id != userService.getUserByUsername(userDetails.username).id )
+        if (car == null || car.user.id != userService.getUserByUsername(userDetails.username).id)
             throw IllegalArgumentException("Invalid car id $id")
         return carRepository.deleteById(id)
 

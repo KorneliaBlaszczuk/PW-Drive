@@ -82,6 +82,9 @@ class WebSecurityConfig {
             .authorizeHttpRequests { auth ->
                 auth.requestMatchers("/api/auth/**").permitAll()
                     .requestMatchers("/api/test/**").permitAll()
+                    .requestMatchers("/api/metadata/info").permitAll()
+                    .requestMatchers("/api/metadata/info-full").hasAuthority("WORKSHOP")
+                    .requestMatchers("/api/metadata/{id}").hasAuthority("WORKSHOP")
                     .requestMatchers("/api/**").authenticated()
                     .anyRequest().permitAll() // allow unmatched endpoints for automatic 404 responses
             }
