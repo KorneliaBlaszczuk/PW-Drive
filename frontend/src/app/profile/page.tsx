@@ -105,6 +105,7 @@ export default function Profile() {
                     }
 
                     const data = await response.json();
+                    console.log(data)
                     setVisits(data);
                 } catch (error) {
                     console.error('Error fetching visits:', error);
@@ -188,7 +189,7 @@ export default function Profile() {
                             {upcomingVisits.slice(0, visibleUpcoming).map(visit => (
                                 <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.service.name} {visit.date} {visit.time} — {visit.car}
+                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "Brak danych"}
                                     </span>
                                     <Button variant="link" className="text-primary">Pobierz raport →</Button>
                                 </div>
@@ -216,7 +217,7 @@ export default function Profile() {
                             {currentVisits.slice(0, visibleCurrent).map(visit => (
                                 <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.service.name} {visit.date} {visit.time} — {visit.car}
+                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "Brak danych"}
                                     </span>
                                     <Button variant="link" className="text-primary">Pobierz raport →</Button>
                                 </div>
@@ -244,7 +245,7 @@ export default function Profile() {
                             {historyVisits.slice(0, visibleHistory).map(visit => (
                                 <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.service.name} {visit.date} {visit.time} — {visit.car}
+                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "Brak danych"}
                                     </span>
                                     <Button variant="link" className="text-primary">Pobierz raport →</Button>
                                 </div>

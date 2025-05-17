@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from 'next/navigation';
+import {useRouter, useSearchParams} from 'next/navigation';
 import {
     Accordion,
     AccordionItem,
@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import styles from './page.module.scss';
+import {router} from "next/client";
 
 type Visit = {
     createdAt: string;
@@ -37,6 +38,7 @@ type Car = {
 export default function CarInfo() {
     const searchParams = useSearchParams();
     const carId = searchParams.get('carId');
+    const router = useRouter();
 
     const [car, setCar] = useState<Car | null>(null);
     const [visits, setVisits] = useState<Visit[]>([]);
@@ -44,6 +46,13 @@ export default function CarInfo() {
     const [visibleUpcoming, setVisibleUpcoming] = useState(5);
     const [visibleCurrent, setVisibleCurrent] = useState(5);
     const [visibleHistory, setVisibleHistory] = useState(5);
+
+    useEffect(() => {
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+            router.push('/logIn');
+        }
+    }, []);
 
     useEffect(() => {
         async function fetchCarById(carId: string) {
