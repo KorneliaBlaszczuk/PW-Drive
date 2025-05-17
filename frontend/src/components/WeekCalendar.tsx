@@ -93,7 +93,7 @@ export default function WeekCalendar({ slots = [], onSelectSlot }: Props) {
                                 daySlots.times.map((time) => (
                                     <button
                                         key={time}
-                                        className="mb-2 px-3 py-1 rounded bg-[#749BFF] text-white font-semibold hover:bg-[#5f7fe0] w-full max-w-[100px]"
+                                        className="cursor-pointer mb-2 px-3 py-1 rounded bg-[#749BFF] text-white font-semibold hover:bg-[#5f7fe0] w-full max-w-[100px]"
                                         onClick={() =>
                                             onSelectSlot && onSelectSlot(format(date, "yyyy-MM-dd"), time)
                                         }

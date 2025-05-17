@@ -12,6 +12,7 @@ import { router } from "next/client";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import WeekCalendar from "@/components/WeekCalendar";
+import { Button } from "@/components/ui/button";
 
 type Car = {
     mileage: number
@@ -34,7 +35,6 @@ export default function Book() {
     const router = useRouter();
     const [cars, setCars] = useState<Car[]>([])
     const [userId, setUserId] = useState<string | null>(null);
-    const [username, setUsername] = useState<string | null>(null);
     const [selectedCarId, setSelectedCarId] = useState<string | null>(null);
     const [selectedService, setSelectedService] = useState<string | null>(null);
     const [selectedSlot, setSelectedSlot] = useState<{ date: string; time: string } | null>(null);
@@ -42,10 +42,8 @@ export default function Book() {
 
     useEffect(() => {
         const storedUserId = sessionStorage.getItem('id');
-        const storedUsername = sessionStorage.getItem('username');
         if (storedUserId) {
             setUserId(storedUserId);
-            setUsername(storedUsername);
         }
     }, []);
 
@@ -90,13 +88,16 @@ export default function Book() {
 
     const handleReservation = () => {
         if (selectedCarId && selectedService && selectedSlot) {
-            setReservationConfirmed(`Rezerwacja potwierdzona: Auto ID ${selectedCarId}, Usługa: ${selectedService}, Termin: ${selectedSlot.date} o ${selectedSlot.time}`);
+            alert(`Zarezerwowano ${selectedService} na ${selectedSlot.date} ${selectedSlot.time}`);
+            // fetch POST
         }
     };
 
+    const selectedCar = cars.find(car => car.id.toString() === selectedCarId);
+
     return (
         <div className={styles.BookPage}>
-            <Select>
+            <Select onValueChange={(value) => setSelectedCarId(value)}>
                 <SelectTrigger className={styles.Select}>
                     <SelectValue placeholder="Wybierz swoje auto" />
                 </SelectTrigger>
@@ -108,7 +109,7 @@ export default function Book() {
                     ))}
                 </SelectContent>
             </Select>
-            <Select>
+            <Select onValueChange={(value) => setSelectedService(value)}>
                 <SelectTrigger className={styles.Select}>
                     <SelectValue placeholder="Wybierz usługę" />
                 </SelectTrigger>
@@ -121,16 +122,17 @@ export default function Book() {
             <h1>Najblisze dostępne wizyty:</h1>
             <WeekCalendar slots={exampleSlots} onSelectSlot={handleSelectSlot} />
 
-            {selectedCarId && selectedService && selectedSlot && (
-                <div>
-                    <p>
-                        Wybrałeś auto ID: {selectedCarId}, usługę: {selectedService}, termin: {selectedSlot.date} o {selectedSlot.time}
-                    </p>
-                    <button onClick={handleReservation}>Zarezerwuj</button>
+            {selectedCar && selectedService && selectedSlot && (
+                <div className={styles.Summary}>
+                    <p>{selectedService} {selectedSlot.date} {selectedSlot.time} {selectedCar.name}</p>
+                    <Button
+                        onClick={handleReservation}
+                        className={styles.BookButton}
+                    >
+                        Zarezerwuj
+                    </Button>
                 </div>
             )}
-
-            {reservationConfirmed && <p>{reservationConfirmed}</p>}
         </div>
     )
 }
