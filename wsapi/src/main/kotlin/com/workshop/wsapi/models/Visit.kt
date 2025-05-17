@@ -1,6 +1,6 @@
 package com.workshop.wsapi.models
 
-import com.fasterxml.jackson.annotation.JsonBackReference
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import java.sql.Date
@@ -9,7 +9,7 @@ import java.sql.Time
 
 @Entity
 @Table(name = "Visits")
-data class Visit (
+data class Visit(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_visit", nullable = false)
@@ -21,7 +21,7 @@ data class Visit (
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_car", nullable = false)
-    @JsonBackReference
+    @JsonManagedReference
     var car: Car? = null,
 
     @CreationTimestamp
@@ -31,8 +31,16 @@ data class Visit (
     var date: Date = Date(0),
     var status: String? = null,
     var comment: String? = null,
-    ){
-    constructor(service: Service, car: Car, isReserved: Boolean, time: Time?, date: Date, status: String?, comment: String?) : this(
+) {
+    constructor(
+        service: Service,
+        car: Car,
+        isReserved: Boolean,
+        time: Time?,
+        date: Date,
+        status: String?,
+        comment: String?
+    ) : this(
         id = null,
         service = service,
         car = car,
@@ -43,13 +51,23 @@ data class Visit (
         status = status,
         comment = comment
     )
-    constructor(id: Long, service: Service?, car: Car, isReserved: Boolean, time: Time, date: Date, status: String, comment: String?) : this(
+
+    constructor(
+        id: Long,
+        service: Service?,
+        car: Car,
+        isReserved: Boolean,
+        time: Time,
+        date: Date,
+        status: String,
+        comment: String?
+    ) : this(
         id = id,
         service = service,
         car = car,
         createdAt = Date(System.currentTimeMillis()),
         isReserved = isReserved,
-        time = time ,
+        time = time,
         date = date,
         status = status,
         comment = comment
