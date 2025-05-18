@@ -11,29 +11,37 @@ import {
 import { Button } from "@/components/ui/button";
 import styles from './page.module.scss';
 import {router} from "next/client";
+import {jsPDF} from "jspdf";
 
 type Visit = {
-    createdAt: string;
-    date: string;
-    isReserved: boolean;
-    time: string;
-    car: Car;
-    serviceId: number;
-    id: number;
-    comment: string;
-    status: string;
-};
+    createdAt: string
+    date: string
+    isReserved: boolean
+    time: string
+    car: Car
+    service: Service
+    id: number
+    comment: string
+    status: string
+}
+
+type Service = {
+    id: number
+    name: string
+    price: number
+    time: string
+}
 
 type Car = {
-    mileage: number;
-    nextInspection: string;
-    year: number;
-    id: number;
-    user: number;
-    brand: string;
-    model: string;
-    name: string;
-};
+    mileage: number
+    nextInspection: string
+    year: number
+    id: number
+    id_user: number
+    brand: string
+    model: string
+    name: string
+}
 
 export default function CarInfo() {
     const searchParams = useSearchParams();
@@ -97,6 +105,36 @@ export default function CarInfo() {
         }
     }, [carId]);
 
+    const generateVisitReport = (visit: Visit) => {
+        const doc = new jsPDF();
+
+        // Nagłówek
+        doc.setFontSize(24);
+        doc.text("Raport wizyty", 20, 20);
+        doc.text(`z ${visit.date} ${visit.time}`, 20, 30);
+
+        doc.setFontSize(18);
+        doc.text('Informacje o samochodzie: ', 12, 50);
+
+        doc.setFontSize(12);
+        doc.text(`nazwa: ${visit.car.name}`, 12, 60);
+        doc.text(`marka: ${visit.car.brand}`, 12, 70);
+        doc.text(`model: ${visit.car.model}`, 12, 80);
+        doc.text(`rocznik: ${visit.car.year}`, 12, 90);
+        doc.text(`przebieg: ${visit.car.mileage}`, 12, 100);
+        doc.text(`nastepny przeglad: ${visit.car.nextInspection}`, 12, 110);
+
+        doc.setFontSize(18);
+        doc.text(`Typ uslugi: ${visit.service.name}`, 12, 120);
+
+        doc.text(`Wycena: ${visit.service.name} - ${visit.service.price} PLN`, 12, 130);
+        if (visit.comment) {
+            doc.text(`Komentarz: ${visit.comment}`, 12, 150);
+        }
+
+        doc.save(`raport_wizyty_${visit.id}.pdf`);
+    }
+
     const upcomingVisits = visits.filter(v => v.status === "upcoming");
     const currentVisits = visits.filter(v => v.status === "current");
     const historyVisits = visits.filter(v => v.status === "history");
@@ -145,9 +183,11 @@ export default function CarInfo() {
                                 {upcomingVisits.slice(0, visibleUpcoming).map(visit => (
                                     <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.id} {visit.date} {visit.time} — {visit.car.name}
+                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "'Brak nazwy samochodu'"} ({visit.car?.brand || "'Brak marki samochodu'"} {visit.car?.year || "'Brak rocznika samochodu'"})
                                     </span>
-                                        <Button variant="link" className="text-primary">Pobierz raport →</Button>
+                                        <Button variant="link"
+                                                className="text-primary"
+                                                onClick={() => generateVisitReport(visit)}>Pobierz raport →</Button>
                                     </div>
                                 ))}
 
@@ -173,9 +213,11 @@ export default function CarInfo() {
                                 {currentVisits.slice(0, visibleCurrent).map(visit => (
                                     <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.id} {visit.date} {visit.time} — {visit.car.name}
+                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "'Brak nazwy samochodu'"} ({visit.car?.brand || "'Brak marki samochodu'"} {visit.car?.year || "'Brak rocznika samochodu'"})
                                     </span>
-                                        <Button variant="link" className="text-primary">Pobierz raport →</Button>
+                                        <Button variant="link"
+                                                className="text-primary"
+                                                onClick={() => generateVisitReport(visit)}>Pobierz raport →</Button>
                                     </div>
                                 ))}
 
@@ -201,9 +243,11 @@ export default function CarInfo() {
                                 {historyVisits.slice(0, visibleHistory).map(visit => (
                                     <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.serviceId} {visit.date} {visit.time} — {visit.car.name}
+                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "'Brak nazwy samochodu'"} ({visit.car?.brand || "'Brak marki samochodu'"} {visit.car?.year || "'Brak rocznika samochodu'"})
                                     </span>
-                                        <Button variant="link" className="text-primary">Pobierz raport →</Button>
+                                        <Button variant="link"
+                                                className="text-primary"
+                                                onClick={() => generateVisitReport(visit)}>Pobierz raport →</Button>
                                     </div>
                                 ))}
 
