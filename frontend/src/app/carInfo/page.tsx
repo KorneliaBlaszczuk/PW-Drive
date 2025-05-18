@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import styles from './page.module.scss';
-import {router} from "next/client";
 import {jsPDF} from "jspdf";
 
 type Visit = {
