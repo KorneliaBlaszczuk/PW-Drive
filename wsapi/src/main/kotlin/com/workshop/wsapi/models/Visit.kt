@@ -5,7 +5,9 @@ import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import java.sql.Date
 import java.sql.Time
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 
 
 @Entity
@@ -29,18 +31,25 @@ data class Visit(
     var createdAt: LocalDateTime,
 
     var isReserved: Boolean = false,
-    var time: Time? = null,
+
+    @Column(nullable = false)
+    var time: Time,
+
+    @Column(nullable = false)
     var date: Date = Date(0),
-    var status: String? = null,
+
+    @Column(nullable = false)
+    var status: String,
+
     var comment: String? = null,
 ) {
     constructor(
         service: Service,
         car: Car,
         isReserved: Boolean,
-        time: Time?,
+        time: Time,
         date: Date,
-        status: String?,
+        status: String,
         comment: String?
     ) : this(
         id = null,
@@ -79,15 +88,14 @@ data class Visit(
 data class VisitDto(
     val serviceId: Long? = null,
     val isReserved: Boolean,
-    val time: Time? = null,
+    val time: Time,
     val date: Date,
-    val status: String? = null,
+    val status: String,
     val comment: String? = null
 )
 
 data class AvailableSlotDTO(
-    val date: Date,
-    val startTime: Time,
-    val endTime: Time,
-    val serviceId: Long
+    val date: LocalDate,
+    val startTime: LocalTime,
+    val endTime: LocalTime,
 )
