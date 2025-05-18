@@ -7,11 +7,12 @@ import java.time.DayOfWeek
 @Entity
 @Table(name = "Opening_Hours")
 class OpeningHour {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_hours")
-    val id: Long? = null
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @Column(name = "id_hours")
+//    val id: Long? = null
 
+    @Id
     @Column(name = "day_of_the_week", columnDefinition = "TEXT")
     @Enumerated(EnumType.STRING)
     val dayOfWeek: DayOfWeek = DayOfWeek.MONDAY
