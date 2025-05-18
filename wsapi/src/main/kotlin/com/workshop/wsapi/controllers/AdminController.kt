@@ -34,7 +34,10 @@ class AdminController {
     }
 
     @GetMapping("/visits/upcoming/{days}")
-    fun GetVisits(@PathVariable days: Int, @AuthenticationPrincipal userDetails: UserDetails): ResponseEntity<Any> {
+    fun getUpcomingVisits(
+        @PathVariable days: Int,
+        @AuthenticationPrincipal userDetails: UserDetails
+    ): ResponseEntity<Any> {
         if (!userDetails.isAdmin()) {
             return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
