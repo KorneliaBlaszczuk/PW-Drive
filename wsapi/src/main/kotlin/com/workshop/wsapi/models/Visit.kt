@@ -5,6 +5,9 @@ import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
 import java.sql.Date
 import java.sql.Time
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 
 
 @Entity
@@ -25,11 +28,19 @@ data class Visit(
     var car: Car? = null,
 
     @CreationTimestamp
-    var createdAt: Date = Date(0),
+    var createdAt: LocalDateTime,
+
     var isReserved: Boolean = false,
-    var time: Time? = null,
+
+    @Column(nullable = false)
+    var time: Time?,
+
+    @Column(nullable = false)
     var date: Date = Date(0),
-    var status: String? = null,
+
+    @Column(nullable = false)
+    var status: String?,
+
     var comment: String? = null,
 ) {
     constructor(
@@ -44,7 +55,7 @@ data class Visit(
         id = null,
         service = service,
         car = car,
-        createdAt = Date(System.currentTimeMillis()),
+        createdAt = LocalDateTime.now(),
         isReserved = isReserved,
         time = time,
         date = date,
@@ -65,7 +76,7 @@ data class Visit(
         id = id,
         service = service,
         car = car,
-        createdAt = Date(System.currentTimeMillis()),
+        createdAt = LocalDateTime.now(),
         isReserved = isReserved,
         time = time,
         date = date,
@@ -81,4 +92,10 @@ data class VisitDto(
     val date: Date,
     val status: String? = null,
     val comment: String? = null
+)
+
+data class AvailableSlotDTO(
+    val date: LocalDate,
+    val startTime: LocalTime,
+    val endTime: LocalTime,
 )
