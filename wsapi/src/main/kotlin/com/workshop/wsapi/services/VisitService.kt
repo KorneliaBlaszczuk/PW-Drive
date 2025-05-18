@@ -78,8 +78,13 @@ class VisitService {
     }
 
 
-    fun getServices(): ResponseEntity<Any> {
-        return ResponseEntity.ok().body(serviceRepository.findAll())
+    fun getVisits(): ResponseEntity<Any> {
+        return ResponseEntity.ok().body(visitRepository.findAll())
+    }
+
+
+    fun getUpcomingVisits(days: Int): ResponseEntity<Any> {
+        return ResponseEntity.ok().body(visitRepository.getUpcomingVisits(days))
     }
 
 }
