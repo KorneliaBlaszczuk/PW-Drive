@@ -1,6 +1,5 @@
 package com.workshop.wsapi.controllers
 
-import com.workshop.wsapi.models.Car
 import com.workshop.wsapi.models.CarDto
 import com.workshop.wsapi.models.Visit
 import com.workshop.wsapi.security.isAdmin
@@ -21,7 +20,6 @@ class UserController {
     lateinit var userService: UserService
 
 
-
     @GetMapping("/{id}/cars")
     fun getCars(@PathVariable id: Long, @AuthenticationPrincipal userDetails: UserDetails): ResponseEntity<Any> {
         val userId = userService.getUserByUsername(userDetails.username).id
@@ -38,7 +36,11 @@ class UserController {
     }
 
     @PostMapping("/{id}/cars")
-    fun addCar(@PathVariable id: Long, @RequestBody @Validated car: CarDto, @AuthenticationPrincipal userDetails: UserDetails): ResponseEntity<Any> {
+    fun addCar(
+        @PathVariable id: Long,
+        @RequestBody @Validated car: CarDto,
+        @AuthenticationPrincipal userDetails: UserDetails
+    ): ResponseEntity<Any> {
         val userId = userService.getUserByUsername(userDetails.username).id
 
         if (userId != id && !userDetails.isAdmin()) {
@@ -46,14 +48,20 @@ class UserController {
                 .status(HttpStatus.FORBIDDEN)
                 .body("You can only access cars from your own account")
         }
-       return userService.addCar(id, car)
+        return userService.addCar(id, car)
     }
 
 
-
     @GetMapping("/{id}/visits")
-    fun getVisits(@PathVariable id: Int): String {
-        return "Getting visit for user $id"
+    fun getVisits(@PathVariable id: Long, @AuthenticationPrincipal userDetails: UserDetails): ResponseEntity<out Any> {
+        val userId = userService.getUserByUsername(userDetails.username).id
+
+        if (userId != id && !userDetails.isAdmin()) {
+            return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body("You can only access visits from your own account")
+        }
+        return userService.getUserVisits(id)
     }
 
     @PostMapping("/{id}/visits")

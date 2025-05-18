@@ -3,6 +3,15 @@
 import { useState, useEffect } from "react"
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion"
 import { Button } from "@/components/ui/button"
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
+    PaginationEllipsis,
+} from "@/components/ui/pagination";
 import Link from 'next/link';
 import {
     Select,
@@ -12,24 +21,33 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import styles from './page.module.scss';
+import Image from "next/image";
+import {useRouter} from "next/navigation";
 
 type Visit = {
-    created_at: string
+    createdAt: string
     date: string
-    is_reserved: boolean
+    isReserved: boolean
     time: string
-    id_car: number
-    id_service: number
-    id_visit: number
+    car: Car
+    service: Service
+    id: number
     comment: string
     status: string
 }
 
+type Service = {
+    id: number
+    name: string
+    price: number
+    time: string
+}
+
 type Car = {
     mileage: number
-    next_inspection: string
+    nextInspection: string
     year: number
-    id_car: number
+    id: number
     id_user: number
     brand: string
     model: string
@@ -47,11 +65,13 @@ export default function Profile() {
     const [visibleCurrent, setVisibleCurrent] = useState(5)
     const [visibleHistory, setVisibleHistory] = useState(5)
 
-    const [visibleCars, setVisibleCars] = useState(3) // Set the max number of cars to show
-
-    const [visitsCount, setVisitsCount] = useState(5);  // Przykładowa liczba wizyt
+    const [visitsCount, setVisitsCount] = useState(5);
     const [startTime, setStartTime] = useState('09:00');
     const [endTime, setEndTime] = useState('17:00');
+
+    const [currentCarsPage, setCurrentCarsPage] = useState(1);
+    const carsPerPage = 3;
+    const router = useRouter();
 
     useEffect(() => {
         const storedUserId = sessionStorage.getItem('id');
@@ -59,6 +79,13 @@ export default function Profile() {
         if (storedUserId) {
             setUserId(storedUserId);
             setUsername(storedUsername);
+        }
+    }, []);
+
+    useEffect(() => {
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+            router.push('/logIn'); // przekierowanie jeśli nie ma tokena
         }
     }, []);
 
@@ -78,6 +105,7 @@ export default function Profile() {
                     }
 
                     const data = await response.json();
+                    console.log(data)
                     setVisits(data);
                 } catch (error) {
                     console.error('Error fetching visits:', error);
@@ -145,9 +173,8 @@ export default function Profile() {
     const handleShowMoreHistory = () => setVisibleHistory(prev => prev + 5);
     const handleShowLessHistory = () => setVisibleHistory(5);
 
-    // Handle the "Show More" / "Show Less" actions for cars
-    const handleShowMoreCars = () => setVisibleCars(prev => prev + 3);
-    const handleShowLessCars = () => setVisibleCars(3);
+    const totalCarsPages = Math.ceil(cars.length / carsPerPage);
+    const paginatedCars = cars.slice((currentCarsPage - 1) * carsPerPage, currentCarsPage * carsPerPage);
 
     return (
         <div className={styles.profilePage}>
@@ -157,12 +184,12 @@ export default function Profile() {
 
                     {/* Nadchodzące */}
                     <AccordionItem value="upcoming">
-                        <AccordionTrigger>Nadchodzące</AccordionTrigger>
+                        <AccordionTrigger className="text-xl mt-4">Nadchodzące</AccordionTrigger>
                         <AccordionContent>
                             {upcomingVisits.slice(0, visibleUpcoming).map(visit => (
-                                <div key={visit.id_visit} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
+                                <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.service_name} {visit.date} {visit.time} — {visit.car_brand} {visit.car_model}
+                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "Brak danych"}
                                     </span>
                                     <Button variant="link" className="text-primary">Pobierz raport →</Button>
                                 </div>
@@ -185,12 +212,12 @@ export default function Profile() {
 
                     {/* Aktualne */}
                     <AccordionItem value="current">
-                        <AccordionTrigger>Aktualne</AccordionTrigger>
+                        <AccordionTrigger className="text-xl mt-4">Aktualne</AccordionTrigger>
                         <AccordionContent>
                             {currentVisits.slice(0, visibleCurrent).map(visit => (
-                                <div key={visit.id_visit} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
+                                <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.service_name} {visit.date} {visit.time} — {visit.car_brand} {visit.car_model}
+                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "Brak danych"}
                                     </span>
                                     <Button variant="link" className="text-primary">Pobierz raport →</Button>
                                 </div>
@@ -213,12 +240,12 @@ export default function Profile() {
 
                     {/* Historia */}
                     <AccordionItem value="history">
-                        <AccordionTrigger>Historia</AccordionTrigger>
+                        <AccordionTrigger className="text-xl mt-4">Historia</AccordionTrigger>
                         <AccordionContent>
                             {historyVisits.slice(0, visibleHistory).map(visit => (
-                                <div key={visit.id_visit} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
+                                <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.service_name} {visit.date} {visit.time} — {visit.car_brand} {visit.car_model}
+                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "Brak danych"}
                                     </span>
                                     <Button variant="link" className="text-primary">Pobierz raport →</Button>
                                 </div>
@@ -244,38 +271,77 @@ export default function Profile() {
 
             {/* Right section for cars and user name */}
             <div className={styles.rightSection}>
+                <Image
+                    src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png"
+                    alt="Użytkownik"
+                    width={24}
+                    height={24}
+                    className={styles.icon}
+                />
                 <div className={styles.userName}>Witaj, {username}</div>
-
                 {!isAdmin ? (
                     <>
                         <h2 className={styles.carsHeader}>Twoje samochody</h2>
-                        <div className="space-y-4">
-                            {cars.slice(0, visibleCars).map(car => (
-                                <div
-                                    key={car.id_car}
-                                    className="flex justify-between items-center p-3 bg-gray-100 rounded-lg mb-2"
+                        <div className={styles.cars}>
+                            {paginatedCars.map(car => (
+                                <Link
+                                    key={car.id}
+                                    href={`/carInfo?carId=${car.id}`}
+                                    passHref
                                 >
-                                    <span>
+                                    <Button>
                                         {car.brand} {car.model} ({car.year})
-                                    </span>
-                                </div>
+                                    </Button>
+                                </Link>
                             ))}
                         </div>
 
-                        <div className="flex justify-center mt-2 space-x-2">
-                            {visibleCars < cars.length && (
-                                <Button variant="ghost" onClick={handleShowMoreCars}>
-                                    Pokaż więcej
-                                </Button>
-                            )}
-                            {visibleCars > 3 && (
-                                <Button variant="ghost" onClick={handleShowLessCars}>
-                                    Pokaż mniej
-                                </Button>
-                            )}
-                        </div>
+                        <Pagination>
+                            <PaginationContent>
+                                <PaginationItem>
+                                    <PaginationPrevious
+                                        href="#"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setCurrentCarsPage((prev) => Math.max(prev - 1, 1));
+                                        }}
+                                        size={"lg"}
+                                    />
+                                </PaginationItem>
 
-                        <div className="flex justify-center mt-4">
+                                {[...Array(totalCarsPages)].map((_, i) => (
+                                    <PaginationItem key={i}>
+                                        <PaginationLink
+                                            href="#"
+                                            className="text-lg font-medium"
+                                            isActive={currentCarsPage === i + 1}
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                setCurrentCarsPage(i + 1);
+                                            }}
+                                            size={"lg"}
+                                        >
+                                            {i + 1}
+                                        </PaginationLink>
+                                    </PaginationItem>
+                                ))}
+
+                                {totalCarsPages > 5 && <PaginationItem><PaginationEllipsis /></PaginationItem>}
+
+                                <PaginationItem>
+                                    <PaginationNext
+                                        href="#"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setCurrentCarsPage((prev) => Math.min(prev + 1, totalCarsPages));
+                                        }}
+                                        size={"lg"}
+                                    />
+                                </PaginationItem>
+                            </PaginationContent>
+                        </Pagination>
+
+                        <div className={styles.addCarButton}>
                             <Link href="/addCar" passHref>
                                 <Button>Dodaj samochód</Button>
                             </Link>

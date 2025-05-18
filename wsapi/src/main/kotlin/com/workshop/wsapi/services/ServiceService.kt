@@ -16,9 +16,11 @@ class ServiceService {
     lateinit var serviceRepository: ServiceRepository
 
 
-    fun addService(service: ServiceModel): ResponseEntity<Any> {
-
-        val savedService = serviceRepository.save(service)
+    fun addService(service: ServiceDto): ResponseEntity<Any> {
+        val newService = ServiceModel(
+            service.name, service.price, service.time
+        )
+        val savedService = serviceRepository.save(newService)
         return ResponseEntity.status(HttpStatus.CREATED).body(savedService)
     }
 
@@ -29,7 +31,7 @@ class ServiceService {
     fun editService(id: Long, service: ServiceDto): ResponseEntity<Any> {
         val oldService =
             serviceRepository.findById(id).orElseThrow {
-                IllegalArgumentException("Service not found with id ${id}")
+                IllegalArgumentException("Service not found with id $id")
 
             }
         val editedService = ServiceModel(oldService.id, service.name, service.price, service.time)

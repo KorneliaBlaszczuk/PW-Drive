@@ -16,3 +16,36 @@
     font-size: larger;
     font-weight: bolder;
 }
+
+.Summary {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    padding: 1rem 4vw;
+    font-size: large;
+    box-sizing: border-box;
+    gap: 1rem;
+}
+
+.BookButton {
+    background-color: #284CDC;
+    border: 1px solid #2E28DC;
+    opacity: 78%;
+    font-size: large;
+    padding: 0.5vw;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.BookButton:hover {
+    font-weight: bolder;
+    background-color: #2E28DC;
+    border-color: #284CDC;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}

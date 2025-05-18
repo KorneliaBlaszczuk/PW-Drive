@@ -3,6 +3,7 @@ package com.workshop.wsapi.services
 import com.workshop.wsapi.models.Car
 import com.workshop.wsapi.models.CarDto
 import com.workshop.wsapi.models.User
+import com.workshop.wsapi.models.Visit
 import com.workshop.wsapi.repositories.CarRepository
 import com.workshop.wsapi.repositories.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,6 +24,10 @@ class UserService {
         return userRepository.getUserCars(id)
     }
 
+    fun getUserVisits(id: Long): ResponseEntity<Optional<List<Visit>>> {
+        return ResponseEntity.ok().body(userRepository.getUserVisits(id))
+    }
+
     fun getUserById(id: Long): Optional<User> {
         return userRepository.findById(id)
     }
@@ -36,21 +41,21 @@ class UserService {
 
     fun addCar(id: Long, carDto: CarDto): ResponseEntity<Any> {
         val usr = userRepository.findById(id).orElseThrow {
-                IllegalArgumentException("User not found with id: ${id}")
-            }
+            IllegalArgumentException("User not found with id: ${id}")
+        }
 
         val newCar =
             Car(
                 user = usr,
                 name = carDto.name,
-                brand = carDto.brand ,
-                model = carDto.model ,
+                brand = carDto.brand,
+                model = carDto.model,
                 year = carDto.year,
-                mileage = carDto.mileage ,
+                mileage = carDto.mileage,
                 nextInspection = carDto.nextInspection
             )
 
-        var savedCar =  carRepository.save(newCar)
+        val savedCar = carRepository.save(newCar)
         return ResponseEntity.status(HttpStatus.CREATED).body(savedCar)
     }
 
