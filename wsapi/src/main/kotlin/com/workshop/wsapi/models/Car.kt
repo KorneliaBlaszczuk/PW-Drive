@@ -1,7 +1,6 @@
 package com.workshop.wsapi.models
 
 import com.fasterxml.jackson.annotation.JsonBackReference
-import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.*
 import java.sql.Date
 
@@ -29,10 +28,18 @@ data class Car(
     var nextInspection: Date? = null,
 
     @OneToMany(mappedBy = "car", orphanRemoval = true)
-    @JsonManagedReference
+    @JsonBackReference
     var visits: MutableList<Visit> = mutableListOf()
 ) {
-    constructor(user: User, name: String, brand: String, model: String, year: Int, mileage: Int, nextInspection: Date?) : this(
+    constructor(
+        user: User,
+        name: String,
+        brand: String,
+        model: String,
+        year: Int,
+        mileage: Int,
+        nextInspection: Date?
+    ) : this(
         user = user,
         name = name,
         brand = brand,
@@ -42,7 +49,17 @@ data class Car(
         nextInspection = nextInspection,
         visits = mutableListOf()
     )
-    constructor(id: Long, user: User, name: String, brand: String, model: String, year: Int, mileage: Int, nextInspection: Date?) : this(
+
+    constructor(
+        id: Long,
+        user: User,
+        name: String,
+        brand: String,
+        model: String,
+        year: Int,
+        mileage: Int,
+        nextInspection: Date?
+    ) : this(
         id = id,
         user = user,
         name = name,
@@ -56,11 +73,11 @@ data class Car(
 }
 
 data class CarDto(
-    var name: String ,
-    var brand: String ,
-    var nextInspection: Date ,
-    var model: String ,
-    var year: Int ,
+    var name: String,
+    var brand: String,
+    var nextInspection: Date,
+    var model: String,
+    var year: Int,
     var mileage: Int
 )
 
