@@ -77,4 +77,9 @@ class VisitService {
         return ResponseEntity.ok().body(visitRepository.deleteById(id))
     }
 
+
+    fun getServices(): ResponseEntity<Any> {
+        return ResponseEntity.ok().body(serviceRepository.findAll())
+    }
+
 }
