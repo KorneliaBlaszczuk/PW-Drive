@@ -17,7 +17,7 @@ interface VisitRepository : JpaRepository<Visit, Long> {
 
     @NativeQuery(
         value = "" +
-                "SELECT * FROM VISITS WHERE STATUS = 'upcoming' AND \"date\" - CURRENT_DATE <= :days and CURRENT_DATE  < \"date\""
+                "SELECT * FROM VISITS WHERE STATUS = 'upcoming' AND \"date\" - CURRENT_DATE <= :days and CURRENT_DATE  < \"date\" AND IS_RESERVED IS FALSE"
     )
     fun getUpcomingVisits(@Param("days") days: Int): Optional<List<Visit>>
 
