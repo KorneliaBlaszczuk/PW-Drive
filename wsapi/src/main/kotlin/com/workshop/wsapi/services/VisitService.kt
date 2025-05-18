@@ -52,7 +52,7 @@ class VisitService {
             val sameDay = visit.date.toLocalDate() == date
             if (!sameDay) return@any false
 
-            val existingStart = visit.time.toLocalTime()
+            val existingStart = visit.time!!.toLocalTime()
             val existingEnd = existingStart.plusMinutes(visit.service?.time?.toMinutes() ?: 30)
 
 

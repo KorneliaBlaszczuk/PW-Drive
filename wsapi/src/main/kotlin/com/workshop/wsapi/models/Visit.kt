@@ -33,13 +33,13 @@ data class Visit(
     var isReserved: Boolean = false,
 
     @Column(nullable = false)
-    var time: Time,
+    var time: Time?,
 
     @Column(nullable = false)
     var date: Date = Date(0),
 
     @Column(nullable = false)
-    var status: String,
+    var status: String?,
 
     var comment: String? = null,
 ) {
@@ -47,9 +47,9 @@ data class Visit(
         service: Service,
         car: Car,
         isReserved: Boolean,
-        time: Time,
+        time: Time?,
         date: Date,
-        status: String,
+        status: String?,
         comment: String?
     ) : this(
         id = null,
@@ -88,9 +88,9 @@ data class Visit(
 data class VisitDto(
     val serviceId: Long? = null,
     val isReserved: Boolean,
-    val time: Time,
+    val time: Time? = null,
     val date: Date,
-    val status: String,
+    val status: String? = null,
     val comment: String? = null
 )
 
