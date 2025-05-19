@@ -19,6 +19,13 @@ interface VisitRepository : JpaRepository<Visit, Long> {
     )
     fun getCarVisits(@Param("id") id: Long): Optional<List<Visit>>
 
+    @NativeQuery(
+        value = "" +
+                "SELECT * FROM VISITS WHERE STATUS = 'upcoming' AND \"date\" - CURRENT_DATE <= :days and CURRENT_DATE  < \"date\" AND IS_RESERVED IS FALSE"
+    )
+    fun getUpcomingVisits(@Param("days") days: Int): Optional<List<Visit>>
+
+
     @Query(value = "SELECT * FROM VISITS v WHERE v.date between :startDate and :endDate", nativeQuery = true)
     fun findReservedVisitsBetweenDates(
         @Param("startDate") startDate: LocalDateTime,
@@ -29,5 +36,6 @@ interface VisitRepository : JpaRepository<Visit, Long> {
     @Modifying
     @Query(value = "delete from visits where is_reserved = true and created_at < :cutoffTime", nativeQuery = true)
     fun deleteAbandonedReservations(@Param("cutoffTime") cutoffTime: LocalDateTime)
+
 
 }
