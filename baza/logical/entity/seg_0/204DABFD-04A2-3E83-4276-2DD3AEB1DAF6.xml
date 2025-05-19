@@ -4,7 +4,7 @@
 <createdTime>2025-04-01 13:10:23 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
 </engineerTo>
 <adequatelyNormalized>NO</adequatelyNormalized>
 <expectedVolumes>0</expectedVolumes>
@@ -20,7 +20,7 @@
 <createdTime>2025-04-01 13:10:44 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -32,7 +32,7 @@
 <createdTime>2025-04-01 13:11:02 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -44,7 +44,7 @@
 <createdTime>2025-04-01 13:12:16 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -56,7 +56,7 @@
 <createdTime>2025-04-01 13:14:38 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -68,7 +68,7 @@
 <createdTime>2025-04-01 13:12:41 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -80,11 +80,37 @@
 <createdTime>2025-04-02 18:30:07 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="is_reservation" id="3E076949-72A0-AD5E-1492-ABA416CB04AC">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-25 14:33:45 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1 CHAR</dataTypeSize>
+<ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="created_at" id="C362838D-89DC-3C9A-EB3B-68E633DD40B4">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-05-19 18:55:03 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 </Attribute>
 <Attribute name="comment" id="BA733462-CCFC-8460-22AA-4DE102BB0FCB">
@@ -92,7 +118,7 @@
 <createdTime>2025-04-02 18:32:15 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
 </engineerTo>
 <nullsAllowed>true</nullsAllowed>
 <useDomainConstraints>false</useDomainConstraints>
@@ -106,7 +132,7 @@
 <generatorID>564E0A77-E9E5-317A-EA20-B107D777EFBC</generatorID>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
 </engineerTo>
 <referedAttribute>FC3B2C9C-F1EE-A06C-040F-392801B84827</referedAttribute>
 <useDomainConstraints>false</useDomainConstraints>
@@ -120,7 +146,7 @@
 <generatorID>E6116795-8792-1DAE-BABC-BFF87A09AE19</generatorID>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
 </engineerTo>
 <referedAttribute>7160EF3D-FF0C-5DBA-B93D-048576CA430C</referedAttribute>
 <useDomainConstraints>false</useDomainConstraints>
@@ -135,7 +161,7 @@
 <createdTime>2025-04-01 13:11:01 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>

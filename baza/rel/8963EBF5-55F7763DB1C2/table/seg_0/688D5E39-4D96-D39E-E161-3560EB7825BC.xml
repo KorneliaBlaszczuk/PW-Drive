@@ -1,0 +1,73 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="688D5E39-4D96-D39E-E161-3560EB7825BC" name="Mileage">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-05-19 18:57:19 UTC</createdTime>
+<generatorID>6D5E2AF5-A67F-9A71-F5E4-8142D95FB2AF</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_change" id="52DB4927-5FC7-6A73-534F-DBD01C5695E9">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-05-19 18:57:19 UTC</createdTime>
+<generatorID>C3F94305-FC7C-5521-C65E-F737C4360FB1</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="2A3CF66E-687F-43FE-5A84-ACBA84947367" referredColumn="7058F8C1-4228-E7E8-7ABE-5F4EF1BE6F8A"/>
+</associations>
+</Column>
+<Column name="old_value" id="6CC63107-5AF7-1D5C-D93E-C31AF42AB74F">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-05-19 18:57:19 UTC</createdTime>
+<generatorID>6A263CB8-4BE5-7DAA-2092-7D8915CBF624</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="new_value" id="1D91AE52-CD29-C0B3-8781-7924CAC27EA9">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-05-19 18:57:19 UTC</createdTime>
+<generatorID>326FF83D-DE89-9356-8F68-1319DF5D0B7B</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="12D6EBC1-917A-E890-D6D6-7A13952E6FEB" name="Mileage_PK">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-05-19 18:57:19 UTC</createdTime>
+<generatorID>78A3036A-0F78-3396-86D0-FBBEF206E606</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="52DB4927-5FC7-6A73-534F-DBD01C5695E9"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="478D2942-A0CD-228A-A81B-41652CD11F03" name="Mileage_History_of__changes_FK">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-05-19 18:57:19 UTC</createdTime>
+<generatorID>640E4C62-1D0A-502C-6C0E-74B32C2C39B3</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="52DB4927-5FC7-6A73-534F-DBD01C5695E9"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

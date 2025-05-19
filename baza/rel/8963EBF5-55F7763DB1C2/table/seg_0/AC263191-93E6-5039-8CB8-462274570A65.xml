@@ -1,0 +1,73 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="AC263191-93E6-5039-8CB8-462274570A65" name="Inspection_date">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-05-19 18:57:19 UTC</createdTime>
+<generatorID>773A4549-ABA1-46CE-8A38-07419112B16E</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_change" id="C4FA44C8-4775-6B82-63DC-76993C6E5F4E">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-05-19 18:57:19 UTC</createdTime>
+<generatorID>C3F94305-FC7C-5521-C65E-F737C4360FB1</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="1F658F53-7643-C682-0BE2-14528712BF7D" referredColumn="7058F8C1-4228-E7E8-7ABE-5F4EF1BE6F8A"/>
+</associations>
+</Column>
+<Column name="old_value" id="83666281-D812-09BB-24B0-912346A75CB2">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-05-19 18:57:19 UTC</createdTime>
+<generatorID>81A3778C-FA21-52ED-99F0-F6B5D6F3AAA8</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="new_value" id="6AAB377D-076C-352C-66FB-F49E974D7A44">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-05-19 18:57:19 UTC</createdTime>
+<generatorID>174F1A97-4DF5-79DB-80B2-2517E1D5AB73</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="74B67F63-D490-9E47-FA2D-B43253263EBF" name="Inspection_date_PK">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-05-19 18:57:19 UTC</createdTime>
+<generatorID>78A3036A-0F78-3396-86D0-FBBEF206E606</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C4FA44C8-4775-6B82-63DC-76993C6E5F4E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="823CCD34-F9F8-84E8-6C5D-83BE0066AED7" name="Inspection_date_History_of__changes_FK">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-05-19 18:57:19 UTC</createdTime>
+<generatorID>51A73ACE-5DCB-A09F-F0E4-C5A60C6D18A5</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="C4FA44C8-4775-6B82-63DC-76993C6E5F4E"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>
