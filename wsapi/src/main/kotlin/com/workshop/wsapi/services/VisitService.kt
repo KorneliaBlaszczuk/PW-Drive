@@ -7,6 +7,7 @@ import com.workshop.wsapi.repositories.*
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.userdetails.UserDetails
@@ -177,7 +178,8 @@ class VisitService {
 
 
     fun getVisits(): ResponseEntity<Any> {
-        return ResponseEntity.ok().body(visitRepository.findAll())
+        val sort: Sort = Sort.by(Sort.Order.desc("date"), Sort.Order.asc("time"))
+        return ResponseEntity.ok().body(visitRepository.findAll(sort))
     }
 
 
