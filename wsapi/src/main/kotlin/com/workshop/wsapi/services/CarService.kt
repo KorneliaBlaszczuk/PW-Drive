@@ -35,7 +35,7 @@ class CarService {
     @Autowired
     lateinit var userService: UserService
 
-    private fun isCarOwner(carId: Long, userDetails: UserDetails) {
+    fun isCarOwner(carId: Long, userDetails: UserDetails) {
         val car = getCar(carId)
         if (car.user.id != userService.getUserByUsername(userDetails.username).id) {
             throw NotAnOwnerException("You can only access your own cars")
@@ -161,18 +161,6 @@ class CarService {
         return savedVisit
     }
 
-
-    fun addCarRepair(id: Long): Repair {
-        val oldVisit = visitRepository.findById(id)
-
-        val newRepair = Repair().apply {
-            description = ""
-            price = 0
-            visit = visit
-        }
-
-        return repairRepository.save(newRepair)
-    }
 
     fun deleteCar(id: Long, userDetails: UserDetails) {
         isCarOwner(id, userDetails)

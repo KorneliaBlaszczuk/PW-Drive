@@ -64,7 +64,7 @@ class UserController {
     }
 
     @PostMapping("/{id}/visits")
-    fun addVisit(@PathVariable id: Int, @RequestBody @Validated visit: Visit): String {
+    fun addVisit(@PathVariable id: Int): String {
         return "Added visit for user $id"
     }
 

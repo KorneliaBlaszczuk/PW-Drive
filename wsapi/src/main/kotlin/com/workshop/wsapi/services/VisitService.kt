@@ -30,6 +30,7 @@ class VisitService {
     @Autowired
     lateinit var carRepository: CarRepository
 
+
     @Autowired
     lateinit var visitRepository: VisitRepository
 
@@ -38,6 +39,10 @@ class VisitService {
 
     @Autowired
     lateinit var openingHourRepository: OpeningHourRepository
+
+
+    @Autowired
+    lateinit var repairRepository: RepairRepository
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(VisitService::class.java)
@@ -87,6 +92,21 @@ class VisitService {
         val fifteenMinutesAgo = LocalDateTime.now().minusMinutes(15)
         logger.info("Removing abandoned reservations past $fifteenMinutesAgo")
         visitRepository.deleteAbandonedReservations(fifteenMinutesAgo)
+    }
+
+    fun addCarRepair(id: Long, userDetails: UserDetails): Repair {
+        val oldVisit = visitRepository.findById(id).orElseThrow {
+            IllegalArgumentException("Car not found with id $id")
+
+        }
+
+        val newRepair = Repair().apply {
+            description = ""
+            price = 0
+            visit = oldVisit
+        }
+
+        return repairRepository.save(newRepair)
     }
 
     private fun generateAvailableSlotsForService(

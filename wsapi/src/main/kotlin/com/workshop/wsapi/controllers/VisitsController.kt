@@ -38,6 +38,11 @@ class VisitsController {
         return ResponseEntity.ok(availableSlots)
     }
 
+    @PostMapping("{id}/repairs")
+    fun addRepair(@PathVariable id: Long, @AuthenticationPrincipal userDetails: UserDetails): ResponseEntity<Any> {
+        return ResponseEntity.ok().body(visitService.addCarRepair(id, userDetails))
+    }
+
     @PutMapping("/{id}")
     fun editVisit(
         @PathVariable id: Long,
