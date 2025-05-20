@@ -18,8 +18,8 @@ data class Service(
     var price: Int = 0,
 
     @Type(PostgreSQLIntervalType::class)
-    @Column(name = "time_in_service", columnDefinition = "interval")
-    var time: Duration? = null
+    @Column(name = "time_in_service", columnDefinition = "interval", nullable = false)
+    var time: Duration
 ) {
     constructor(name: String, price: Int, time: Duration) : this(
         id = null,
