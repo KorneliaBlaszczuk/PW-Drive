@@ -62,4 +62,19 @@ class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body)
     }
+
+    @ExceptionHandler(NotAnOwnerException::class)
+    fun handleNotAnOwner(
+        ex: NotAnOwnerException,
+        request: WebRequest
+    ): ResponseEntity<Map<String, Any>> {
+        val body = mapOf(
+            "status" to HttpStatus.UNAUTHORIZED.value(),
+            "error" to "Unauthorized",
+            "message" to (ex.message ?: "No message"),
+            "path" to request.getDescription(false).removePrefix("uri="),
+        )
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body)
+    }
 }

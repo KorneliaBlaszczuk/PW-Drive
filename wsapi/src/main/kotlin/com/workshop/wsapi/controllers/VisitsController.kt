@@ -1,6 +1,7 @@
 package com.workshop.wsapi.controllers
 
 import com.workshop.wsapi.models.AvailableSlotDTO
+import com.workshop.wsapi.models.Visit
 import com.workshop.wsapi.models.VisitDto
 import com.workshop.wsapi.services.VisitService
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,15 +24,15 @@ class VisitsController {
 
 
     @GetMapping("/{id}")
-    fun getVisitByID(@PathVariable id: Int): String {
-        return "Getting visit by id: $id"
+    fun getVisitById(@PathVariable id: Long): ResponseEntity<Visit> {
+        return ResponseEntity.ok(visitService.getVisitById(id))
     }
 
     @GetMapping("/available")
     fun getAvailableVisits(
         @RequestParam("startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) startDate: LocalDateTime,
         @RequestParam("endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) endDate: LocalDateTime,
-        @RequestParam("serviceId") serviceId: Long,
+        @RequestParam("serviceId", required = false) serviceId: Long?,
     ): ResponseEntity<List<AvailableSlotDTO>> {
         val availableSlots = visitService.findAvailableSlotsForService(startDate, endDate, serviceId)
         return ResponseEntity.ok(availableSlots)
