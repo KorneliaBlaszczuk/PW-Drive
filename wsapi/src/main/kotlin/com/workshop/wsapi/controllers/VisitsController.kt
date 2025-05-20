@@ -3,6 +3,7 @@ package com.workshop.wsapi.controllers
 import com.workshop.wsapi.models.AvailableSlotDTO
 import com.workshop.wsapi.models.Visit
 import com.workshop.wsapi.models.VisitDto
+import com.workshop.wsapi.services.RepairService
 import com.workshop.wsapi.services.VisitService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.format.annotation.DateTimeFormat
@@ -18,6 +19,9 @@ import java.time.LocalDateTime
 @RequestMapping("/api/visits")
 class VisitsController {
 
+
+    @Autowired
+    private lateinit var repairService: RepairService
 
     @Autowired
     lateinit var visitService: VisitService
@@ -37,6 +41,17 @@ class VisitsController {
         val availableSlots = visitService.findAvailableSlotsForService(startDate, endDate, serviceId)
         return ResponseEntity.ok(availableSlots)
     }
+
+    @PostMapping("{id}/repairs")
+    fun addRepair(@PathVariable id: Long): ResponseEntity<Any> {
+        return ResponseEntity.ok().body(visitService.addRepair(id))
+    }
+
+    @GetMapping("{id}/repairs")
+    fun getRepairs(@PathVariable id: Long): ResponseEntity<Any> {
+        return ResponseEntity.ok().body(visitService.getRepairs(id))
+    }
+
 
     @PutMapping("/{id}")
     fun editVisit(

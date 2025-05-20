@@ -63,4 +63,16 @@ class UserController {
         return userService.getUserVisits(id)
     }
 
+    @PostMapping("/{id}/visits")
+    fun addVisit(@PathVariable id: Int): String {
+        return "Added visit for user $id"
+    }
+
+
+    @GetMapping("/{id}/repairs")
+    fun getRepairs(@PathVariable id: Int): String {
+        return "Getting repairs for user $id"
+    }
+
+
 }
