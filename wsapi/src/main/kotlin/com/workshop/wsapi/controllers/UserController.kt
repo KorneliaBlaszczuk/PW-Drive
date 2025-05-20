@@ -68,6 +68,7 @@ class UserController {
     fun addVisit(@PathVariable id: Int, @RequestBody @Validated visit: Visit): String {
         return "Added visit for user $id"
     }
+    
 
     @GetMapping("/{id}/repairs")
     fun getRepairs(@PathVariable id: Int): String {

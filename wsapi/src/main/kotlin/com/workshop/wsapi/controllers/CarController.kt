@@ -47,6 +47,10 @@ class CarController {
         return carService.addCarVisit(id, visit)
     }
 
+    @PostMapping("{id}/reparis")
+    fun addRepair(@PathVariable id: Long): ResponseEntity<Any> {
+        return ResponseEntity.ok().body(carService.addCarRepair(id))
+    }
 
     @PostMapping("{id}/history")
     fun addHistory(

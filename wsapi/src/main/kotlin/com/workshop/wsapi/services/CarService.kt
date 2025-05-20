@@ -28,6 +28,9 @@ class CarService {
     lateinit var historyRepository: HistoryRepository
 
     @Autowired
+    lateinit var repairRepository: RepairRepository
+
+    @Autowired
     lateinit var userService: UserService
 
     fun getCar(id: Long): Optional<Car> {
@@ -147,6 +150,19 @@ class CarService {
             return ResponseEntity.ok().body(savedVisit)
         }
         return ResponseEntity(HttpStatus.NOT_ACCEPTABLE)
+    }
+
+
+    fun addCarRepair(id: Long): Repair {
+        val oldVisit = visitRepository.findById(id)
+
+        val newRepair = Repair().apply {
+            description = ""
+            price = 0
+            visit = visit
+        }
+
+        return repairRepository.save(newRepair)
     }
 
     fun deleteCar(id: Long, userDetails: UserDetails) {
