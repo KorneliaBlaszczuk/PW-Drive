@@ -94,9 +94,9 @@ class VisitService {
         visitRepository.deleteAbandonedReservations(fifteenMinutesAgo)
     }
 
-    fun addCarRepair(id: Long, userDetails: UserDetails): Repair {
+    fun addRepair(id: Long): Repair {
         val oldVisit = visitRepository.findById(id).orElseThrow {
-            IllegalArgumentException("Car not found with id $id")
+            IllegalArgumentException("visit not found with id $id")
 
         }
 
@@ -107,6 +107,10 @@ class VisitService {
         }
 
         return repairRepository.save(newRepair)
+    }
+
+    fun getRepairs(id: Long): List<Repair> {
+        return repairRepository.getVisitRepairs(id)
     }
 
     private fun generateAvailableSlotsForService(

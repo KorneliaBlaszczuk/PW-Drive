@@ -89,6 +89,7 @@ class WebSecurityConfig {
                     .requestMatchers("/api/metadata/{id}").hasAuthority("WORKSHOP")
                     .requestMatchers("/api/admin/**").hasAuthority("WORKSHOP")
                     .requestMatchers("/api/visits/{id}/repairs").hasAuthority("WORKSHOP")
+                    .requestMatchers("api/repairs/{id}").hasAuthority("WORKSHOP")
                     .requestMatchers("/api/**").authenticated()
                     .anyRequest().permitAll() // allow unmatched endpoints for automatic 404 responses
             }
