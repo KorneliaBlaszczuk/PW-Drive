@@ -4,7 +4,6 @@ import com.workshop.wsapi.services.CarService
 import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
 import jakarta.persistence.Table
-import org.springframework.http.ResponseEntity
 import org.springframework.security.core.userdetails.UserDetails
 
 @Embeddable
@@ -17,7 +16,7 @@ class Mileage : History() {
     @Column(name = "new_value")
     val newValue: Int = 0
 
-    override fun accept(id: Long, carService: CarService, userDetails: UserDetails): ResponseEntity<Any> {
+    override fun accept(id: Long, carService: CarService, userDetails: UserDetails): HistoryOfChange {
         return carService.addHistory(id, this, userDetails)
     }
 }

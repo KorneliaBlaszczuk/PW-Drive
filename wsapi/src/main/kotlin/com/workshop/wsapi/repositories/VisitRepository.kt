@@ -14,19 +14,25 @@ import java.util.*
 @Repository
 interface VisitRepository : JpaRepository<Visit, Long> {
     @NativeQuery(
-        value = "" +
-                "SELECT * FROM VISITS WHERE ID_CAR = :id"
+        value = "SELECT * FROM VISITS WHERE ID_CAR = :id"
     )
     fun getCarVisits(@Param("id") id: Long): Optional<List<Visit>>
 
-    @NativeQuery(
-        value = "" +
-                "SELECT * FROM VISITS WHERE STATUS = 'upcoming' AND \"date\" - CURRENT_DATE <= :days and CURRENT_DATE  < \"date\" AND IS_RESERVED IS FALSE"
+    @Query(
+        value = "SELECT * FROM VISITS v WHERE STATUS = 'upcoming' " +
+                "AND v.is_reserved IS FALSE " +
+                "AND v.date - CURRENT_DATE <= :days " +
+                "AND CURRENT_DATE < v.date " +
+                "ORDER BY v.date DESC, v.time ASC",
+        nativeQuery = true
     )
     fun getUpcomingVisits(@Param("days") days: Int): Optional<List<Visit>>
 
 
-    @Query(value = "SELECT * FROM VISITS v WHERE v.date between :startDate and :endDate", nativeQuery = true)
+    @Query(
+        value = "SELECT * FROM VISITS v WHERE v.date between :startDate and :endDate",
+        nativeQuery = true
+    )
     fun findReservedVisitsBetweenDates(
         @Param("startDate") startDate: LocalDateTime,
         @Param("endDate") endDate: LocalDateTime
@@ -34,7 +40,10 @@ interface VisitRepository : JpaRepository<Visit, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "delete from visits where is_reserved = true and created_at < :cutoffTime", nativeQuery = true)
+    @Query(
+        value = "delete from visits where is_reserved = true and created_at < :cutoffTime",
+        nativeQuery = true
+    )
     fun deleteAbandonedReservations(@Param("cutoffTime") cutoffTime: LocalDateTime)
 
 
