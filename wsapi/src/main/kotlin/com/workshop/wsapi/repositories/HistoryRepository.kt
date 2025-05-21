@@ -12,7 +12,7 @@ import java.util.*
 interface HistoryRepository : JpaRepository<HistoryOfChange, Long> {
     @NativeQuery(
         value = "" +
-                "SELECT * FROM history_of_changes where car_id_car = :id"
+                "SELECT * FROM history_of_changes where car_id_car = :id order by change_date desc"
     )
     fun getCarHistory(@Param("id") id: Long): Optional<List<HistoryOfChange>>
 }

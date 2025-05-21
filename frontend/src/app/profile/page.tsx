@@ -23,6 +23,7 @@ import {
 import styles from './page.module.scss';
 import Image from "next/image";
 import {useRouter} from "next/navigation";
+import { jsPDF } from "jspdf"
 
 type Visit = {
     createdAt: string
@@ -146,6 +147,36 @@ export default function Profile() {
         }
     }, []);
 
+    const generateVisitReport = (visit: Visit) => {
+        const doc = new jsPDF();
+
+        // Nagłówek
+        doc.setFontSize(24);
+        doc.text("Raport wizyty", 20, 20);
+        doc.text(`z ${visit.date} ${visit.time}`, 20, 30);
+
+        doc.setFontSize(18);
+        doc.text('Informacje o samochodzie: ', 12, 50);
+
+        doc.setFontSize(12);
+        doc.text(`nazwa: ${visit.car.name}`, 12, 60);
+        doc.text(`marka: ${visit.car.brand}`, 12, 70);
+        doc.text(`model: ${visit.car.model}`, 12, 80);
+        doc.text(`rocznik: ${visit.car.year}`, 12, 90);
+        doc.text(`przebieg: ${visit.car.mileage}`, 12, 100);
+        doc.text(`nastepny przeglad: ${visit.car.nextInspection}`, 12, 110);
+
+        doc.setFontSize(18);
+        doc.text(`Typ uslugi: ${visit.service.name}`, 12, 120);
+
+        doc.text(`Wycena: ${visit.service.name} - ${visit.service.price} PLN`, 12, 130);
+        if (visit.comment) {
+            doc.text(`Komentarz: ${visit.comment}`, 12, 150);
+        }
+
+        doc.save(`raport_wizyty_${visit.id}.pdf`);
+    }
+
     const handleStartTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setStartTime(e.target.value);
     };
@@ -189,9 +220,11 @@ export default function Profile() {
                             {upcomingVisits.slice(0, visibleUpcoming).map(visit => (
                                 <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "Brak danych"}
+                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "'Brak nazwy samochodu'"} ({visit.car?.brand || "'Brak marki samochodu'"} {visit.car?.year || "'Brak rocznika samochodu'"})
                                     </span>
-                                    <Button variant="link" className="text-primary">Pobierz raport →</Button>
+                                    <Button variant="link"
+                                            className="text-primary"
+                                            onClick={() => generateVisitReport(visit)}>Pobierz raport →</Button>
                                 </div>
                             ))}
 
@@ -217,9 +250,11 @@ export default function Profile() {
                             {currentVisits.slice(0, visibleCurrent).map(visit => (
                                 <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "Brak danych"}
+                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "'Brak nazwy samochodu'"} ({visit.car?.brand || "'Brak marki samochodu'"} {visit.car?.year || "'Brak rocznika samochodu'"})
                                     </span>
-                                    <Button variant="link" className="text-primary">Pobierz raport →</Button>
+                                    <Button variant="link"
+                                            className="text-primary"
+                                            onClick={() => generateVisitReport(visit)}>Pobierz raport →</Button>
                                 </div>
                             ))}
 
@@ -245,9 +280,11 @@ export default function Profile() {
                             {historyVisits.slice(0, visibleHistory).map(visit => (
                                 <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "Brak danych"}
+                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "'Brak nazwy samochodu'"} ({visit.car?.brand || "'Brak marki samochodu'"} {visit.car?.year || "'Brak rocznika samochodu'"})
                                     </span>
-                                    <Button variant="link" className="text-primary">Pobierz raport →</Button>
+                                    <Button variant="link"
+                                            className="text-primary"
+                                            onClick={() => generateVisitReport(visit)}>Pobierz raport →</Button>
                                 </div>
                             ))}
 
@@ -290,7 +327,7 @@ export default function Profile() {
                                     passHref
                                 >
                                     <Button>
-                                        {car.brand} {car.model} ({car.year})
+                                        {car.name} ({car.model} {car.year})
                                     </Button>
                                 </Link>
                             ))}
