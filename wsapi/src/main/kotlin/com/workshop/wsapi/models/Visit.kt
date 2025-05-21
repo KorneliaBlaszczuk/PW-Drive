@@ -3,8 +3,9 @@ package com.workshop.wsapi.models
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
-import java.sql.Date
-import java.sql.Time
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 
 
 @Entity
@@ -25,26 +26,34 @@ data class Visit(
     var car: Car? = null,
 
     @CreationTimestamp
-    var createdAt: Date = Date(0),
+    var createdAt: LocalDateTime,
+
     var isReserved: Boolean = false,
-    var time: Time? = null,
-    var date: Date = Date(0),
-    var status: String? = null,
+
+    @Column(nullable = false)
+    var time: LocalTime,
+
+    @Column(nullable = false)
+    var date: LocalDate,
+
+    @Column(nullable = false)
+    var status: String?,
+
     var comment: String? = null,
 ) {
     constructor(
-        service: Service,
+        service: Service?,
         car: Car,
         isReserved: Boolean,
-        time: Time?,
-        date: Date,
+        time: LocalTime,
+        date: LocalDate,
         status: String?,
         comment: String?
     ) : this(
         id = null,
         service = service,
         car = car,
-        createdAt = Date(System.currentTimeMillis()),
+        createdAt = LocalDateTime.now(),
         isReserved = isReserved,
         time = time,
         date = date,
@@ -57,15 +66,15 @@ data class Visit(
         service: Service?,
         car: Car,
         isReserved: Boolean,
-        time: Time,
-        date: Date,
-        status: String,
+        time: LocalTime,
+        date: LocalDate,
+        status: String?,
         comment: String?
     ) : this(
         id = id,
         service = service,
         car = car,
-        createdAt = Date(System.currentTimeMillis()),
+        createdAt = LocalDateTime.now(),
         isReserved = isReserved,
         time = time,
         date = date,
@@ -77,8 +86,25 @@ data class Visit(
 data class VisitDto(
     val serviceId: Long? = null,
     val isReserved: Boolean,
-    val time: Time? = null,
-    val date: Date,
+    val time: LocalTime? = null,
+    val date: LocalDate,
     val status: String? = null,
     val comment: String? = null
+)
+
+data class ServiceVisitDTO(
+    val serviceId: Long,
+    val time: LocalTime,
+    val date: LocalDate,
+)
+
+data class NoServiceVisitDTO(
+    val time: LocalTime,
+    val date: LocalDate,
+)
+
+data class AvailableSlotDTO(
+    val date: LocalDate,
+    val startTime: LocalTime,
+    val endTime: LocalTime,
 )
