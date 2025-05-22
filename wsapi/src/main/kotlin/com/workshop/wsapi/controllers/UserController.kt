@@ -1,7 +1,6 @@
 package com.workshop.wsapi.controllers
 
 import com.workshop.wsapi.models.CarDto
-import com.workshop.wsapi.models.Visit
 import com.workshop.wsapi.security.isAdmin
 import com.workshop.wsapi.services.UserService
 import org.springframework.beans.factory.annotation.Autowired
@@ -65,9 +64,10 @@ class UserController {
     }
 
     @PostMapping("/{id}/visits")
-    fun addVisit(@PathVariable id: Int, @RequestBody @Validated visit: Visit): String {
+    fun addVisit(@PathVariable id: Int): String {
         return "Added visit for user $id"
     }
+
 
     @GetMapping("/{id}/repairs")
     fun getRepairs(@PathVariable id: Int): String {

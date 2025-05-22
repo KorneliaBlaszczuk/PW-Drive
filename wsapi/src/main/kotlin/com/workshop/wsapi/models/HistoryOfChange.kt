@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.workshop.wsapi.services.CarService
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
-import org.springframework.http.ResponseEntity
 import org.springframework.security.core.userdetails.UserDetails
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -53,7 +52,7 @@ data class HistoryOfChange(
     JsonSubTypes.Type(value = Mileage::class, name = "mileage")
 )
 abstract class History {
-    abstract fun accept(id: Long, carService: CarService, userDetails: UserDetails): ResponseEntity<Any>;
+    abstract fun accept(id: Long, carService: CarService, userDetails: UserDetails): HistoryOfChange
 }
 
 
