@@ -113,15 +113,16 @@ export default function Book() {
 
   useEffect(() => {
     async function getSlots() {
-      if (repair || slots.length != 0)
+      if (repair || services.length != 0)
         try {
           const date = new Date();
           const endDate = addDays(date, 7);
           const startDateISO = encodeURIComponent(date.toISOString());
           const endDateISO = encodeURIComponent(endDate.toISOString());
           let url = `http://localhost:8080/api/visits/available?startDate=${startDateISO}&endDate=${endDateISO}`;
-          if (!repair) {
+          if (!repair && selectedService?.id !== undefined) {
             url += `&serviceId=${selectedService?.id}`;
+            console.log(selectedService);
           }
           const response = await fetch(url, {
             method: "GET",
@@ -139,8 +140,8 @@ export default function Book() {
         }
     }
     getSlots();
-    console.log(slots);
-  }, [repair, selectedSlot]);
+    console.log(selectedService);
+  }, [repair, selectedService]);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
