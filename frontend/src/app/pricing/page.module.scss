@@ -6,14 +6,23 @@
 }
 
 .table {
-    margin: 1vh 10vw;
+    margin: 2vh auto;
+    width: 100%;
     max-width: 35vw;
-    max-height: 100vh;
     border: 1px solid rgba(0, 0, 0, 0.432);
+    border-collapse: collapse;
+}
+
+.leftContainer {
+    margin-left: 10vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .rightContainer {
-    margin-right: 12vw;
+    margin-right: 10vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,5 +54,5 @@
 
 .tableCell {
     padding: 2vh 1vw;
-    border-top: 1px solid rgba(0, 0, 0, 0.432);
+    border: 1px solid rgba(0, 0, 0, 0.432);
 }
