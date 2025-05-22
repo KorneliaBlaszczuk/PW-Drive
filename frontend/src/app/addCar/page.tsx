@@ -23,15 +23,55 @@ export default function AddAuto() {
     const [przebieg, setPrzebieg] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
 
-    const handleAddCar = () => {
+    const handleAddCar = async () => {
         if (nazwa && marka && model && rocznik && przebieg && date) {
-            setSuccessMessage("Auto dodane!");
-            // opcjonalnie możesz tutaj czyścić inputy: 
-            // setNazwa(""); setMarka(""); ...
+            try {
+                const token = sessionStorage.getItem("token");
+                const userId = sessionStorage.getItem("id");
+
+                if (!token || !userId) {
+                    setSuccessMessage("Brak autoryzacji.");
+                    return;
+                }
+
+                const response = await fetch(`http://localhost:8080/api/users/${userId}/cars`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({
+                        name: nazwa,
+                        brand: marka,
+                        nextInspection: date.toISOString().split('T')[0],
+                        model: model,
+                        year: parseInt(rocznik),
+                        mileage: parseInt(przebieg),
+                    }),
+                });
+
+                if (response.ok) {
+                    setSuccessMessage("Auto dodane!");
+                    setNazwa("");
+                    setMarka("");
+                    setModel("");
+                    setRocznik("");
+                    setPrzebieg("");
+                    setDate(undefined);
+                } else if (response.status === 403) {
+                    setSuccessMessage("Brak uprawnień do dodania samochodu.");
+                } else {
+                    const error = await response.text();
+                    setSuccessMessage(`Błąd: ${error}`);
+                }
+            } catch (error) {
+                setSuccessMessage(`Wystąpił błąd: ${error}`);
+            }
         } else {
             setSuccessMessage("Proszę wypełnić wszystkie pola.");
         }
     }
+
 
     return (
         <div className={styles.addCarContainer}>

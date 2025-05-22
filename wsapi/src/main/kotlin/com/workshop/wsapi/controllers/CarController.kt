@@ -19,8 +19,8 @@ class CarController {
 
 
     @GetMapping("/{id}")
-    fun getCarById(@PathVariable id: Long): Optional<Car> {
-        return carService.getCar(id)
+    fun getCarById(@PathVariable id: Long, @AuthenticationPrincipal userDetails: UserDetails): ResponseEntity<Car> {
+        return ResponseEntity.ok().body(carService.getCar(id))
     }
 
     @PutMapping("/{id}")
@@ -28,8 +28,13 @@ class CarController {
         @PathVariable id: Long,
         @RequestBody @Validated car: CarDto,
         @AuthenticationPrincipal userDetails: UserDetails
-    ): ResponseEntity<Car> {
-        return carService.editCar(id, car, userDetails)
+    ): ResponseEntity<Any> {
+        val carAfterEdit = carService.editCar(id, car, userDetails)
+        return if (carAfterEdit != null) {
+            ResponseEntity.ok(carAfterEdit)
+        } else {
+            ResponseEntity.badRequest().body("The date is busy")
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -42,9 +47,32 @@ class CarController {
         return carService.getCarVisits(id)
     }
 
-    @PostMapping("{id}/visits")
-    fun addVisit(@PathVariable id: Long, @RequestBody @Validated visit: VisitDto): ResponseEntity<Visit> {
-        return carService.addCarVisit(id, visit)
+    @PostMapping("{id}/visit-service")
+    fun addVisitWithService(
+        @PathVariable id: Long,
+        @RequestBody @Validated visit: ServiceVisitDTO,
+        @AuthenticationPrincipal userDetails: UserDetails
+    ): ResponseEntity<Any> {
+        val createdVisit = carService.addCarVisitWithService(id, visit, userDetails)
+        return if (createdVisit != null) {
+            ResponseEntity.ok(createdVisit)
+        } else {
+            ResponseEntity.badRequest().body("The date is busy")
+        }
+    }
+
+    @PostMapping("{id}/visit-no-service")
+    fun addVisitNoService(
+        @PathVariable id: Long,
+        @RequestBody @Validated visit: NoServiceVisitDTO,
+        @AuthenticationPrincipal userDetails: UserDetails
+    ): ResponseEntity<Any> {
+        val createdVisit = carService.addCarVisitNoService(id, visit, userDetails)
+        return if (createdVisit != null) {
+            ResponseEntity.ok(createdVisit)
+        } else {
+            ResponseEntity.badRequest().body("The date is busy")
+        }
     }
 
 
@@ -53,9 +81,8 @@ class CarController {
         @PathVariable id: Long,
         @RequestBody @Validated history: History,
         @AuthenticationPrincipal userDetails: UserDetails
-    ): ResponseEntity<Any> {
-
-        return history.accept(id, carService, userDetails)
+    ): ResponseEntity<HistoryOfChange> {
+        return ResponseEntity.ok(history.accept(id, carService, userDetails))
     }
 
     @GetMapping("{id}/history")
@@ -63,7 +90,7 @@ class CarController {
         @PathVariable id: Long,
         @AuthenticationPrincipal userDetails: UserDetails
     ): ResponseEntity<Optional<List<HistoryOfChange>>> {
-        return carService.getHistory(id, userDetails)
+        return ResponseEntity.ok(carService.getHistory(id, userDetails))
     }
 
 

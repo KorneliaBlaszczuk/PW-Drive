@@ -23,6 +23,7 @@ import {
 import styles from './page.module.scss';
 import Image from "next/image";
 import {useRouter} from "next/navigation";
+import { jsPDF } from "jspdf"
 
 type Visit = {
     createdAt: string
@@ -74,6 +75,13 @@ export default function Profile() {
     const router = useRouter();
 
     useEffect(() => {
+        const role = sessionStorage.getItem('role');
+        if (role == "WORKSHOP") {
+            setAdmin(true);
+        }
+    }, []);
+
+    useEffect(() => {
         const storedUserId = sessionStorage.getItem('id');
         const storedUsername = sessionStorage.getItem('username');
         if (storedUserId) {
@@ -93,20 +101,38 @@ export default function Profile() {
         if (userId) {
             async function fetchVisits() {
                 try {
-                    const response = await fetch(`http://localhost:8080/api/users/${userId}/visits`, {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
-                        },
-                    });
+                    if (!isAdmin) {
+                        const response = await fetch(`http://localhost:8080/api/users/${userId}/visits`, {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+                            },
+                        });
 
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch visits');
+                        if (!response.ok) {
+                            throw new Error('Failed to fetch visits');
+                        }
+
+                        const data = await response.json();
+                        console.log(data)
+                        setVisits(data);
                     }
+                    else {
+                        const response = await fetch(`http://localhost:8080/api/admin/visits`, {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
+                            },
+                        });
 
-                    const data = await response.json();
-                    console.log(data)
-                    setVisits(data);
+                        if (!response.ok) {
+                            throw new Error('Failed to fetch all visits for admin');
+                        }
+
+                        const data = await response.json();
+                        console.log('Admin visits:', data);
+                        setVisits(data);
+                    }
                 } catch (error) {
                     console.error('Error fetching visits:', error);
                 }
@@ -133,18 +159,48 @@ export default function Profile() {
             }
 
             fetchVisits();
-            fetchCars();
+            if (!isAdmin) {
+                fetchCars();
+            }
+
         } else {
             console.log("Brak userId, zapytanie nie zostało wysłane");
         }
     }, [userId]);
 
-    useEffect(() => {
-        const role = sessionStorage.getItem('role');
-        if (role == "WORKSHOP") {
-            setAdmin(true);
+    const generateVisitReport = (visit: Visit) => {
+        const doc = new jsPDF();
+
+        // Nagłówek
+        doc.setFontSize(24);
+        doc.text("Raport wizyty", 20, 20);
+        doc.text(`z ${visit.date} ${visit.time}`, 20, 30);
+
+        doc.setFontSize(18);
+        doc.text('Informacje o samochodzie: ', 12, 50);
+
+        doc.setFontSize(12);
+        if (visit.car) {
+            doc.text(`nazwa: ${visit.car.name}`, 12, 60);
+            doc.text(`marka: ${visit.car.brand}`, 12, 70);
+            doc.text(`model: ${visit.car.model}`, 12, 80);
+            doc.text(`rocznik: ${visit.car.year}`, 12, 90);
+            doc.text(`przebieg: ${visit.car.mileage}`, 12, 100);
+            doc.text(`nastepny przeglad: ${visit.car.nextInspection}`, 12, 110);
+
+            doc.setFontSize(18);
+            doc.text(`Typ uslugi: ${visit.service.name}`, 12, 120);
+
+            doc.text(`Wycena: ${visit.service.name} - ${visit.service.price} PLN`, 12, 130);
+            if (visit.comment) {
+                doc.text(`Komentarz: ${visit.comment}`, 12, 150);
+            }
+        } else {
+            doc.text('Brak danych o samochodzie', 12, 60);
         }
-    }, []);
+
+        doc.save(`raport_wizyty_${visit.id}.pdf`);
+    }
 
     const handleStartTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setStartTime(e.target.value);
@@ -186,12 +242,19 @@ export default function Profile() {
                     <AccordionItem value="upcoming">
                         <AccordionTrigger className="text-xl mt-4">Nadchodzące</AccordionTrigger>
                         <AccordionContent>
+                            {upcomingVisits.length === 0 ? (
+                            <p className="text-center text-gray-500 italic">Brak nadchodzących wizyt.</p>
+                            ) : (
+                            <>
                             {upcomingVisits.slice(0, visibleUpcoming).map(visit => (
                                 <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "Brak danych"}
+                                      {(visit.service?.name || "'Brak usługi'")} {visit.date} {visit.time} — {(visit.car?.name || "'Brak nazwy samochodu'")} ({visit.car?.brand || "'Brak marki samochodu'"} {visit.car?.year || "'Brak rocznika samochodu'"})
                                     </span>
-                                    <Button variant="link" className="text-primary">Pobierz raport →</Button>
+
+                                    <Button variant="link"
+                                            className="text-primary"
+                                            onClick={() => generateVisitReport(visit)}>Pobierz raport →</Button>
                                 </div>
                             ))}
 
@@ -207,6 +270,8 @@ export default function Profile() {
                                     </Button>
                                 )}
                             </div>
+                            </>
+                            )}
                         </AccordionContent>
                     </AccordionItem>
 
@@ -214,18 +279,26 @@ export default function Profile() {
                     <AccordionItem value="current">
                         <AccordionTrigger className="text-xl mt-4">Aktualne</AccordionTrigger>
                         <AccordionContent>
+                            {currentVisits.length === 0 ? (
+                                <p className="text-center text-gray-500 italic">Brak aktualnych wizyt.</p>
+                            ) : (
+                                <>
                             {currentVisits.slice(0, visibleCurrent).map(visit => (
-                                <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
+                                <div key={visit.id}
+                                     className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "Brak danych"}
+                                      {(visit.service?.name || "'Brak usługi'")} {visit.date} {visit.time} — {(visit.car?.name || "'Brak nazwy samochodu'")} ({visit.car?.brand || "'Brak marki samochodu'"} {visit.car?.year || "'Brak rocznika samochodu'"})
                                     </span>
-                                    <Button variant="link" className="text-primary">Pobierz raport →</Button>
+
+                                    <Button variant="link"
+                                            className="text-primary"
+                                            onClick={() => generateVisitReport(visit)}>Pobierz raport →</Button>
                                 </div>
                             ))}
 
-                            <div className="flex justify-center mt-2 space-x-2">
-                                {visibleCurrent < currentVisits.length && (
-                                    <Button variant="ghost" onClick={handleShowMoreCurrent}>
+                                    <div className="flex justify-center mt-2 space-x-2">
+                                        {visibleCurrent < currentVisits.length && (
+                                            <Button variant="ghost" onClick={handleShowMoreCurrent}>
                                         Pokaż więcej
                                     </Button>
                                 )}
@@ -235,6 +308,7 @@ export default function Profile() {
                                     </Button>
                                 )}
                             </div>
+                                </> )}
                         </AccordionContent>
                     </AccordionItem>
 
@@ -242,12 +316,19 @@ export default function Profile() {
                     <AccordionItem value="history">
                         <AccordionTrigger className="text-xl mt-4">Historia</AccordionTrigger>
                         <AccordionContent>
+                            {historyVisits.length === 0 ? (
+                                <p className="text-center text-gray-500 italic">Brak zakończonych wizyt.</p>
+                            ) : (
+                                <>
                             {historyVisits.slice(0, visibleHistory).map(visit => (
                                 <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
                                     <span>
-                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "Brak danych"}
+                                      {(visit.service?.name || "'Brak usługi'")} {visit.date} {visit.time} — {(visit.car?.name || "'Brak nazwy samochodu'")} ({visit.car?.brand || "'Brak marki samochodu'"} {visit.car?.year || "'Brak rocznika samochodu'"})
                                     </span>
-                                    <Button variant="link" className="text-primary">Pobierz raport →</Button>
+
+                                    <Button variant="link"
+                                            className="text-primary"
+                                            onClick={() => generateVisitReport(visit)}>Pobierz raport →</Button>
                                 </div>
                             ))}
 
@@ -263,6 +344,7 @@ export default function Profile() {
                                     </Button>
                                 )}
                             </div>
+                                </> )}
                         </AccordionContent>
                     </AccordionItem>
 
@@ -290,7 +372,7 @@ export default function Profile() {
                                     passHref
                                 >
                                     <Button>
-                                        {car.brand} {car.model} ({car.year})
+                                        {car.name} ({car.model} {car.year})
                                     </Button>
                                 </Link>
                             ))}

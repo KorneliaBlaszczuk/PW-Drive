@@ -1,18 +1,18 @@
 package com.workshop.wsapi.repositories
 
-import com.workshop.wsapi.models.HistoryOfChange
+import com.workshop.wsapi.models.Repair
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.NativeQuery
 import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
-import java.util.*
 
 
 @Repository
-interface HistoryRepository : JpaRepository<HistoryOfChange, Long> {
+interface RepairRepository : JpaRepository<Repair, Long> {
     @NativeQuery(
         value = "" +
-                "SELECT * FROM history_of_changes where car_id_car = :id order by change_date desc"
+                "SELECT * FROM REPAIR WHERE " +
+                "VISIT_ID_VISIT = :id"
     )
-    fun getCarHistory(@Param("id") id: Long): Optional<List<HistoryOfChange>>
+    fun getVisitRepairs(@Param("id") id: Long): List<Repair>
 }

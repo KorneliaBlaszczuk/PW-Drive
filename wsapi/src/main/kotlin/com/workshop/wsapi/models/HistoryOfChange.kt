@@ -6,9 +6,10 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.workshop.wsapi.services.CarService
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
-import org.springframework.http.ResponseEntity
 import org.springframework.security.core.userdetails.UserDetails
-import java.sql.Date
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 
 @Entity
 @Table(name = "History_of_changes")
@@ -24,7 +25,7 @@ data class HistoryOfChange(
 
     @Column(name = "change_date")
     @CreationTimestamp
-    var changeDate: Date = Date(0),
+    var changeDate: LocalDateTime = LocalDateTime.of(LocalDate.of(0, 1, 1), LocalTime.of(0, 0, 0, 0)),
 
     @Embedded
     @AttributeOverrides(
@@ -51,7 +52,7 @@ data class HistoryOfChange(
     JsonSubTypes.Type(value = Mileage::class, name = "mileage")
 )
 abstract class History {
-    abstract fun accept(id: Long, carService: CarService, userDetails: UserDetails): ResponseEntity<Any>;
+    abstract fun accept(id: Long, carService: CarService, userDetails: UserDetails): HistoryOfChange
 }
 
 
