@@ -1,276 +1,335 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from "react";
-import {useRouter, useSearchParams} from 'next/navigation';
 import {
-    Accordion,
-    AccordionItem,
-    AccordionTrigger,
-    AccordionContent,
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import styles from './page.module.scss';
-import {jsPDF} from "jspdf";
+import { jsPDF } from "jspdf";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import styles from "./page.module.scss";
 
 type Visit = {
-    createdAt: string
-    date: string
-    isReserved: boolean
-    time: string
-    car: Car
-    service: Service
-    id: number
-    comment: string
-    status: string
-}
+  createdAt: string;
+  date: string;
+  isReserved: boolean;
+  time: string;
+  car: Car;
+  service: Service | undefined;
+  id: number;
+  comment: string;
+  status: string;
+};
 
 type Service = {
-    id: number
-    name: string
-    price: number
-    time: string
-}
+  id: number;
+  name: string;
+  price: number;
+  time: string;
+};
 
 type Car = {
-    mileage: number
-    nextInspection: string
-    year: number
-    id: number
-    id_user: number
-    brand: string
-    model: string
-    name: string
-}
+  mileage: number;
+  nextInspection: string;
+  year: number;
+  id: number;
+  id_user: number;
+  brand: string;
+  model: string;
+  name: string;
+};
 
 export default function CarInfo() {
-    const searchParams = useSearchParams();
-    const carId = searchParams.get('carId');
-    const router = useRouter();
+  const searchParams = useSearchParams();
+  const carId = searchParams.get("carId");
+  const router = useRouter();
 
-    const [car, setCar] = useState<Car | null>(null);
-    const [visits, setVisits] = useState<Visit[]>([]);
+  const [car, setCar] = useState<Car | null>(null);
+  const [visits, setVisits] = useState<Visit[]>([]);
 
-    const [visibleUpcoming, setVisibleUpcoming] = useState(5);
-    const [visibleCurrent, setVisibleCurrent] = useState(5);
-    const [visibleHistory, setVisibleHistory] = useState(5);
+  const [visibleUpcoming, setVisibleUpcoming] = useState(5);
+  const [visibleCurrent, setVisibleCurrent] = useState(5);
+  const [visibleHistory, setVisibleHistory] = useState(5);
 
-    useEffect(() => {
-        const token = sessionStorage.getItem('token');
-        if (!token) {
-            router.push('/logIn');
-        }
-    }, []);
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    if (!token) {
+      router.push("/logIn");
+    }
+  }, []);
 
-    useEffect(() => {
-        async function fetchCarById(carId: string) {
-            try {
-                const response = await fetch(`http://localhost:8080/api/cars/${carId}`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
-                    },
-                });
+  useEffect(() => {
+    async function fetchCarById(carId: string) {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/cars/${carId}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
+          }
+        );
 
-                if (!response.ok) throw new Error('Failed to fetch car');
+        if (!response.ok) throw new Error("Failed to fetch car");
 
-                const data: Car = await response.json();
-                setCar(data);
-            } catch (error) {
-                console.error('Error fetching car:', error);
-            }
-        }
-
-        async function fetchCarVisits(carId: string) {
-            try {
-                const response = await fetch(`http://localhost:8080/api/cars/${carId}/visits`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${sessionStorage.getItem('token')}`,
-                    },
-                });
-
-                if (!response.ok) throw new Error('Failed to fetch visits');
-
-                const data: Visit[] = await response.json();
-                setVisits(data);
-            } catch (error) {
-                console.error('Error fetching visits:', error);
-            }
-        }
-
-        if (carId) {
-            fetchCarById(carId);
-            fetchCarVisits(carId);
-        }
-    }, [carId]);
-
-    const generateVisitReport = (visit: Visit) => {
-        const doc = new jsPDF();
-
-        // Nagłówek
-        doc.setFontSize(24);
-        doc.text("Raport wizyty", 20, 20);
-        doc.text(`z ${visit.date} ${visit.time}`, 20, 30);
-
-        doc.setFontSize(18);
-        doc.text('Informacje o samochodzie: ', 12, 50);
-
-        doc.setFontSize(12);
-        doc.text(`nazwa: ${visit.car.name}`, 12, 60);
-        doc.text(`marka: ${visit.car.brand}`, 12, 70);
-        doc.text(`model: ${visit.car.model}`, 12, 80);
-        doc.text(`rocznik: ${visit.car.year}`, 12, 90);
-        doc.text(`przebieg: ${visit.car.mileage}`, 12, 100);
-        doc.text(`nastepny przeglad: ${visit.car.nextInspection}`, 12, 110);
-
-        doc.setFontSize(18);
-        doc.text(`Typ uslugi: ${visit.service.name}`, 12, 120);
-
-        doc.text(`Wycena: ${visit.service.name} - ${visit.service.price} PLN`, 12, 130);
-        if (visit.comment) {
-            doc.text(`Komentarz: ${visit.comment}`, 12, 150);
-        }
-
-        doc.save(`raport_wizyty_${visit.id}.pdf`);
+        const data: Car = await response.json();
+        setCar(data);
+      } catch (error) {
+        console.error("Error fetching car:", error);
+      }
     }
 
-    const upcomingVisits = visits.filter(v => v.status === "upcoming");
-    const currentVisits = visits.filter(v => v.status === "current");
-    const historyVisits = visits.filter(v => v.status === "history");
+    async function fetchCarVisits(carId: string) {
+      try {
+        const response = await fetch(
+          `http://localhost:8080/api/cars/${carId}/visits`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
+          }
+        );
 
-    const handleShowMoreUpcoming = () => setVisibleUpcoming(prev => prev + 5);
-    const handleShowLessUpcoming = () => setVisibleUpcoming(5);
+        if (!response.ok) throw new Error("Failed to fetch visits");
 
-    const handleShowMoreCurrent = () => setVisibleCurrent(prev => prev + 5);
-    const handleShowLessCurrent = () => setVisibleCurrent(5);
+        const data: Visit[] = await response.json();
+        setVisits(data);
+      } catch (error) {
+        console.error("Error fetching visits:", error);
+      }
+    }
 
-    const handleShowMoreHistory = () => setVisibleHistory(prev => prev + 5);
-    const handleShowLessHistory = () => setVisibleHistory(5);
+    if (carId) {
+      fetchCarById(carId);
+      fetchCarVisits(carId);
+    }
+  }, [carId]);
 
-    return (
-        <div className={styles.carInfo}>
-        <div className={styles.leftSection}>
-            <h1 className={styles.infoHeader}>Informacje o samochodzie</h1>
+  const generateVisitReport = (visit: Visit) => {
+    const doc = new jsPDF();
 
-            {car ? (
-                <div className={styles.carDetails}>
-                    <p><strong>Nazwa:</strong> {car.name}</p>
-                    <p><strong>Marka:</strong> {car.brand}</p>
-                    <p><strong>Model:</strong> {car.model}</p>
-                    <p><strong>Rocznik:</strong> {car.year}</p>
-                    <p><strong>Przebieg:</strong> {car.mileage} km</p>
-                    <p>
-                        <strong>Następny przegląd:</strong>{' '}
-                        {car.nextInspection || 'Brak informacji'}
-                    </p>
-                </div>
-            ) : (
-                <p>Ładowanie danych samochodu...</p>
-            )}
-        </div>
+    // Nagłówek
+    doc.setFontSize(24);
+    doc.text("Raport wizyty", 20, 20);
+    doc.text(`z ${visit.date} ${visit.time}`, 20, 30);
 
-            <div className={styles.rightSection}>
-                <h2 className={styles.name}>Wizyty</h2>
-                <div className={styles.visitsAccordion}>
-                {visits.length > 0 ? (
-                    <Accordion type="multiple" className="w-full">
+    doc.setFontSize(18);
+    doc.text("Informacje o samochodzie: ", 12, 50);
 
-                        {/* Nadchodzące */}
-                        <AccordionItem value="upcoming">
-                            <AccordionTrigger className="text-xl mt-4">Nadchodzące</AccordionTrigger>
-                            <AccordionContent>
-                                {upcomingVisits.slice(0, visibleUpcoming).map(visit => (
-                                    <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
-                                    <span>
-                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "'Brak nazwy samochodu'"} ({visit.car?.brand || "'Brak marki samochodu'"} {visit.car?.year || "'Brak rocznika samochodu'"})
-                                    </span>
-                                        <Button variant="link"
-                                                className="text-primary"
-                                                onClick={() => generateVisitReport(visit)}>Pobierz raport →</Button>
-                                    </div>
-                                ))}
+    doc.setFontSize(12);
+    doc.text(`nazwa: ${visit.car.name}`, 12, 60);
+    doc.text(`marka: ${visit.car.brand}`, 12, 70);
+    doc.text(`model: ${visit.car.model}`, 12, 80);
+    doc.text(`rocznik: ${visit.car.year}`, 12, 90);
+    doc.text(`przebieg: ${visit.car.mileage}`, 12, 100);
+    doc.text(`nastepny przeglad: ${visit.car.nextInspection}`, 12, 110);
 
-                                <div className="flex justify-center mt-2 space-x-2">
-                                    {visibleUpcoming < upcomingVisits.length && (
-                                        <Button variant="ghost" onClick={handleShowMoreUpcoming}>
-                                            Pokaż więcej
-                                        </Button>
-                                    )}
-                                    {visibleUpcoming > 5 && (
-                                        <Button variant="ghost" onClick={handleShowLessUpcoming}>
-                                            Pokaż mniej
-                                        </Button>
-                                    )}
-                                </div>
-                            </AccordionContent>
-                        </AccordionItem>
+    doc.setFontSize(18);
+    doc.text(`Typ uslugi: ${visit.service?.name || "Naprawa"}`, 12, 120);
 
-                        {/* Aktualne */}
-                        <AccordionItem value="current">
-                            <AccordionTrigger className="text-xl mt-4">Aktualne</AccordionTrigger>
-                            <AccordionContent>
-                                {currentVisits.slice(0, visibleCurrent).map(visit => (
-                                    <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
-                                    <span>
-                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "'Brak nazwy samochodu'"} ({visit.car?.brand || "'Brak marki samochodu'"} {visit.car?.year || "'Brak rocznika samochodu'"})
-                                    </span>
-                                        <Button variant="link"
-                                                className="text-primary"
-                                                onClick={() => generateVisitReport(visit)}>Pobierz raport →</Button>
-                                    </div>
-                                ))}
-
-                                <div className="flex justify-center mt-2 space-x-2">
-                                    {visibleCurrent < currentVisits.length && (
-                                        <Button variant="ghost" onClick={handleShowMoreCurrent}>
-                                            Pokaż więcej
-                                        </Button>
-                                    )}
-                                    {visibleCurrent > 5 && (
-                                        <Button variant="ghost" onClick={handleShowLessCurrent}>
-                                            Pokaż mniej
-                                        </Button>
-                                    )}
-                                </div>
-                            </AccordionContent>
-                        </AccordionItem>
-
-                        {/* Historia */}
-                        <AccordionItem value="history">
-                            <AccordionTrigger className="text-xl mt-4">Historia</AccordionTrigger>
-                            <AccordionContent>
-                                {historyVisits.slice(0, visibleHistory).map(visit => (
-                                    <div key={visit.id} className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2">
-                                    <span>
-                                        {visit.service.name} {visit.date} {visit.time} — {visit.car?.name || "'Brak nazwy samochodu'"} ({visit.car?.brand || "'Brak marki samochodu'"} {visit.car?.year || "'Brak rocznika samochodu'"})
-                                    </span>
-                                        <Button variant="link"
-                                                className="text-primary"
-                                                onClick={() => generateVisitReport(visit)}>Pobierz raport →</Button>
-                                    </div>
-                                ))}
-
-                                <div className="flex justify-center mt-2 space-x-2">
-                                    {visibleHistory < historyVisits.length && (
-                                        <Button variant="ghost" onClick={handleShowMoreHistory}>
-                                            Pokaż więcej
-                                        </Button>
-                                    )}
-                                    {visibleHistory > 5 && (
-                                        <Button variant="ghost" onClick={handleShowLessHistory}>
-                                            Pokaż mniej
-                                        </Button>
-                                    )}
-                                </div>
-                            </AccordionContent>
-                        </AccordionItem>
-
-                    </Accordion>
-                ) : (
-                    <p>Brak zaplanowanych wizyt dla tego samochodu.</p>
-                )}
-                </div>
-            </div>
-        </div>
+    doc.text(
+      `Wycena: ${visit.service?.name || "Naprawa"} - ${
+        visit.service?.price || "-"
+      } PLN`,
+      12,
+      130
     );
+    if (visit.comment) {
+      doc.text(`Komentarz: ${visit.comment}`, 12, 150);
+    }
+
+    doc.save(`raport_wizyty_${visit.id}.pdf`);
+  };
+
+  const upcomingVisits = visits.filter((v) => v.status === "upcoming");
+  const currentVisits = visits.filter((v) => v.status === "current");
+  const historyVisits = visits.filter((v) => v.status === "history");
+
+  const handleShowMoreUpcoming = () => setVisibleUpcoming((prev) => prev + 5);
+  const handleShowLessUpcoming = () => setVisibleUpcoming(5);
+
+  const handleShowMoreCurrent = () => setVisibleCurrent((prev) => prev + 5);
+  const handleShowLessCurrent = () => setVisibleCurrent(5);
+
+  const handleShowMoreHistory = () => setVisibleHistory((prev) => prev + 5);
+  const handleShowLessHistory = () => setVisibleHistory(5);
+
+  return (
+    <div className={styles.carInfo}>
+      <div className={styles.leftSection}>
+        <h1 className={styles.infoHeader}>Informacje o samochodzie</h1>
+
+        {car ? (
+          <div className={styles.carDetails}>
+            <p>
+              <strong>Nazwa:</strong> {car.name}
+            </p>
+            <p>
+              <strong>Marka:</strong> {car.brand}
+            </p>
+            <p>
+              <strong>Model:</strong> {car.model}
+            </p>
+            <p>
+              <strong>Rocznik:</strong> {car.year}
+            </p>
+            <p>
+              <strong>Przebieg:</strong> {car.mileage} km
+            </p>
+            <p>
+              <strong>Następny przegląd:</strong>{" "}
+              {car.nextInspection || "Brak informacji"}
+            </p>
+          </div>
+        ) : (
+          <p>Ładowanie danych samochodu...</p>
+        )}
+      </div>
+
+      <div className={styles.rightSection}>
+        <h2 className={styles.name}>Wizyty</h2>
+        <div className={styles.visitsAccordion}>
+          {visits.length > 0 ? (
+            <Accordion type="multiple" className="w-full">
+              {/* Nadchodzące */}
+              <AccordionItem value="upcoming">
+                <AccordionTrigger className="text-xl mt-4">
+                  Nadchodzące
+                </AccordionTrigger>
+                <AccordionContent>
+                  {upcomingVisits.slice(0, visibleUpcoming).map((visit) => (
+                    <div
+                      key={visit.id}
+                      className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2"
+                    >
+                      <span>
+                        {visit.service?.name || "Naprawa"} {visit.date}{" "}
+                        {visit.time} —{" "}
+                        {visit.car?.name || "'Brak nazwy samochodu'"} (
+                        {visit.car?.brand || "'Brak marki samochodu'"}{" "}
+                        {visit.car?.year || "'Brak rocznika samochodu'"})
+                      </span>
+                      <Button
+                        variant="link"
+                        className="text-primary"
+                        onClick={() => generateVisitReport(visit)}
+                      >
+                        Pobierz raport →
+                      </Button>
+                    </div>
+                  ))}
+
+                  <div className="flex justify-center mt-2 space-x-2">
+                    {visibleUpcoming < upcomingVisits.length && (
+                      <Button variant="ghost" onClick={handleShowMoreUpcoming}>
+                        Pokaż więcej
+                      </Button>
+                    )}
+                    {visibleUpcoming > 5 && (
+                      <Button variant="ghost" onClick={handleShowLessUpcoming}>
+                        Pokaż mniej
+                      </Button>
+                    )}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              {/* Aktualne */}
+              <AccordionItem value="current">
+                <AccordionTrigger className="text-xl mt-4">
+                  Aktualne
+                </AccordionTrigger>
+                <AccordionContent>
+                  {currentVisits.slice(0, visibleCurrent).map((visit) => (
+                    <div
+                      key={visit.id}
+                      className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2"
+                    >
+                      <span>
+                        {visit.service?.name || "Naprawa"} {visit.date}{" "}
+                        {visit.time} —{" "}
+                        {visit.car?.name || "'Brak nazwy samochodu'"} (
+                        {visit.car?.brand || "'Brak marki samochodu'"}{" "}
+                        {visit.car?.year || "'Brak rocznika samochodu'"})
+                      </span>
+                      <Button
+                        variant="link"
+                        className="text-primary"
+                        onClick={() => generateVisitReport(visit)}
+                      >
+                        Pobierz raport →
+                      </Button>
+                    </div>
+                  ))}
+
+                  <div className="flex justify-center mt-2 space-x-2">
+                    {visibleCurrent < currentVisits.length && (
+                      <Button variant="ghost" onClick={handleShowMoreCurrent}>
+                        Pokaż więcej
+                      </Button>
+                    )}
+                    {visibleCurrent > 5 && (
+                      <Button variant="ghost" onClick={handleShowLessCurrent}>
+                        Pokaż mniej
+                      </Button>
+                    )}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              {/* Historia */}
+              <AccordionItem value="history">
+                <AccordionTrigger className="text-xl mt-4">
+                  Historia
+                </AccordionTrigger>
+                <AccordionContent>
+                  {historyVisits.slice(0, visibleHistory).map((visit) => (
+                    <div
+                      key={visit.id}
+                      className="flex justify-between items-center p-3 bg-blue-100 rounded-lg mb-2"
+                    >
+                      <span>
+                        {visit.service?.name || "Naprawa"} {visit.date}{" "}
+                        {visit.time} —{" "}
+                        {visit.car?.name || "'Brak nazwy samochodu'"} (
+                        {visit.car?.brand || "'Brak marki samochodu'"}{" "}
+                        {visit.car?.year || "'Brak rocznika samochodu'"})
+                      </span>
+                      <Button
+                        variant="link"
+                        className="text-primary"
+                        onClick={() => generateVisitReport(visit)}
+                      >
+                        Pobierz raport →
+                      </Button>
+                    </div>
+                  ))}
+
+                  <div className="flex justify-center mt-2 space-x-2">
+                    {visibleHistory < historyVisits.length && (
+                      <Button variant="ghost" onClick={handleShowMoreHistory}>
+                        Pokaż więcej
+                      </Button>
+                    )}
+                    {visibleHistory > 5 && (
+                      <Button variant="ghost" onClick={handleShowLessHistory}>
+                        Pokaż mniej
+                      </Button>
+                    )}
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          ) : (
+            <p>Brak zaplanowanych wizyt dla tego samochodu.</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
