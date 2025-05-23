@@ -190,7 +190,37 @@ export default function Book() {
       alert(
         `Zarezerwowano ${selectedService} na ${selectedSlot.date} ${selectedSlot.time}`
       );
-      // fetch POST
+      if (!repair)
+        fetch(
+          `http://localhost:8080/api/cars/${selectedCar?.id}/visit-service`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
+            body: JSON.stringify({
+              serviceId: 3,
+              time: `${selectedSlot.time}`,
+              date: `${selectedSlot.date}`,
+            }),
+          }
+        );
+      else
+        fetch(
+          `http://localhost:8080/api/cars/${selectedCar?.id}/visit-no-service`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+            },
+            body: JSON.stringify({
+              time: `${selectedSlot.time}`,
+              date: `${selectedSlot.date}`,
+            }),
+          }
+        );
     }
   };
 
