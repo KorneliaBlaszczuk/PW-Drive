@@ -132,7 +132,7 @@ class CarService {
             isReserved = false,
             time = visitDto.time,
             date = visitDto.date,
-            status = null,
+            status = "upcoming",
             comment = null
         )
         val savedVisit = visitRepository.save(newVisit)
@@ -154,7 +154,7 @@ class CarService {
             isReserved = false,
             time = visitDto.time,
             date = visitDto.date,
-            status = null,
+            status = "upcoming",
             comment = null
         )
         val savedVisit = visitRepository.save(newVisit)
