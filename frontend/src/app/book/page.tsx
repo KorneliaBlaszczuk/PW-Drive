@@ -120,8 +120,8 @@ export default function Book() {
           const startDateISO = encodeURIComponent(date.toISOString());
           const endDateISO = encodeURIComponent(endDate.toISOString());
           let url = `http://localhost:8080/api/visits/available?startDate=${startDateISO}&endDate=${endDateISO}`;
-          if (!repair && selectedService?.id !== undefined) {
-            url += `&serviceId=${selectedService?.id}`;
+          if (!repair && selectedService) {
+            url += `&serviceId=${selectedService}`;
             console.log(selectedService);
           }
           const response = await fetch(url, {
