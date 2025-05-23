@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { addDays } from "date-fns";
+import { addDays, format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./page.module.scss";
@@ -117,8 +117,12 @@ export default function Book() {
         try {
           const date = new Date();
           const endDate = addDays(date, 7);
-          const startDateISO = encodeURIComponent(date.toISOString());
-          const endDateISO = encodeURIComponent(endDate.toISOString());
+          const startDateISO = encodeURIComponent(
+            format(date, "yyyy-MM-dd'T'HH:mm:ss")
+          );
+          const endDateISO = encodeURIComponent(
+            format(endDate, "yyyy-MM-dd'T'HH:mm:ss")
+          );
           let url = `http://localhost:8080/api/visits/available?startDate=${startDateISO}&endDate=${endDateISO}`;
           if (!repair && selectedService) {
             url += `&serviceId=${selectedService}`;
