@@ -44,11 +44,11 @@ type WidgetSlot = {
   times: string[];
 };
 
-const exampleSlots = [
-  { date: "2025-05-19", times: ["09:00", "11:00", "13:00"] },
-  { date: "2025-05-21", times: ["10:00", "14:00"] },
-  { date: "2025-05-23", times: ["08:00", "12:00", "16:00"] },
-];
+// const exampleSlots = [
+//   { date: "2025-05-19", times: ["09:00", "11:00", "13:00"] },
+//   { date: "2025-05-21", times: ["10:00", "14:00"] },
+//   { date: "2025-05-23", times: ["08:00", "12:00", "16:00"] },
+// ];
 
 function transformSlots(slots: Slot[]): WidgetSlot[] {
   const grouped: Record<string, string[]> = {};
@@ -79,9 +79,9 @@ export default function Book() {
     date: string;
     time: string;
   } | null>(null);
-  const [reservationConfirmed, setReservationConfirmed] = useState<
-    string | null
-  >(null);
+  //   const [reservationConfirmed, setReservationConfirmed] = useState<
+  //     string | null
+  //   >(null);
 
   useEffect(() => {
     const storedUserId = sessionStorage.getItem("id");
@@ -124,9 +124,9 @@ export default function Book() {
             format(endDate, "yyyy-MM-dd'T'HH:mm:ss")
           );
           let url = `http://localhost:8080/api/visits/available?startDate=${startDateISO}&endDate=${endDateISO}`;
-          if (!repair && selectedService) {
-            url += `&serviceId=${selectedService}`;
-            console.log(selectedService);
+          if (!repair && selectedService?.id) {
+            url += `&serviceId=${selectedService?.id}`;
+            console.log(selectedService?.id);
           }
           const response = await fetch(url, {
             method: "GET",
@@ -145,7 +145,7 @@ export default function Book() {
     }
     getSlots();
     console.log(selectedService);
-  }, [repair, selectedService]);
+  }, [repair, selectedService, services.length]);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -250,7 +250,7 @@ export default function Book() {
         </SelectTrigger>
         <SelectContent>
           {services.map((service) => (
-            <SelectItem key={service.id} value={service.id.toString()}>
+            <SelectItem key={service.id} value={JSON.stringify(service)}>
               {service.name}
             </SelectItem>
           ))}
@@ -280,7 +280,7 @@ export default function Book() {
       {selectedCar && selectedService && selectedSlot && (
         <div className={styles.Summary}>
           <p>
-            {selectedService} {selectedSlot.date} {selectedSlot.time}{" "}
+            {selectedService.name} {selectedSlot.date} {selectedSlot.time}{" "}
             {selectedCar.name}
           </p>
           <Button onClick={handleReservation} className={styles.BookButton}>
