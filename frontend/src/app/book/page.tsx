@@ -71,7 +71,7 @@ export default function Book() {
   const [cars, setCars] = useState<Car[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [selectedCarId, setSelectedCarId] = useState<string | null>(null);
-  const [selectedService, setSelectedService] = useState<Service>();
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [repair, setRepair] = useState<boolean | undefined>();
   const [services, setServices] = useState<Service[]>([]);
   const [slots, setSlots] = useState<Slot[]>([]);
@@ -145,7 +145,7 @@ export default function Book() {
     }
     getSlots();
     console.log(selectedService);
-  }, [repair, selectedService, services.length]);
+  }, [repair, selectedService]);
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -185,17 +185,18 @@ export default function Book() {
     }
   }, [userId]);
 
+  useEffect(() => {
+    if (repair) setSelectedService(null);
+  }, [repair]);
+
   const handleSelectSlot = (date: string, time: string) => {
     setSelectedSlot({ date, time });
   };
 
-  const handleReservation = () => {
-    if (selectedCarId && selectedService && selectedSlot) {
-      alert(
-        `Zarezerwowano ${selectedService} na ${selectedSlot.date} ${selectedSlot.time}`
-      );
-      if (!repair)
-        fetch(
+  const handleReservation = async () => {
+    if (selectedCarId && (selectedService || repair) && selectedSlot) {
+      if (!repair) {
+        const response = await fetch(
           `http://localhost:8080/api/cars/${selectedCar?.id}/visit-service`,
           {
             method: "POST",
@@ -210,8 +211,16 @@ export default function Book() {
             }),
           }
         );
-      else
-        fetch(
+
+        if (response.ok) {
+          alert(
+            `Zarezerwowano ${selectedService?.name} na ${selectedSlot.date} ${selectedSlot.time}`
+          );
+        } else {
+          alert(`Nie można zarezerować terminu`);
+        }
+      } else {
+        const response = await fetch(
           `http://localhost:8080/api/cars/${selectedCar?.id}/visit-no-service`,
           {
             method: "POST",
@@ -225,6 +234,14 @@ export default function Book() {
             }),
           }
         );
+        if (response.ok) {
+          alert(
+            `Zarezerwowano Naprawa na ${selectedSlot.date} ${selectedSlot.time}`
+          );
+        } else {
+          alert(`Nie można zarezerować terminu`);
+        }
+      }
     }
   };
 
@@ -244,7 +261,10 @@ export default function Book() {
           ))}
         </SelectContent>
       </Select>
-      <Select onValueChange={(value) => setSelectedService(JSON.parse(value))}>
+      <Select
+        onValueChange={(value) => setSelectedService(JSON.parse(value))}
+        disabled={repair}
+      >
         <SelectTrigger className={styles.Select}>
           <SelectValue placeholder="Wybierz usługę" />
         </SelectTrigger>
@@ -277,11 +297,11 @@ export default function Book() {
         onSelectSlot={handleSelectSlot}
       />
 
-      {selectedCar && selectedService && selectedSlot && (
+      {selectedCar && (selectedService || repair) && selectedSlot && (
         <div className={styles.Summary}>
           <p>
-            {selectedService.name} {selectedSlot.date} {selectedSlot.time}{" "}
-            {selectedCar.name}
+            {selectedService ? selectedService.name : "Naprawa"}{" "}
+            {selectedSlot.date} {selectedSlot.time} {selectedCar.name}
           </p>
           <Button onClick={handleReservation} className={styles.BookButton}>
             Zarezerwuj
