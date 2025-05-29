@@ -1,13 +1,12 @@
 package com.workshop.wsapi.services
 
-import com.workshop.wsapi.email.javaMailSender
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.stereotype.Service
 
 @Service
 class EmailService(
-    private val emailSender: JavaMailSender = javaMailSender()
+    private val emailSender: JavaMailSender
 ) {
     fun sendEmail(
         subject: String,

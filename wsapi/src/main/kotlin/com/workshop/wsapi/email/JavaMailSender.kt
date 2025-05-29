@@ -1,22 +1,54 @@
 package com.workshop.wsapi.email
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.JavaMailSenderImpl
 
+@Configuration
+class MailConfig {
 
-@Bean
-fun javaMailSender(): JavaMailSender {
-    val mail: JavaMailSenderImpl = JavaMailSenderImpl()
-    mail.setHost("\${workshop.app.mail.host}")
-    mail.setPort("\${workshop.app.mail.port}".toInt())
-    mail.setUsername("\${workshop.app.mail.username}")
-    mail.setPassword("\${workshop.app.mail.password}")
-    val props = mail.getJavaMailProperties();
-    props.put("mail.transport.protocol", "\${workshop.app.mail.protocol}");
-    props.put("mail.smtp.auth", "\${workshop.app.mail.auth}");
-    props.put("mail.smtp.sta'rttls.enable", "\${workshop.app.mail.starttls}");
-    props.put("mail.debug", "\${workshop.app.mail.debug}");
-    return mail
+    @Value("\${workshop.app.mail.host}")
+    private lateinit var host: String
+
+    @Value("\${workshop.app.mail.port}")
+    private var port: Int = 0
+
+    @Value("\${workshop.app.mail.username}")
+    private lateinit var username: String
+
+    @Value("\${workshop.app.mail.password}")
+    private lateinit var password: String
+
+    @Value("\${workshop.app.mail.protocol}")
+    private lateinit var protocol: String
+
+    @Value("\${workshop.app.mail.auth}")
+    private lateinit var auth: String
+
+    @Value("\${workshop.app.mail.starttls}")
+    private lateinit var starttls: String
+
+    @Value("\${workshop.app.mail.debug}")
+    private lateinit var debug: String
+
+    @Bean
+    fun javaMailSender(): JavaMailSender {
+        val mailSender = JavaMailSenderImpl()
+        mailSender.host = host
+        mailSender.port = port
+        mailSender.username = username
+        mailSender.password = password
+
+        val props = mailSender.javaMailProperties
+        props["mail.transport.protocol"] = protocol
+        props["mail.smtp.auth"] = auth
+        props["mail.smtp.starttls.enable"] = starttls
+        props["mail.debug"] = debug
+
+        return mailSender
+    }
 
 }
