@@ -45,7 +45,7 @@ export default function Home() {
             <li><img className={styles.Icons} src="https://img.icons8.com/badges/48/tire.png" alt="tire" />Wymiana opon</li>
           </ul>
         </div>
-        <img className={styles.HomeRight} src="/auto.png" />
+        <img className={styles.HomeRight} src="/auto.png" alt="car picture" />
       </main>
     </div>
   );
