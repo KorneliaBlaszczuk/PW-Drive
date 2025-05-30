@@ -23,7 +23,7 @@ interface VisitRepository : JpaRepository<Visit, Long> {
                 "AND v.is_reserved IS FALSE " +
                 "AND v.date - CURRENT_DATE <= :days " +
                 "AND CURRENT_DATE < v.date " +
-                "ORDER BY v.date DESC, v.time ASC",
+                "ORDER BY v.date ASC, v.time ASC",
         nativeQuery = true
     )
     fun getUpcomingVisits(@Param("days") days: Int): Optional<List<Visit>>

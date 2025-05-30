@@ -281,7 +281,7 @@ class VisitService {
 
 
     fun getVisits(): ResponseEntity<Any> {
-        val sort: Sort = Sort.by(Sort.Order.desc("date"), Sort.Order.asc("time"))
+        val sort: Sort = Sort.by(Sort.Order.asc("date"), Sort.Order.asc("time"))
         return ResponseEntity.ok().body(visitRepository.findAll(sort))
     }
 
