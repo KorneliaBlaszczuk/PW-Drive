@@ -1,15 +1,14 @@
 package com.workshop.wsapi.controllers
 
-import com.workshop.wsapi.models.ServiceDto
-import com.workshop.wsapi.security.isAdmin
+import com.workshop.wsapi.models.AddServiceDto
+import com.workshop.wsapi.models.DeleteOutcome
 import com.workshop.wsapi.services.ServiceService
+import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import com.workshop.wsapi.models.Service as ServiceModel
 
 
 @RestController
@@ -20,8 +19,8 @@ class ServicesController {
     private lateinit var serviceService: ServiceService
 
     @GetMapping("")
-    fun getServices(): ResponseEntity<Any> {
-        return serviceService.getServices()
+    fun getServices(): ResponseEntity<List<ServiceModel>> {
+        return ResponseEntity.ok().body(serviceService.getServices())
     }
 
     @GetMapping("/{id}")
@@ -29,43 +28,21 @@ class ServicesController {
         return "Getting service for user $id"
     }
 
-    @PutMapping("/{id}")
-    fun editService(
-        @PathVariable id: Long,
-        @RequestBody @Validated service: ServiceDto,
-        @AuthenticationPrincipal userDetails: UserDetails
-    ): ResponseEntity<Any> {
-        if (!userDetails.isAdmin()) {
-            return ResponseEntity
-                .status(HttpStatus.FORBIDDEN)
-                .body("You can only access this resource from an Admin Account")
-        }
-
-
-        return serviceService.editService(id, service)
-    }
 
     @PostMapping("")
     fun addService(
-        @RequestBody @Validated service: ServiceDto,
-        @AuthenticationPrincipal userDetails: UserDetails
+        @RequestBody @Valid service: AddServiceDto
     ): ResponseEntity<Any> {
-        if (!userDetails.isAdmin()) {
-            return ResponseEntity
-                .status(HttpStatus.FORBIDDEN)
-                .body("You can only access this resource from an Admin Account")
-        }
-        return serviceService.addService(service)
+        val newService = serviceService.addService(service)
+        return ResponseEntity.status(HttpStatus.CREATED).body(newService)
     }
 
 
     @DeleteMapping("/{id}")
-    fun deleteService(@PathVariable id: Long, @AuthenticationPrincipal userDetails: UserDetails): ResponseEntity<Any> {
-        if (!userDetails.isAdmin()) {
-            return ResponseEntity
-                .status(HttpStatus.FORBIDDEN)
-                .body("You can only access this resource from an Admin Account")
+    fun deleteOrDeprecateService(@PathVariable id: Long): ResponseEntity<String> {
+        return when (serviceService.deleteOrDeprecate(id)) {
+            DeleteOutcome.DEPRECATED -> ResponseEntity.ok("Service marked as deprecated")
+            DeleteOutcome.DELETED -> ResponseEntity.ok("Service deleted")
         }
-        return serviceService.deleteService(id)
     }
 }

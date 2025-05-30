@@ -30,9 +30,6 @@ class CarService {
     lateinit var historyRepository: HistoryRepository
 
     @Autowired
-    lateinit var repairRepository: RepairRepository
-
-    @Autowired
     lateinit var userService: UserService
 
     fun isCarOwner(carId: Long, userDetails: UserDetails) {
@@ -117,7 +114,7 @@ class CarService {
         isCarOwner(id, userDetails)
         val car = getCar(id)
         val service = visitDto.serviceId.let {
-            serviceRepository.findById(it).orElseThrow {
+            serviceRepository.findByIdAndIsDeprecatedFalse(it).orElseThrow {
                 IllegalArgumentException("Service not found with id ${visitDto.serviceId}")
             }
         }

@@ -46,5 +46,5 @@ interface VisitRepository : JpaRepository<Visit, Long> {
     )
     fun deleteAbandonedReservations(@Param("cutoffTime") cutoffTime: LocalDateTime)
 
-
+    fun existsByServiceId(serviceId: Long): Boolean
 }
