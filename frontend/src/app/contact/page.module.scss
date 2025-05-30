@@ -1,62 +1,65 @@
 .container {
-    display: flex;
-    justify-content: space-between;
-    padding: 10vh 10vw;
+  display: flex;
+  justify-content: space-between;
+  padding: 10vh 10vw;
 }
 
 .contactInfo {
-    width: 40%;
-    display: flex;
-    flex-direction: column;
-    gap: 8vh;
-    justify-content: center;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 8vh;
+  justify-content: center;
 }
 
 .infoItem {
-    display: flex;
-    align-items: center;
-    gap: 5vw;
+  display: flex;
+  align-items: center;
+  gap: 5vw;
 
-    p {
-        font-weight: 800;
-        font-size: 1.4vw;
-    }
+  p {
+    font-weight: 800;
+    font-size: 1.4vw;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
 }
 
-
 .icon {
-    width: 8vh;
-    height: 8vh;
+  width: 8vh;
+  height: 8vh;
 }
 
 .map {
-    width: 40vw;
-    height: 60vh;
-    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+  width: 40vw;
+  height: 60vh;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
 }
 
 .buttonGroup {
-    display: flex;
-    gap: 1rem;
+  display: flex;
+  gap: 1rem;
 }
 
 .saveButton,
 .cancelButton {
-    background-color: #284CDC;
-    border: 1px solid #2E28DC;
-    opacity: 78%;
-    font-size: 1.5vw;
-    width: 8vw;
-    height: 3vw;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  background-color: #284cdc;
+  border: 1px solid #2e28dc;
+  opacity: 78%;
+  font-size: 1.5vw;
+  width: 8vw;
+  height: 3vw;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .saveButton:hover,
 .cancelButton:hover {
-    font-weight: bolder;
-    background-color: #2E28DC;
-    border-color: #284CDC;
-    transform: scale(1.05);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  font-weight: bolder;
+  background-color: #2e28dc;
+  border-color: #284cdc;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
