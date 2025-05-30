@@ -23,7 +23,7 @@ interface UserRepository : JpaRepository<User, Long> {
         value = "SELECT v.created_at, v.date, v.is_reserved, v.time, " +
                 "v.id_car, v.id_service, v.id_visit, v.comment, v.status " +
                 "FROM VISITS v join cars c on (v.id_car = c.id_car) WHERE c.ID_USER = :id " +
-                "order by v.date desc, v.time asc"
+                "order by v.date asc, v.time asc"
     )
     fun getUserVisits(@Param("id") id: Long): Optional<List<Visit>>
 
