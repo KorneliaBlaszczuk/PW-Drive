@@ -59,7 +59,7 @@ export default function Header() {
                             Umów wizytę
                         </Button>
                     </Link>) : (
-                    <Link href="" passHref>
+                    <Link href="/logIn" passHref>
                         <Button
                             size="sm"
                             className={styles.notUser}
