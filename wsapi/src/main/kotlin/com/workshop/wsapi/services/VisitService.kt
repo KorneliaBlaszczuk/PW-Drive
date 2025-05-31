@@ -2,6 +2,7 @@ package com.workshop.wsapi.services
 
 import com.workshop.wsapi.models.*
 import com.workshop.wsapi.repositories.*
+import com.workshop.wsapi.security.isAdmin
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -249,7 +250,7 @@ class VisitService {
                 IllegalArgumentException("Service not found")
             }
         }
-        if (usr == null || usr.id != userService.getUserByUsername(userDetails.username).id) {
+        if (usr == null || (usr.id != userService.getUserByUsername(userDetails.username).id && !userDetails.isAdmin())) {
             return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
                 .body("You can only access visits from your own account")
