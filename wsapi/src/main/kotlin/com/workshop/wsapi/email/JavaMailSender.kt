@@ -46,7 +46,9 @@ class MailConfig {
         props["mail.transport.protocol"] = protocol
         props["mail.smtp.auth"] = auth
         props["mail.smtp.starttls.enable"] = starttls
+        props["mail.smtp.starttls.require"] = true
         props["mail.debug"] = debug
+        props["mail.smtp.ssl.trust"] = host
 
         return mailSender
     }

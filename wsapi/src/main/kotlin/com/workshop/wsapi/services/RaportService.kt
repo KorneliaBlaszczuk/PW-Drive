@@ -3,7 +3,6 @@ package com.workshop.wsapi.services
 import com.workshop.wsapi.models.*
 import com.workshop.wsapi.repositories.HistoryRepository
 import com.workshop.wsapi.repositories.RepairRepository
-import com.workshop.wsapi.repositories.VisitRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
@@ -21,14 +20,12 @@ class RaportService {
     @Autowired
     private lateinit var carService: CarService
 
-    @Autowired
-    private lateinit var repairService: RepairService
 
     @Autowired
     private lateinit var repairRepository: RepairRepository
 
     @Autowired
-    private lateinit var visitRepository: VisitRepository
+    lateinit var emailService: EmailService
 
 
     fun getReport(visit: Visit): Raport {
@@ -38,14 +35,19 @@ class RaportService {
         return Raport(visit, repairs, mileage, inspectionDate)
     }
 
-    fun addHistory(history: HistoryDto, carId: Long) {
+    fun addHistory(historyDto: HistoryDto, carId: Long) {
         val car = carService.getCar(carId)
-
         val history =
-            HistoryOfChange(history.id, car, inspectionDate = history.inspectionDate, mileage = history.mileage)
+            HistoryOfChange(
+                historyDto.id,
+                car,
+                inspectionDate = historyDto.inspectionDate,
+                mileage = historyDto.mileage
+            )
         historyRepository.save(history)
     }
-    
+
+    @Transactional
     fun updateReport(id: Long, raport: RaportDto, userDetails: UserDetails): Raport {
         val visit = visitService.getVisitById(id)
         for (rep in raport.repairs) {
@@ -55,14 +57,14 @@ class RaportService {
         visitService.saveRaportVisit(id, raport.visit, userDetails)
         raport.inspectionDate?.let {
             addHistory(raport.inspectionDate, raport.visit.car.id)
-            raport.visit.car?.nextInspection = raport.inspectionDate.inspectionDate?.newValue
+            raport.visit.car.nextInspection = raport.inspectionDate.inspectionDate?.newValue
         }
         raport.mileage?.let {
             addHistory(raport.mileage, raport.visit.car.id)
-            raport.visit.car?.mileage = raport.mileage.mileage?.newValue!!
+            raport.visit.car.mileage = raport.mileage.mileage?.newValue!!
         }
 
-        raport.visit.car?.id?.let {
+        raport.visit.car.id.let {
             val carRaport = raport.visit.car
             val car = CarDto(
                 carRaport.name,
@@ -78,22 +80,10 @@ class RaportService {
                 userDetails
             )
         }
-        val car = carService.getCar(raport.visit.car.id)
-        val mileage =
-            HistoryOfChange(
-                raport.mileage?.id,
-                car,
-                inspectionDate = raport.inspectionDate?.inspectionDate,
-                mileage = null
-            )
-        val inspectionDate =
-            HistoryOfChange(
-                raport.mileage?.id,
-                car,
-                inspectionDate = null,
-                mileage = raport.mileage?.mileage
-            )
-        val newRaport = Raport(visitService.getVisitById(id), raport.repairs, mileage, inspectionDate)
-        return newRaport
+
+        emailService.sendRaportNotification("polizarcie@gmail.com") /* TODO: send it async with spring event */
+
+
+        return getReport(visit)
     }
 }
