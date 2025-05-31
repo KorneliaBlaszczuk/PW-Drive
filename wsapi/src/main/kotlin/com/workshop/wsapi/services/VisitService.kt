@@ -173,6 +173,11 @@ class VisitService {
         return validSlots
     }
 
+    fun saveRaportVisit(id: Long, visit: VisitRaportDto, userDetails: UserDetails) {
+        val visit = VisitDto(visit.service.id, visit.isReserved, visit.time, visit.date, visit.status, visit.comment)
+        editVisit(id, visit, userDetails)
+    }
+
     fun isVisitPossible(visit: NoServiceVisitDTO): Boolean {
         val reservedVisits =
             visitRepository.findReservedVisitsBetweenDates(visit.date.atStartOfDay(), visit.date.atTime(23, 59))

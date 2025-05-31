@@ -96,26 +96,17 @@ class CarService {
     ): Car? {
         isCarOwner(id, userDetails)
 
-        val oldCar = getCar(id)
-        val user = oldCar.user.id?.let {
-            userRepository.findById(it).orElseThrow {
-                IllegalArgumentException("User not found with id ${oldCar.user.id}")
-            }
-        }
-        if (user != null) {
-            val updatedCar = Car(
-                id = oldCar.id,
-                user = user,
-                name = editedCar.name,
-                brand = editedCar.brand,
-                nextInspection = editedCar.nextInspection,
-                model = editedCar.model,
-                year = editedCar.year,
-                mileage = editedCar.mileage
-            )
-            return carRepository.save(updatedCar)
-        }
-        return null
+        val existingCar = getCar(id)
+
+
+        existingCar.name = editedCar.name
+        existingCar.brand = editedCar.brand
+        existingCar.nextInspection = editedCar.nextInspection
+        existingCar.model = editedCar.model
+        existingCar.year = editedCar.year
+        existingCar.mileage = editedCar.mileage
+
+        return carRepository.save(existingCar)
     }
 
     fun getCarVisits(id: Long): Optional<List<Visit>> {

@@ -1,13 +1,13 @@
 package com.workshop.wsapi.services
 
-import com.workshop.wsapi.models.CarDto
-import com.workshop.wsapi.models.Raport
-import com.workshop.wsapi.models.Visit
+import com.workshop.wsapi.models.*
 import com.workshop.wsapi.repositories.HistoryRepository
+import com.workshop.wsapi.repositories.RepairRepository
 import com.workshop.wsapi.repositories.VisitRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class RaportService {
@@ -24,6 +24,8 @@ class RaportService {
     @Autowired
     private lateinit var repairService: RepairService
 
+    @Autowired
+    private lateinit var repairRepository: RepairRepository
 
     @Autowired
     private lateinit var visitRepository: VisitRepository
@@ -36,34 +38,62 @@ class RaportService {
         return Raport(visit, repairs, mileage, inspectionDate)
     }
 
-    fun updateReport(id: Long, raport: Raport, userDetails: UserDetails): Raport {
+    fun addHistory(history: HistoryDto, carId: Long) {
+        val car = carService.getCar(carId)
+
+        val history =
+            HistoryOfChange(history.id, car, inspectionDate = history.inspectionDate, mileage = history.mileage)
+        historyRepository.save(history)
+    }
+    
+    fun updateReport(id: Long, raport: RaportDto, userDetails: UserDetails): Raport {
+        val visit = visitService.getVisitById(id)
         for (rep in raport.repairs) {
-            visitService.addRepair(id, rep)
+            val tempRep = Repair(rep.id, rep.description, rep.price, visit)
+            repairRepository.save(tempRep)
         }
-        visitRepository.save(raport.visit)
+        visitService.saveRaportVisit(id, raport.visit, userDetails)
         raport.inspectionDate?.let {
-            historyRepository.save(it)
+            addHistory(raport.inspectionDate, raport.visit.car.id)
             raport.visit.car?.nextInspection = raport.inspectionDate.inspectionDate?.newValue
         }
         raport.mileage?.let {
-            historyRepository.save(it)
+            addHistory(raport.mileage, raport.visit.car.id)
             raport.visit.car?.mileage = raport.mileage.mileage?.newValue!!
         }
+
         raport.visit.car?.id?.let {
+            val carRaport = raport.visit.car
+            val car = CarDto(
+                carRaport.name,
+                carRaport.brand,
+                carRaport.nextInspection,
+                carRaport.model,
+                carRaport.year,
+                carRaport.mileage
+            )
             carService.editCar(
                 it,
-                CarDto(
-                    raport.visit.car!!.name,
-                    raport.visit.car!!.brand,
-                    raport.visit.car?.nextInspection,
-                    raport.visit.car!!.model,
-                    raport.visit.car!!.year,
-                    raport.visit.car!!.mileage
-                ),
+                car,
                 userDetails
             )
         }
-        val newRaport = getReport(raport.visit)
+        val car = carService.getCar(raport.visit.car.id)
+        val mileage =
+            HistoryOfChange(
+                raport.mileage?.id,
+                car,
+                inspectionDate = raport.inspectionDate?.inspectionDate,
+                mileage = null
+            )
+        val inspectionDate =
+            HistoryOfChange(
+                raport.mileage?.id,
+                car,
+                inspectionDate = null,
+                mileage = raport.mileage?.mileage
+            )
+        val newRaport = Raport(visitService.getVisitById(id), raport.repairs, mileage, inspectionDate)
         return newRaport
     }
 }

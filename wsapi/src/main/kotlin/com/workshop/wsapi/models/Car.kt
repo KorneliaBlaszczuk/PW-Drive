@@ -28,7 +28,7 @@ data class Car(
     var nextInspection: LocalDateTime? = null,
 
     @OneToMany(mappedBy = "car", orphanRemoval = true)
-    @JsonBackReference
+    @JsonBackReference("car-visit")
     var visits: MutableList<Visit> = mutableListOf()
 ) {
     constructor(

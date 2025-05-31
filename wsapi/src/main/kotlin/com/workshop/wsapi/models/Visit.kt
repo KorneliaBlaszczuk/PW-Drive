@@ -22,7 +22,7 @@ data class Visit(
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_car", nullable = false)
-    @JsonManagedReference
+    @JsonManagedReference("visit-car")
     var car: Car? = null,
 
     @CreationTimestamp
@@ -113,7 +113,7 @@ data class RaportVisitDTO(
     val status: String,
 )
 
-fun updateStatus(visit: Visit, raportVisit: RaportVisitDTO): Visit {
+fun raportToNormalVisit(visit: Visit, raportVisit: RaportVisitDTO): Visit {
     visit.status = raportVisit.status
     return visit
 }

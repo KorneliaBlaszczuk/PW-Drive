@@ -1,6 +1,6 @@
 package com.workshop.wsapi.controllers
 
-import com.workshop.wsapi.models.Raport
+import com.workshop.wsapi.models.RaportDto
 import com.workshop.wsapi.security.isAdmin
 import com.workshop.wsapi.services.RaportService
 import com.workshop.wsapi.services.UserService
@@ -46,7 +46,7 @@ class RaportController {
     @PutMapping("/{id}")
     fun updateRaport(
         @PathVariable id: Long,
-        @RequestBody @Validated raport: Raport,
+        @RequestBody @Validated raport: RaportDto,
         @AuthenticationPrincipal userDetails: UserDetails
     ): ResponseEntity<Any> {
         if (!userDetails.isAdmin()) {
