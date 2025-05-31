@@ -21,7 +21,7 @@ class ServiceService {
 
     fun addService(service: AddServiceDto): ServiceModel {
         val newService = ServiceModel(
-            service.name!!, service.price!!, service.time
+            service.name!!, service.price!!, service.time!!
         )
         return serviceRepository.save(newService)
     }
