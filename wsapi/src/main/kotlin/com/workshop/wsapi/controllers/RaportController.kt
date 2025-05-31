@@ -1,5 +1,6 @@
 package com.workshop.wsapi.controllers
 
+import com.workshop.wsapi.models.Raport
 import com.workshop.wsapi.security.isAdmin
 import com.workshop.wsapi.services.RaportService
 import com.workshop.wsapi.services.UserService
@@ -9,10 +10,8 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/raport")
@@ -37,9 +36,25 @@ class RaportController {
         if (userId != visit.car!!.user.id && !userDetails.isAdmin()) {
             return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
-                .body("You can only access cars from your own account")
+                .body("You can only access reports from your own account")
         }
 
         return ResponseEntity.ok().body(raportService.getReport(visit))
     }
+
+
+    @PutMapping("/{id}")
+    fun updateRaport(
+        @PathVariable id: Long,
+        @RequestBody @Validated raport: Raport,
+        @AuthenticationPrincipal userDetails: UserDetails
+    ): ResponseEntity<Any> {
+        if (!userDetails.isAdmin()) {
+            return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body("You can only access reports as an admin account")
+        }
+        return ResponseEntity.ok().body(raportService.updateReport(id, raport, userDetails))
+    }
+
 }

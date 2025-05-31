@@ -108,3 +108,12 @@ data class AvailableSlotDTO(
     val startTime: LocalTime,
     val endTime: LocalTime,
 )
+
+data class RaportVisitDTO(
+    val status: String,
+)
+
+fun updateStatus(visit: Visit, raportVisit: RaportVisitDTO): Visit {
+    visit.status = raportVisit.status
+    return visit
+}

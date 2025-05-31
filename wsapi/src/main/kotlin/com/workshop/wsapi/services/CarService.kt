@@ -3,6 +3,7 @@ package com.workshop.wsapi.services
 import com.workshop.wsapi.errors.NotAnOwnerException
 import com.workshop.wsapi.models.*
 import com.workshop.wsapi.repositories.*
+import com.workshop.wsapi.security.isAdmin
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
@@ -37,9 +38,18 @@ class CarService {
 
     fun isCarOwner(carId: Long, userDetails: UserDetails) {
         val car = getCar(carId)
-        if (car.user.id != userService.getUserByUsername(userDetails.username).id) {
+        if (car.user.id != userService.getUserByUsername(userDetails.username).id && !userDetails.isAdmin()
+        ) {
             throw NotAnOwnerException("You can only access your own cars")
         }
+    }
+
+    fun getCarDto(id: Long): CarDto {
+        val car = carRepository.findById(id).orElseThrow {
+            IllegalArgumentException("Car not found with id $id")
+        }
+        val carDto = CarDto(car.name, car.brand, car.nextInspection, car.model, car.year, car.mileage)
+        return carDto
     }
 
     fun getCar(id: Long): Car {

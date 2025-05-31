@@ -1,6 +1,7 @@
 package com.workshop.wsapi.controllers
 
 import com.workshop.wsapi.models.AvailableSlotDTO
+import com.workshop.wsapi.models.Repair
 import com.workshop.wsapi.models.Visit
 import com.workshop.wsapi.models.VisitDto
 import com.workshop.wsapi.services.RepairService
@@ -43,8 +44,8 @@ class VisitsController {
     }
 
     @PostMapping("{id}/repairs")
-    fun addRepair(@PathVariable id: Long): ResponseEntity<Any> {
-        return ResponseEntity.ok().body(visitService.addRepair(id))
+    fun addRepair(@PathVariable id: Long, @RequestBody @Validated repair: Repair): ResponseEntity<Any> {
+        return ResponseEntity.ok().body(visitService.addRepair(id, repair))
     }
 
     @GetMapping("{id}/repairs")

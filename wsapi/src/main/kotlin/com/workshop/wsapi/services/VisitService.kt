@@ -94,19 +94,12 @@ class VisitService {
         visitRepository.deleteAbandonedReservations(fifteenMinutesAgo)
     }
 
-    fun addRepair(id: Long): Repair {
+    fun addRepair(id: Long, repair: Repair): Repair {
         val oldVisit = visitRepository.findById(id).orElseThrow {
             IllegalArgumentException("visit not found with id $id")
 
         }
-
-        val newRepair = Repair().apply {
-            description = ""
-            price = 0
-            visit = oldVisit
-        }
-
-        return repairRepository.save(newRepair)
+        return repairRepository.save(repair)
     }
 
     fun getRepairs(id: Long): List<Repair> {
