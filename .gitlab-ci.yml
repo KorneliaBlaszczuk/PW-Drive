@@ -1,0 +1,11 @@
+stages:
+  - update
+
+update_visit_status:
+  stage: update
+  image: postgres:17
+  script:
+    - apt-get update && apt-get install -y postgresql-client
+    - PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -U "$DB_USER" -d "$DB_NAME" -p 5432 -c "CALL update_visit_status();"
+  only:
+    - schedules
