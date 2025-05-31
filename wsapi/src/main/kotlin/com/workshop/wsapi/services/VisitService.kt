@@ -2,6 +2,7 @@ package com.workshop.wsapi.services
 
 import com.workshop.wsapi.models.*
 import com.workshop.wsapi.repositories.*
+import com.workshop.wsapi.security.isAdmin
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -94,19 +95,12 @@ class VisitService {
         visitRepository.deleteAbandonedReservations(fifteenMinutesAgo)
     }
 
-    fun addRepair(id: Long): Repair {
+    fun addRepair(id: Long, repair: Repair): Repair {
         val oldVisit = visitRepository.findById(id).orElseThrow {
             IllegalArgumentException("visit not found with id $id")
 
         }
-
-        val newRepair = Repair().apply {
-            description = ""
-            price = 0
-            visit = oldVisit
-        }
-
-        return repairRepository.save(newRepair)
+        return repairRepository.save(repair)
     }
 
     fun getRepairs(id: Long): List<Repair> {
@@ -180,6 +174,11 @@ class VisitService {
         return validSlots
     }
 
+    fun saveRaportVisit(id: Long, visit: VisitRaportDto, userDetails: UserDetails) {
+        val visit = VisitDto(visit.service.id, visit.isReserved, visit.time, visit.date, visit.status, visit.comment)
+        editVisit(id, visit, userDetails)
+    }
+
     fun isVisitPossible(visit: NoServiceVisitDTO): Boolean {
         val reservedVisits =
             visitRepository.findReservedVisitsBetweenDates(visit.date.atStartOfDay(), visit.date.atTime(23, 59))
@@ -251,7 +250,7 @@ class VisitService {
                 IllegalArgumentException("Service not found")
             }
         }
-        if (usr == null || usr.id != userService.getUserByUsername(userDetails.username).id) {
+        if (usr == null || (usr.id != userService.getUserByUsername(userDetails.username).id && !userDetails.isAdmin())) {
             return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
                 .body("You can only access visits from your own account")

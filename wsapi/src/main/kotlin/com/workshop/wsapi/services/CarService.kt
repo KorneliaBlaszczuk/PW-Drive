@@ -3,6 +3,7 @@ package com.workshop.wsapi.services
 import com.workshop.wsapi.errors.NotAnOwnerException
 import com.workshop.wsapi.models.*
 import com.workshop.wsapi.repositories.*
+import com.workshop.wsapi.security.isAdmin
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
@@ -34,9 +35,18 @@ class CarService {
 
     fun isCarOwner(carId: Long, userDetails: UserDetails) {
         val car = getCar(carId)
-        if (car.user.id != userService.getUserByUsername(userDetails.username).id) {
+        if (car.user.id != userService.getUserByUsername(userDetails.username).id && !userDetails.isAdmin()
+        ) {
             throw NotAnOwnerException("You can only access your own cars")
         }
+    }
+
+    fun getCarDto(id: Long): CarDto {
+        val car = carRepository.findById(id).orElseThrow {
+            IllegalArgumentException("Car not found with id $id")
+        }
+        val carDto = CarDto(car.name, car.brand, car.nextInspection, car.model, car.year, car.mileage)
+        return carDto
     }
 
     fun getCar(id: Long): Car {
@@ -83,26 +93,17 @@ class CarService {
     ): Car? {
         isCarOwner(id, userDetails)
 
-        val oldCar = getCar(id)
-        val user = oldCar.user.id?.let {
-            userRepository.findById(it).orElseThrow {
-                IllegalArgumentException("User not found with id ${oldCar.user.id}")
-            }
-        }
-        if (user != null) {
-            val updatedCar = Car(
-                id = oldCar.id,
-                user = user,
-                name = editedCar.name,
-                brand = editedCar.brand,
-                nextInspection = editedCar.nextInspection,
-                model = editedCar.model,
-                year = editedCar.year,
-                mileage = editedCar.mileage
-            )
-            return carRepository.save(updatedCar)
-        }
-        return null
+        val existingCar = getCar(id)
+
+
+        existingCar.name = editedCar.name
+        existingCar.brand = editedCar.brand
+        existingCar.nextInspection = editedCar.nextInspection
+        existingCar.model = editedCar.model
+        existingCar.year = editedCar.year
+        existingCar.mileage = editedCar.mileage
+
+        return carRepository.save(existingCar)
     }
 
     fun getCarVisits(id: Long): Optional<List<Visit>> {
