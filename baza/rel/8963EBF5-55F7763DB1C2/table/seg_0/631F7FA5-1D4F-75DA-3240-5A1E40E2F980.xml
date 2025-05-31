@@ -55,6 +55,18 @@
 <ownDataTypeParameters>,,</ownDataTypeParameters>
 <autoIncrementCycle>false</autoIncrementCycle>
 </Column>
+<Column name="is_deprecated" id="D691257D-8064-E0F1-8BCE-B8E7FEE6FB25">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-05-31 09:00:57 UTC</createdTime>
+<generatorID>339669AC-C843-4AD5-B5B7-9A454FD4E230</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1 CHAR</dataTypeSize>
+<ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
 </columns>
 <indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
 <ind_PK_UK id="01CC1400-7E98-25EA-DDFB-A94D4C130A32" name="Services_PK">

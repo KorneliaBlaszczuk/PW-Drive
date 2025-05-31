@@ -4,7 +4,7 @@
 <createdTime>2025-04-01 11:54:28 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="8420C852-2F5E-6A9E-7ABB-6D019AEAB1FF" value="true"/>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
 </engineerTo>
 <adequatelyNormalized>NO</adequatelyNormalized>
 <expectedVolumes>0</expectedVolumes>
@@ -20,7 +20,7 @@
 <createdTime>2025-04-01 11:55:45 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="8420C852-2F5E-6A9E-7ABB-6D019AEAB1FF" value="true"/>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -32,7 +32,7 @@
 <createdTime>2025-04-01 11:54:40 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="8420C852-2F5E-6A9E-7ABB-6D019AEAB1FF" value="true"/>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -44,7 +44,7 @@
 <createdTime>2025-04-01 11:55:04 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="8420C852-2F5E-6A9E-7ABB-6D019AEAB1FF" value="true"/>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
@@ -59,12 +59,25 @@
 <comment><![CDATA[in min]]></comment>
 <ownerDesignName>baza</ownerDesignName>
 <engineerTo>
-<item key="8420C852-2F5E-6A9E-7ABB-6D019AEAB1FF" value="true"/>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
 </engineerTo>
 <useDomainConstraints>false</useDomainConstraints>
 <use>1</use>
 <logicalDatatype>LOGDT011</logicalDatatype>
 <ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="is_deprecated" id="339669AC-C843-4AD5-B5B7-9A454FD4E230">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-05-31 08:59:28 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1 CHAR</dataTypeSize>
+<ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
 </Attribute>
 </attributes>
 <identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
@@ -72,8 +85,9 @@
 <createdBy>a_rac</createdBy>
 <createdTime>2025-04-01 11:56:06 UTC</createdTime>
 <ownerDesignName>baza</ownerDesignName>
+<shouldEngineer>false</shouldEngineer>
 <engineerTo>
-<item key="8420C852-2F5E-6A9E-7ABB-6D019AEAB1FF" value="true"/>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="false"/>
 </engineerTo>
 <pk>true</pk>
 <usedAttributes>
