@@ -42,7 +42,8 @@ data class AddServiceDto(
     val name: String?,
     @field:NotNull(message = "Price is required")
     val price: Int?,
-    val time: Duration,
+    @field:NotNull(message = "Time is required")
+    val time: Duration?,
 )
 
 enum class DeleteOutcome {
