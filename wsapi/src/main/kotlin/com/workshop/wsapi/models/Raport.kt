@@ -43,8 +43,7 @@ data class VisitRaportDto(
     val createdAt: String,
     val isReserved: Boolean,
     val time: LocalTime,
-    val date:
-    LocalDate,
+    val date: LocalDate,
     val status: String,
     val comment: String?
 )

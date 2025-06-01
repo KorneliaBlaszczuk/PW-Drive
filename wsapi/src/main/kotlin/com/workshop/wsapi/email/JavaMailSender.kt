@@ -6,7 +6,11 @@ import org.springframework.context.annotation.Configuration
 
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.JavaMailSenderImpl
+import org.springframework.retry.annotation.EnableRetry
+import org.springframework.scheduling.annotation.EnableAsync
 
+@EnableAsync
+@EnableRetry
 @Configuration
 class MailConfig {
 
@@ -46,7 +50,9 @@ class MailConfig {
         props["mail.transport.protocol"] = protocol
         props["mail.smtp.auth"] = auth
         props["mail.smtp.starttls.enable"] = starttls
+        props["mail.smtp.starttls.require"] = true
         props["mail.debug"] = debug
+        props["mail.smtp.ssl.trust"] = host
 
         return mailSender
     }
