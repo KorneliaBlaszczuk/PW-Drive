@@ -81,9 +81,21 @@ class RaportService {
             )
         }
 
-        emailService.sendRaportNotification("polizarcie@gmail.com") /* TODO: send it async with spring event */
+        val userName = visit.car?.user?.name ?: ""
+        val visitDate = visit.date
+        val carName = visit.car?.name ?: ""
+        val serviceName = visit.service?.name ?: "Naprawa"
 
+        val userEmail = visit.car?.user?.email
 
+        emailService.sendRaportNotification(
+            userName,
+            visitDate,
+            carName,
+            serviceName,
+            userEmail!!
+        )
+        
         return getReport(visit)
     }
 }
