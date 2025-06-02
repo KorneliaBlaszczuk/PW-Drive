@@ -100,6 +100,7 @@
     max-height: 30vh;
     font-size: large;
     padding: 0.5vw;
+    color: black;
 }
 
 .button {
@@ -108,4 +109,12 @@
     color: white;
     font-size: large;
     padding: 0.5vw;
+}
+
+.actions {
+    display: inline-flex;
+    gap: 8px;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
 }
