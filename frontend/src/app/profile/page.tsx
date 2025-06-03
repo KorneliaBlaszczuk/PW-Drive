@@ -180,6 +180,29 @@ export default function Profile() {
     }
   }, [userId]);
 
+  const deleteCar = async (carId: number) => {
+    const confirmed = window.confirm("Czy na pewno chcesz usunąć ten samochód?");
+    if (!confirmed) return;
+
+    try {
+      const response = await fetch(`http://localhost:8080/api/cars/${carId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Błąd podczas usuwania samochodu");
+      }
+
+      // Usuń auto z lokalnego stanu po usunięciu z serwera
+      setCars((prev) => prev.filter((car) => car.id !== carId));
+    } catch (error) {
+      console.error("Błąd przy usuwaniu auta:", error);
+    }
+  };
+
   const generateVisitReport = (visit: Visit) => {
     const doc = new jsPDF();
 
@@ -204,8 +227,7 @@ export default function Profile() {
       doc.text(`Typ uslugi: ${visit.service?.name || "Naprawa"}`, 12, 120);
 
       doc.text(
-        `Wycena: ${visit.service?.name || "Naprawa"} - ${
-          visit.service?.price || "-"
+        `Wycena: ${visit.service?.name || "Naprawa"} - ${visit.service?.price || "-"
         } PLN`,
         12,
         130
@@ -431,11 +453,23 @@ export default function Profile() {
             <h2 className={styles.carsHeader}>Twoje samochody</h2>
             <div className={styles.cars}>
               {paginatedCars.map((car) => (
-                <Link key={car.id} href={`/carInfo?carId=${car.id}`} passHref>
-                  <Button>
-                    {car.name} ({car.model} {car.year})
-                  </Button>
-                </Link>
+                <div key={car.id} className="flex items-center justify-between gap-4 mb-2 p-2 rounded">
+                  <Link href={`/carInfo?carId=${car.id}`} passHref>
+                    <Button className="flex-1 text-left">
+                      {car.name} ({car.model} {car.year})
+                    </Button>
+                  </Link>
+
+                  <img
+                    onClick={() => deleteCar(car.id)}
+                    style={{ cursor: "pointer" }}
+                    width="20"
+                    height="20"
+                    src="https://img.icons8.com/material-outlined/24/filled-trash.png"
+                    alt="Usuń"
+                    title="Usuń samochód"
+                  />
+                </div>
               ))}
             </div>
 
