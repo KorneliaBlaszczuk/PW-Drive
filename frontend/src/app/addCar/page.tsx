@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Calendar } from "@/components/ui/calendar";
 import styles from './page.module.scss';
+import { useRouter } from "next/navigation";
 
 export default function AddAuto() {
     const [date, setDate] = useState<Date>();
@@ -22,6 +23,7 @@ export default function AddAuto() {
     const [rocznik, setRocznik] = useState("");
     const [przebieg, setPrzebieg] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
+    const router = useRouter();
 
     const handleAddCar = async () => {
         if (nazwa && marka && model && rocznik && przebieg && date) {
@@ -51,7 +53,7 @@ export default function AddAuto() {
                 });
 
                 if (response.ok) {
-                    setSuccessMessage("Auto dodane!");
+                    alert("Auto dodane!");
                     setNazwa("");
                     setMarka("");
                     setModel("");
@@ -59,17 +61,18 @@ export default function AddAuto() {
                     setPrzebieg("");
                     setDate(undefined);
                 } else if (response.status === 403) {
-                    setSuccessMessage("Brak uprawnień do dodania samochodu.");
+                    alert("Brak uprawnień do dodania samochodu.");
                 } else {
                     const error = await response.text();
-                    setSuccessMessage(`Błąd: ${error}`);
+                    alert(`Błąd: ${error}`);
                 }
             } catch (error) {
-                setSuccessMessage(`Wystąpił błąd: ${error}`);
+                alert(`Wystąpił błąd: ${error}`);
             }
         } else {
-            setSuccessMessage("Proszę wypełnić wszystkie pola.");
+            alert("Proszę wypełnić wszystkie pola.");
         }
+        router.push("/profile");
     }
 
 
