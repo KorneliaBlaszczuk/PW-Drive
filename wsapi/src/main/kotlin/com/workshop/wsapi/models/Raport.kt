@@ -30,7 +30,7 @@ class CarRaportDto(
     val id: Long,
     var name: String,
     var brand: String,
-    var nextInspection: LocalDateTime?,
+    var nextInspection: LocalDate?,
     var model: String,
     var year: Int,
     var mileage: Int
