@@ -30,6 +30,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./page.module.scss";
 
+
 type Visit = {
   createdAt: string;
   date: string;
@@ -60,8 +61,15 @@ type Car = {
   name: string;
 };
 
+type Repair = {
+  description: string;
+  price: number;
+};
+
+
 export default function Profile() {
   const [visits, setVisits] = useState<Visit[]>([]);
+  const [repairsMap, setRepairsMap] = useState<Record<number, Repair[]>>({});
   const [cars, setCars] = useState<Car[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
@@ -203,13 +211,39 @@ export default function Profile() {
     }
   };
 
-  const generateVisitReport = (visit: Visit) => {
+  async function loadFontBase64(url: string) {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Nie udało się załadować fontu");
+
+    const base64 = await response.text();
+    return base64.trim();
+  }
+
+  const generateVisitReport = async (visit: Visit) => {
     const doc = new jsPDF();
+
+    const robotoBase64 = await loadFontBase64("/fonts/robotoBase64.txt");
+
+    const response = await fetch(`http://localhost:8080/api/visits/${visit.id}/repairs`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    });
+
+    console.log(visit.id);
+
+    const repairs: Repair[] = response.ok ? await response.json() : [];
+
+    doc.addFileToVFS("Roboto-Regular.ttf", robotoBase64);
+    doc.addFont("Roboto-Regular.ttf", "Roboto", "normal");
+    doc.setFont("Roboto");
 
     // Nagłówek
     doc.setFontSize(24);
     doc.text("Raport wizyty", 20, 20);
-    doc.text(`z ${visit.date} ${visit.time}`, 20, 30);
+    const timeWithoutSeconds = visit.time.slice(0, 5);
+    doc.text(`z ${visit.date} ${timeWithoutSeconds}`, 20, 30);
 
     doc.setFontSize(18);
     doc.text("Informacje o samochodzie: ", 12, 50);
@@ -224,19 +258,59 @@ export default function Profile() {
       doc.text(`nastepny przeglad: ${visit.car.nextInspection}`, 12, 110);
 
       doc.setFontSize(18);
-      doc.text(`Typ uslugi: ${visit.service?.name || "Naprawa"}`, 12, 120);
 
-      doc.text(
-        `Wycena: ${visit.service?.name || "Naprawa"} - ${visit.service?.price || "-"
-        } PLN`,
-        12,
-        130
-      );
       if (visit.comment) {
         doc.text(`Komentarz: ${visit.comment}`, 12, 150);
+      } else {
+        doc.text(`Komentarz: Brak komentarza do wizyty`, 12, 170);
       }
     } else {
       doc.text("Brak danych o samochodzie", 12, 60);
+    }
+
+    doc.setFontSize(18);
+    doc.text("Szczegóły usługi:", 12, 130);
+
+    if (visit.service) {
+      // Narysuj nagłówki tabeli
+      doc.setFontSize(14);
+      doc.text("Nazwa usługi", 12, 140);
+      doc.text("Cena (PLN)", 90, 140);
+
+      // Linie poziome i pionowe - możesz dodać jeśli chcesz bardziej widoczne ramki
+      doc.setLineWidth(0.1);
+      doc.line(10, 143, 200, 143); // linia pod nagłówkami
+
+      // Dane usługi
+      doc.setFontSize(12);
+      doc.text(visit.service.name, 12, 155);
+      doc.text(visit.service.price.toString(), 110, 155);
+    } else {
+      doc.setFontSize(12);
+      doc.text("Brak danych o usłudze", 12, 140);
+    }
+
+    doc.setFontSize(14);
+    doc.text("Naprawy:", 20, 140);
+
+    if (repairs.length === 0) {
+      doc.setFontSize(12);
+      doc.text("Brak napraw dla tej wizyty", 20, 150);
+    } else {
+      // Rysujemy prostą tabelę napraw — opis i cena
+      let y = 150;
+      doc.setFontSize(12);
+
+      // Nagłówki tabeli
+      doc.text("Opis", 20, y);
+      doc.text("Cena (PLN)", 150, y);
+      y += 10;
+
+      repairs.forEach((repair) => {
+        doc.text(repair.description, 20, y);
+        doc.text(repair.price.toString(), 150, y);
+        y += 10;
+      });
     }
 
     doc.save(`raport_wizyty_${visit.id}.pdf`);
