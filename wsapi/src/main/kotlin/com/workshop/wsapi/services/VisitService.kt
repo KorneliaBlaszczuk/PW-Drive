@@ -1,7 +1,9 @@
 package com.workshop.wsapi.services
 
+import com.workshop.wsapi.errors.NotAnOwnerException
 import com.workshop.wsapi.models.*
 import com.workshop.wsapi.repositories.*
+import com.workshop.wsapi.security.isAdmin
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -94,19 +96,27 @@ class VisitService {
         visitRepository.deleteAbandonedReservations(fifteenMinutesAgo)
     }
 
-    fun addRepair(id: Long): Repair {
+    fun addRepair(id: Long, repair: Repair): Repair {
         val oldVisit = visitRepository.findById(id).orElseThrow {
             IllegalArgumentException("visit not found with id $id")
 
         }
+        return repairRepository.save(repair)
+    }
 
-        val newRepair = Repair().apply {
-            description = ""
-            price = 0
-            visit = oldVisit
+    private fun isVisitForUser(visit: Visit, userDetails: UserDetails) {
+        if (visit.car!!.user.id != userService.getUserByUsername(userDetails.username).id && !userDetails.isAdmin()
+        ) {
+            throw NotAnOwnerException("You can only access your information about your own visits")
         }
+    }
 
-        return repairRepository.save(newRepair)
+    fun getRepairsWithAuthorization(id: Long, userDetails: UserDetails): List<Repair> {
+        val visit = visitRepository.findById(id).orElseThrow {
+            IllegalArgumentException("Visit not found with id $id")
+        }
+        isVisitForUser(visit, userDetails)
+        return repairRepository.getVisitRepairs(id)
     }
 
     fun getRepairs(id: Long): List<Repair> {
@@ -180,6 +190,11 @@ class VisitService {
         return validSlots
     }
 
+    fun saveRaportVisit(id: Long, visit: VisitRaportDto, userDetails: UserDetails) {
+        val visitDto = VisitDto(visit.service.id, visit.isReserved, visit.time, visit.date, visit.status, visit.comment)
+        editVisit(id, visitDto, userDetails)
+    }
+
     fun isVisitPossible(visit: NoServiceVisitDTO): Boolean {
         val reservedVisits =
             visitRepository.findReservedVisitsBetweenDates(visit.date.atStartOfDay(), visit.date.atTime(23, 59))
@@ -222,7 +237,7 @@ class VisitService {
 
         var serviceDuration: Long = 30  // for visits without service generate slots every 30 minutes
         if (serviceId != null) {
-            val service = serviceRepository.findById(serviceId).get()
+            val service = serviceRepository.findByIdAndIsDeprecatedFalse(serviceId).get()
             serviceDuration = service.time.toMinutes()
         }
 
@@ -247,11 +262,11 @@ class VisitService {
             }
         }
         val serv = visit.serviceId?.let {
-            serviceRepository.findById(it).orElseThrow {
+            serviceRepository.findByIdAndIsDeprecatedFalse(it).orElseThrow {
                 IllegalArgumentException("Service not found")
             }
         }
-        if (usr == null || usr.id != userService.getUserByUsername(userDetails.username).id) {
+        if (usr == null || (usr.id != userService.getUserByUsername(userDetails.username).id && !userDetails.isAdmin())) {
             return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
                 .body("You can only access visits from your own account")
@@ -281,7 +296,7 @@ class VisitService {
 
 
     fun getVisits(): ResponseEntity<Any> {
-        val sort: Sort = Sort.by(Sort.Order.desc("date"), Sort.Order.asc("time"))
+        val sort: Sort = Sort.by(Sort.Order.asc("date"), Sort.Order.asc("time"))
         return ResponseEntity.ok().body(visitRepository.findAll(sort))
     }
 

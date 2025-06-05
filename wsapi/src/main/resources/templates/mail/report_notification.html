@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Zmiana w raporcie</title>
+</head>
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f5f5f5;">
+<div style="max-width: 600px; margin: 0 auto; background-color: white; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    <div style="text-align: center; padding: 30px 20px 20px;">
+        <img th:src="|cid:logo|" alt="Logo" style="max-width: 200px; height: auto;">
+    </div>
+
+    <div style="padding: 0 30px 30px;">
+        <h1 style="color: #333; margin-bottom: 20px;">Witaj, <span th:text="${username}"></span>!</h1>
+
+        <p style="color: #555; line-height: 1.6; margin-bottom: 20px;">
+            Informujemy, że raport dotyczący Twojej wizyty w naszym serwisie został zaktualizowany.
+        </p>
+
+        <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
+            <p style="margin: 0; color: #666;">
+                <strong>Data wizyty:</strong> <span th:text="${#temporals.format(visitDate, 'dd.MM.yyyy')}"></span><br>
+                <strong>Auto:</strong> <span th:text="${carName}"></span><br>
+                <strong>Usługa:</strong> <span th:text="${serviceName}"></span>
+            </p>
+        </div>
+
+        <p style="color: #555; line-height: 1.6; margin-bottom: 25px;">
+            Aby sprawdzić szczegóły aktualizacji oraz pełny raport z wykonanych usług,
+            zapraszamy do odwiedzenia naszej strony internetowej.
+        </p>
+
+        <div style="text-align: center; margin: 30px 0;">
+            <a th:href="${websiteUrl}"
+               style="background-color: #2563eb; color: white; padding: 12px 30px;
+                                  text-decoration: none; border-radius: 5px; font-weight: bold;
+                                  display: inline-block;">
+                Sprawdź raport online
+            </a>
+        </div>
+
+        <hr style="border: none; border-top: 1px solid #eee; margin: 25px 0;">
+
+        <p style="color: #777; font-size: 14px; line-height: 1.5;">
+            Dziękujemy za zaufanie i korzystanie z naszych usług.<br>
+            W razie pytań, prosimy o kontakt.
+        </p>
+
+        <p style="color: #999; font-size: 12px; margin-top: 20px;">
+            Ta wiadomość została wysłana automatycznie. Prosimy nie odpowiadać na ten email.
+        </p>
+    </div>
+</div>
+</body>
+</html>

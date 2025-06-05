@@ -22,7 +22,7 @@ data class Visit(
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "id_car", nullable = false)
-    @JsonManagedReference
+    @JsonManagedReference("visit-car")
     var car: Car? = null,
 
     @CreationTimestamp
@@ -108,3 +108,12 @@ data class AvailableSlotDTO(
     val startTime: LocalTime,
     val endTime: LocalTime,
 )
+
+data class RaportVisitDTO(
+    val status: String,
+)
+
+fun raportToNormalVisit(visit: Visit, raportVisit: RaportVisitDTO): Visit {
+    visit.status = raportVisit.status
+    return visit
+}

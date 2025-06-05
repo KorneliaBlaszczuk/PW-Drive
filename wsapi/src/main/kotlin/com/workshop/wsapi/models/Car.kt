@@ -2,7 +2,7 @@ package com.workshop.wsapi.models
 
 import com.fasterxml.jackson.annotation.JsonBackReference
 import jakarta.persistence.*
-import java.sql.Date
+import java.time.LocalDate
 
 
 @Entity
@@ -25,10 +25,10 @@ data class Car(
     var mileage: Int = 0,
 
     @Column(name = "next_inspection")
-    var nextInspection: Date? = null,
+    var nextInspection: LocalDate? = null,
 
     @OneToMany(mappedBy = "car", orphanRemoval = true)
-    @JsonBackReference
+    @JsonBackReference("car-visit")
     var visits: MutableList<Visit> = mutableListOf()
 ) {
     constructor(
@@ -38,7 +38,7 @@ data class Car(
         model: String,
         year: Int,
         mileage: Int,
-        nextInspection: Date?
+        nextInspection: LocalDate?
     ) : this(
         user = user,
         name = name,
@@ -58,7 +58,7 @@ data class Car(
         model: String,
         year: Int,
         mileage: Int,
-        nextInspection: Date?
+        nextInspection: LocalDate?
     ) : this(
         id = id,
         user = user,
@@ -75,7 +75,7 @@ data class Car(
 data class CarDto(
     var name: String,
     var brand: String,
-    var nextInspection: Date,
+    var nextInspection: LocalDate?,
     var model: String,
     var year: Int,
     var mileage: Int
