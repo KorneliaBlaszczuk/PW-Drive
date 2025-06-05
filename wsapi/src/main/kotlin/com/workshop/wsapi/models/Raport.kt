@@ -30,7 +30,7 @@ class CarRaportDto(
     val id: Long,
     var name: String,
     var brand: String,
-    var nextInspection: LocalDateTime?,
+    var nextInspection: LocalDate?,
     var model: String,
     var year: Int,
     var mileage: Int
@@ -43,8 +43,7 @@ data class VisitRaportDto(
     val createdAt: String,
     val isReserved: Boolean,
     val time: LocalTime,
-    val date:
-    LocalDate,
+    val date: LocalDate,
     val status: String,
     val comment: String?
 )

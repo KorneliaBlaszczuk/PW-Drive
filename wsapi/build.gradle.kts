@@ -31,6 +31,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.retry:spring-retry:2.0.12")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.3")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.3")
     developmentOnly("org.springframework.boot:spring-boot-devtools")

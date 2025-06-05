@@ -1,10 +1,10 @@
 package com.workshop.wsapi.services
 
-import com.workshop.wsapi.models.ServiceDto
+import com.workshop.wsapi.models.AddServiceDto
+import com.workshop.wsapi.models.DeleteOutcome
 import com.workshop.wsapi.repositories.ServiceRepository
+import com.workshop.wsapi.repositories.VisitRepository
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import com.workshop.wsapi.models.Service as ServiceModel
 
@@ -15,30 +15,33 @@ class ServiceService {
     @Autowired
     lateinit var serviceRepository: ServiceRepository
 
+    @Autowired
+    lateinit var visitRepository: VisitRepository
 
-    fun addService(service: ServiceDto): ResponseEntity<Any> {
+
+    fun addService(service: AddServiceDto): ServiceModel {
         val newService = ServiceModel(
-            service.name, service.price, service.time
+            service.name!!, service.price!!, service.time!!
         )
-        val savedService = serviceRepository.save(newService)
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedService)
+        return serviceRepository.save(newService)
     }
 
-    fun deleteService(id: Long): ResponseEntity<Any> {
-        return ResponseEntity.status(HttpStatus.OK).body(serviceRepository.deleteById(id))
+    fun deleteOrDeprecate(id: Long): DeleteOutcome {
+        val service = serviceRepository.findById(id).orElseThrow { NoSuchElementException("Service not found") }
+
+        return if (visitRepository.existsByServiceId(id)) {
+            val updated = service.copy(isDeprecated = true)
+            serviceRepository.save(updated)
+            DeleteOutcome.DEPRECATED
+        } else {
+            serviceRepository.deleteById(id)
+            DeleteOutcome.DELETED
+        }
     }
 
-    fun editService(id: Long, service: ServiceDto): ResponseEntity<Any> {
-        val oldService =
-            serviceRepository.findById(id).orElseThrow {
-                IllegalArgumentException("Service not found with id $id")
 
-            }
-        val editedService = ServiceModel(oldService.id, service.name, service.price, service.time)
-        return ResponseEntity.status(HttpStatus.OK).body(serviceRepository.save(editedService))
+    fun getServices(): List<ServiceModel> {
+        return serviceRepository.findAllByIsDeprecatedFalse()
     }
 
-    fun getServices(): ResponseEntity<Any> {
-        return ResponseEntity.ok().body(serviceRepository.findAll())
-    }
 }

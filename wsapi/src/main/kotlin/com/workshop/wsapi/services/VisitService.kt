@@ -221,7 +221,7 @@ class VisitService {
 
         var serviceDuration: Long = 30  // for visits without service generate slots every 30 minutes
         if (serviceId != null) {
-            val service = serviceRepository.findById(serviceId).get()
+            val service = serviceRepository.findByIdAndIsDeprecatedFalse(serviceId).get()
             serviceDuration = service.time.toMinutes()
         }
 
@@ -246,7 +246,7 @@ class VisitService {
             }
         }
         val serv = visit.serviceId?.let {
-            serviceRepository.findById(it).orElseThrow {
+            serviceRepository.findByIdAndIsDeprecatedFalse(it).orElseThrow {
                 IllegalArgumentException("Service not found")
             }
         }
@@ -280,7 +280,7 @@ class VisitService {
 
 
     fun getVisits(): ResponseEntity<Any> {
-        val sort: Sort = Sort.by(Sort.Order.desc("date"), Sort.Order.asc("time"))
+        val sort: Sort = Sort.by(Sort.Order.asc("date"), Sort.Order.asc("time"))
         return ResponseEntity.ok().body(visitRepository.findAll(sort))
     }
 
