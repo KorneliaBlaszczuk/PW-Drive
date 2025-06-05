@@ -4,6 +4,7 @@ import com.workshop.wsapi.errors.NotAnOwnerException
 import com.workshop.wsapi.models.*
 import com.workshop.wsapi.repositories.*
 import com.workshop.wsapi.security.isAdmin
+import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
@@ -15,17 +16,16 @@ class CarService {
     private lateinit var visitService: VisitService
 
     @Autowired
-    private lateinit var userRepository: UserRepository
-
-    @Autowired
     lateinit var carRepository: CarRepository
 
     @Autowired
     lateinit var visitRepository: VisitRepository
 
     @Autowired
-    lateinit var serviceRepository: ServiceRepository
+    lateinit var repairRepository: RepairRepository
 
+    @Autowired
+    lateinit var serviceRepository: ServiceRepository
 
     @Autowired
     lateinit var historyRepository: HistoryRepository
@@ -160,6 +160,7 @@ class CarService {
     }
 
 
+    @Transactional
     fun deleteCar(id: Long, userDetails: UserDetails) {
         isCarOwner(id, userDetails)
         val car =
@@ -167,9 +168,15 @@ class CarService {
                 IllegalArgumentException("Car not found with id $id")
 
             }
-        if (car == null)
-            throw IllegalArgumentException("Invalid car id $id")
-        return carRepository.deleteById(id)
+
+        visitRepository.findAllByCar(car).forEach { visit ->
+            repairRepository.deleteByVisit(visit)
+        }
+
+        visitRepository.deleteAllByCar(car)
+
+        carRepository.delete(car)
+        return carRepository.delete(car)
 
     }
 }

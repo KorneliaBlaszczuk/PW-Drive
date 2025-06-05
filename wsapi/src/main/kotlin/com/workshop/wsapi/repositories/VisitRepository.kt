@@ -1,5 +1,6 @@
 package com.workshop.wsapi.repositories
 
+import com.workshop.wsapi.models.Car
 import com.workshop.wsapi.models.Visit
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
@@ -42,6 +43,10 @@ interface VisitRepository : JpaRepository<Visit, Long> {
         nativeQuery = true
     )
     fun deleteAbandonedReservations(@Param("cutoffTime") cutoffTime: LocalDateTime)
+
+    fun findAllByCar(car: Car): List<Visit>
+
+    fun deleteAllByCar(car: Car)
 
     fun existsByServiceId(serviceId: Long): Boolean
 }
