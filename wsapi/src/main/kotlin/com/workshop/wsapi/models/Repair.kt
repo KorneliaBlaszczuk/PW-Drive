@@ -17,10 +17,8 @@ data class Repair(
     @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     @JsonBackReference
-    var visit: Visit? = null,
-
-
-    )
+    var visit: Visit? = null
+)
 
 data class RepairDto(
     val description: String,
