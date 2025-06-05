@@ -7,6 +7,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { jsPDF } from "jspdf";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -53,6 +54,9 @@ export default function CarInfo() {
   const [visibleUpcoming, setVisibleUpcoming] = useState(5);
   const [visibleCurrent, setVisibleCurrent] = useState(5);
   const [visibleHistory, setVisibleHistory] = useState(5);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedCar, setEditedCar] = useState<Car | null>(null);
+
 
   useEffect(() => {
     const token = sessionStorage.getItem("token");
@@ -110,6 +114,35 @@ export default function CarInfo() {
     }
   }, [carId]);
 
+  const handleInputChange = (field: keyof Car, value: string | number) => {
+    if (editedCar) {
+      setEditedCar({ ...editedCar, [field]: value });
+    }
+  };
+
+  const saveCarChanges = async () => {
+    if (!editedCar || !carId) return;
+
+    try {
+      const response = await fetch(`http://localhost:8080/api/cars/${carId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(editedCar),
+      });
+
+      if (!response.ok) throw new Error("Błąd zapisu zmian");
+
+      const updatedCar = await response.json();
+      setCar(updatedCar);
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Błąd zapisu samochodu:", error);
+    }
+  };
+
   const generateVisitReport = (visit: Visit) => {
     const doc = new jsPDF();
 
@@ -133,8 +166,7 @@ export default function CarInfo() {
     doc.text(`Typ uslugi: ${visit.service?.name || "Naprawa"}`, 12, 120);
 
     doc.text(
-      `Wycena: ${visit.service?.name || "Naprawa"} - ${
-        visit.service?.price || "-"
+      `Wycena: ${visit.service?.name || "Naprawa"} - ${visit.service?.price || "-"
       } PLN`,
       12,
       130
@@ -166,25 +198,76 @@ export default function CarInfo() {
 
         {car ? (
           <div className={styles.carDetails}>
-            <p>
-              <strong>Nazwa:</strong> {car.name}
-            </p>
-            <p>
-              <strong>Marka:</strong> {car.brand}
-            </p>
-            <p>
-              <strong>Model:</strong> {car.model}
-            </p>
-            <p>
-              <strong>Rocznik:</strong> {car.year}
-            </p>
-            <p>
-              <strong>Przebieg:</strong> {car.mileage} km
-            </p>
-            <p>
-              <strong>Następny przegląd:</strong>{" "}
-              {car.nextInspection || "Brak informacji"}
-            </p>
+            {isEditing ? (
+              <>
+                <label>
+                  Nazwa:{" "}
+                  <Input
+                    value={editedCar?.name || ""}
+                    onChange={(e) => handleInputChange("name", e.target.value)}
+                  />
+                </label>
+                <label>
+                  Marka:{" "}
+                  <Input
+                    value={editedCar?.brand || ""}
+                    onChange={(e) => handleInputChange("brand", e.target.value)}
+                  />
+                </label>
+                <label>
+                  Model:{" "}
+                  <Input
+                    value={editedCar?.model || ""}
+                    onChange={(e) => handleInputChange("model", e.target.value)}
+                  />
+                </label>
+                <label>
+                  Rocznik:{" "}
+                  <Input
+                    type="number"
+                    value={editedCar?.year || ""}
+                    onChange={(e) => handleInputChange("year", Number(e.target.value))}
+                  />
+                </label>
+                <label>
+                  Przebieg (km):{" "}
+                  <Input
+                    type="number"
+                    value={editedCar?.mileage || ""}
+                    onChange={(e) => handleInputChange("mileage", Number(e.target.value))}
+                  />
+                </label>
+                <label>
+                  Następny przegląd:{" "}
+                  <Input
+                    type="date"
+                    value={editedCar?.nextInspection || ""}
+                    onChange={(e) => handleInputChange("nextInspection", e.target.value)}
+                  />
+                </label>
+                <div className="flex gap-2 mt-2">
+                  <Button onClick={saveCarChanges}>Zapisz</Button>
+                  <Button variant="secondary" onClick={() => setIsEditing(false)}>
+                    Anuluj
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <>
+                <p><strong>Nazwa:</strong> {car.name}</p>
+                <p><strong>Marka:</strong> {car.brand}</p>
+                <p><strong>Model:</strong> {car.model}</p>
+                <p><strong>Rocznik:</strong> {car.year}</p>
+                <p><strong>Przebieg:</strong> {car.mileage} km</p>
+                <p><strong>Następny przegląd:</strong> {car.nextInspection || "Brak informacji"}</p>
+                <Button className="mt-2" onClick={() => {
+                  setEditedCar(car);
+                  setIsEditing(true);
+                }}>
+                  Edytuj
+                </Button>
+              </>
+            )}
           </div>
         ) : (
           <p>Ładowanie danych samochodu...</p>
