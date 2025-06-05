@@ -6,7 +6,6 @@ import com.workshop.wsapi.repositories.RepairRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
 class RaportService {
@@ -47,13 +46,20 @@ class RaportService {
         historyRepository.save(history)
     }
 
-    @Transactional
+    //    @Transactional
     fun updateReport(id: Long, raport: RaportDto, userDetails: UserDetails): Raport {
         val visit = visitService.getVisitById(id)
+        val repairs = visitService.getRepairs(id)
         for (rep in raport.repairs) {
             val tempRep = Repair(rep.id, rep.description, rep.price, visit)
             repairRepository.save(tempRep)
         }
+        for (rep in repairs) {
+            if (!raport.repairs.contains(rep)) {
+                repairRepository.delete(rep)
+            }
+        }
+
         visitService.saveRaportVisit(id, raport.visit, userDetails)
         raport.inspectionDate?.let {
             addHistory(raport.inspectionDate, raport.visit.car.id)
@@ -95,7 +101,7 @@ class RaportService {
             serviceName,
             userEmail!!
         )
-        
+
         return getReport(visit)
     }
 }
