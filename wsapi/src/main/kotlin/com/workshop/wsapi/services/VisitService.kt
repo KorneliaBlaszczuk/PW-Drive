@@ -1,5 +1,6 @@
 package com.workshop.wsapi.services
 
+import com.workshop.wsapi.errors.NotAnOwnerException
 import com.workshop.wsapi.models.*
 import com.workshop.wsapi.repositories.*
 import com.workshop.wsapi.security.isAdmin
@@ -103,6 +104,21 @@ class VisitService {
         return repairRepository.save(repair)
     }
 
+    private fun isVisitForUser(visit: Visit, userDetails: UserDetails) {
+        if (visit.car!!.user.id != userService.getUserByUsername(userDetails.username).id && !userDetails.isAdmin()
+        ) {
+            throw NotAnOwnerException("You can only access your information about your own visits")
+        }
+    }
+
+    fun getRepairsWithAuthorization(id: Long, userDetails: UserDetails): List<Repair> {
+        val visit = visitRepository.findById(id).orElseThrow {
+            IllegalArgumentException("Visit not found with id $id")
+        }
+        isVisitForUser(visit, userDetails)
+        return repairRepository.getVisitRepairs(id)
+    }
+
     fun getRepairs(id: Long): List<Repair> {
         return repairRepository.getVisitRepairs(id)
     }
@@ -175,8 +191,8 @@ class VisitService {
     }
 
     fun saveRaportVisit(id: Long, visit: VisitRaportDto, userDetails: UserDetails) {
-        val visit = VisitDto(visit.service.id, visit.isReserved, visit.time, visit.date, visit.status, visit.comment)
-        editVisit(id, visit, userDetails)
+        val visitDto = VisitDto(visit.service.id, visit.isReserved, visit.time, visit.date, visit.status, visit.comment)
+        editVisit(id, visitDto, userDetails)
     }
 
     fun isVisitPossible(visit: NoServiceVisitDTO): Boolean {
