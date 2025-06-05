@@ -246,72 +246,67 @@ export default function Profile() {
     doc.text(`z ${visit.date} ${timeWithoutSeconds}`, 20, 30);
 
     doc.setFontSize(18);
-    doc.text("Informacje o samochodzie: ", 12, 50);
+    doc.text("Informacje o samochodzie: ", 20, 50);
 
     doc.setFontSize(12);
     if (visit.car) {
-      doc.text(`nazwa: ${visit.car.name}`, 12, 60);
-      doc.text(`marka: ${visit.car.brand}`, 12, 70);
-      doc.text(`model: ${visit.car.model}`, 12, 80);
-      doc.text(`rocznik: ${visit.car.year}`, 12, 90);
-      doc.text(`przebieg: ${visit.car.mileage}`, 12, 100);
-      doc.text(`nastepny przeglad: ${visit.car.nextInspection}`, 12, 110);
-
-      doc.setFontSize(18);
-
-      if (visit.comment) {
-        doc.text(`Komentarz: ${visit.comment}`, 12, 150);
-      } else {
-        doc.text(`Komentarz: Brak komentarza do wizyty`, 12, 170);
-      }
-    } else {
+      doc.text(`nazwa: ${visit.car.name}`, 20, 60);
+      doc.text(`marka: ${visit.car.brand}`, 20, 70);
+      doc.text(`model: ${visit.car.model}`, 20, 80);
+      doc.text(`rocznik: ${visit.car.year}`, 20, 90);
+      doc.text(`przebieg: ${visit.car.mileage}`, 20, 100);
+      doc.text(`nastepny przeglad: ${visit.car.nextInspection}`, 20, 110);
+          } else {
       doc.text("Brak danych o samochodzie", 12, 60);
     }
 
+    const startY = 130;
     doc.setFontSize(18);
-    doc.text("Szczegóły usługi:", 12, 130);
+    doc.text("Naprawy i usługa:", 20, startY);
+
+    let y = startY + 10;
+
+    doc.setFontSize(12);
+    doc.text("Opis", 20, y);
+    doc.text("Cena (PLN)", 150, y);
+    doc.line(10, y + 2, 200, y + 2);
+    y += 10;
+
+    let totalCost = 0;
 
     if (visit.service) {
-      // Narysuj nagłówki tabeli
-      doc.setFontSize(14);
-      doc.text("Nazwa usługi", 12, 140);
-      doc.text("Cena (PLN)", 90, 140);
-
-      // Linie poziome i pionowe - możesz dodać jeśli chcesz bardziej widoczne ramki
-      doc.setLineWidth(0.1);
-      doc.line(10, 143, 200, 143); // linia pod nagłówkami
-
-      // Dane usługi
-      doc.setFontSize(12);
-      doc.text(visit.service.name, 12, 155);
-      doc.text(visit.service.price.toString(), 110, 155);
-    } else {
-      doc.setFontSize(12);
-      doc.text("Brak danych o usłudze", 12, 140);
+      doc.text(`[Usługa] ${visit.service.name}`, 20, y);
+      doc.text(visit.service.price.toFixed(2), 150, y);
+      totalCost += visit.service.price;
+      y += 10;
     }
 
-    doc.setFontSize(14);
-    doc.text("Naprawy:", 20, 140);
-
     if (repairs.length === 0) {
-      doc.setFontSize(12);
-      doc.text("Brak napraw dla tej wizyty", 20, 150);
-    } else {
-      // Rysujemy prostą tabelę napraw — opis i cena
-      let y = 150;
-      doc.setFontSize(12);
-
-      // Nagłówki tabeli
-      doc.text("Opis", 20, y);
-      doc.text("Cena (PLN)", 150, y);
+      doc.text("Brak napraw dla tej wizyty", 20, y);
       y += 10;
-
+    } else {
       repairs.forEach((repair) => {
         doc.text(repair.description, 20, y);
-        doc.text(repair.price.toString(), 150, y);
+        doc.text(repair.price.toFixed(2), 150, y);
+        totalCost += repair.price;
         y += 10;
       });
     }
+
+    doc.setFontSize(12);
+    doc.setLineWidth(0.5);
+    doc.line(10, y + 2, 200, y + 2);
+    doc.setFontSize(14);
+    doc.text("Suma:", 20, y + 12);
+    doc.text(`${totalCost.toFixed(2)} PLN`, 150, y + 12);
+
+    y += 50;
+
+    doc.setFontSize(18);
+    doc.text("Komentarz:", 20, y);
+
+    doc.setFontSize(12);
+    doc.text(visit.comment || "Brak komentarza do wizyty", 20, y + 10);
 
     doc.save(`raport_wizyty_${visit.id}.pdf`);
   };
