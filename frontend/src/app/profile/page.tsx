@@ -348,7 +348,7 @@ export default function Profile() {
     <div className={styles.profilePage}>
       <div className={styles.leftSection}>
         <h2 className={styles.visitsHeader}>Twoje wizyty:</h2>
-        <Accordion type="multiple" className="w-full">
+        <Accordion type="single" className="w-full">
           {/* Nadchodzące */}
           <AccordionItem value="upcoming">
             <AccordionTrigger className="text-xl mt-4">
