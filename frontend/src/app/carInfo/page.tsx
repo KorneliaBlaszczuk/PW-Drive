@@ -260,7 +260,7 @@ export default function CarInfo() {
                 <p><strong>Rocznik:</strong> {car.year}</p>
                 <p><strong>Przebieg:</strong> {car.mileage} km</p>
                 <p><strong>Następny przegląd:</strong> {car.nextInspection || "Brak informacji"}</p>
-                <Button className="mt-2" onClick={() => {
+                <Button className="mt-2 mb-3 text-lg" onClick={() => {
                   setEditedCar(car);
                   setIsEditing(true);
                 }}>
@@ -278,7 +278,7 @@ export default function CarInfo() {
         <h2 className={styles.name}>Wizyty</h2>
         <div className={styles.visitsAccordion}>
           {visits.length > 0 ? (
-            <Accordion type="multiple" className="w-full">
+            <Accordion type="single" className="w-full">
               {/* Nadchodzące */}
               <AccordionItem value="upcoming">
                 <AccordionTrigger className="text-xl mt-4">

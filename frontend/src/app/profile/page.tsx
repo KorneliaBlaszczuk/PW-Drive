@@ -30,6 +30,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./page.module.scss";
 
+
 type Visit = {
   createdAt: string;
   date: string;
@@ -60,8 +61,15 @@ type Car = {
   name: string;
 };
 
+type Repair = {
+  description: string;
+  price: number;
+};
+
+
 export default function Profile() {
   const [visits, setVisits] = useState<Visit[]>([]);
+  const [repairsMap, setRepairsMap] = useState<Record<number, Repair[]>>({});
   const [cars, setCars] = useState<Car[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [username, setUsername] = useState<string | null>(null);
@@ -203,41 +211,102 @@ export default function Profile() {
     }
   };
 
-  const generateVisitReport = (visit: Visit) => {
+  async function loadFontBase64(url: string) {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error("Nie udało się załadować fontu");
+
+    const base64 = await response.text();
+    return base64.trim();
+  }
+
+  const generateVisitReport = async (visit: Visit) => {
     const doc = new jsPDF();
+
+    const robotoBase64 = await loadFontBase64("/fonts/robotoBase64.txt");
+
+    const response = await fetch(`http://localhost:8080/api/visits/${visit.id}/repairs`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+      },
+    });
+
+    console.log(visit.id);
+
+    const repairs: Repair[] = response.ok ? await response.json() : [];
+
+    doc.addFileToVFS("Roboto-Regular.ttf", robotoBase64);
+    doc.addFont("Roboto-Regular.ttf", "Roboto", "normal");
+    doc.setFont("Roboto");
 
     // Nagłówek
     doc.setFontSize(24);
     doc.text("Raport wizyty", 20, 20);
-    doc.text(`z ${visit.date} ${visit.time}`, 20, 30);
+    const timeWithoutSeconds = visit.time.slice(0, 5);
+    doc.text(`z ${visit.date} ${timeWithoutSeconds}`, 20, 30);
 
     doc.setFontSize(18);
-    doc.text("Informacje o samochodzie: ", 12, 50);
+    doc.text("Informacje o samochodzie: ", 20, 50);
 
     doc.setFontSize(12);
     if (visit.car) {
-      doc.text(`nazwa: ${visit.car.name}`, 12, 60);
-      doc.text(`marka: ${visit.car.brand}`, 12, 70);
-      doc.text(`model: ${visit.car.model}`, 12, 80);
-      doc.text(`rocznik: ${visit.car.year}`, 12, 90);
-      doc.text(`przebieg: ${visit.car.mileage}`, 12, 100);
-      doc.text(`nastepny przeglad: ${visit.car.nextInspection}`, 12, 110);
-
-      doc.setFontSize(18);
-      doc.text(`Typ uslugi: ${visit.service?.name || "Naprawa"}`, 12, 120);
-
-      doc.text(
-        `Wycena: ${visit.service?.name || "Naprawa"} - ${visit.service?.price || "-"
-        } PLN`,
-        12,
-        130
-      );
-      if (visit.comment) {
-        doc.text(`Komentarz: ${visit.comment}`, 12, 150);
-      }
-    } else {
+      doc.text(`nazwa: ${visit.car.name}`, 20, 60);
+      doc.text(`marka: ${visit.car.brand}`, 20, 70);
+      doc.text(`model: ${visit.car.model}`, 20, 80);
+      doc.text(`rocznik: ${visit.car.year}`, 20, 90);
+      doc.text(`przebieg: ${visit.car.mileage}`, 20, 100);
+      doc.text(`nastepny przeglad: ${visit.car.nextInspection}`, 20, 110);
+          } else {
       doc.text("Brak danych o samochodzie", 12, 60);
     }
+
+    const startY = 130;
+    doc.setFontSize(18);
+    doc.text("Naprawy i usługa:", 20, startY);
+
+    let y = startY + 10;
+
+    doc.setFontSize(12);
+    doc.text("Opis", 20, y);
+    doc.text("Cena (PLN)", 150, y);
+    doc.line(10, y + 2, 200, y + 2);
+    y += 10;
+
+    let totalCost = 0;
+
+    if (visit.service) {
+      doc.text(`[Usługa] ${visit.service.name}`, 20, y);
+      doc.text(visit.service.price.toFixed(2), 150, y);
+      totalCost += visit.service.price;
+      y += 10;
+    }
+
+    if (repairs.length === 0) {
+      doc.text("Brak napraw dla tej wizyty", 20, y);
+      y += 10;
+    } else {
+      repairs.forEach((repair) => {
+        doc.text(repair.description, 20, y);
+        doc.text(repair.price.toFixed(2), 150, y);
+        totalCost += repair.price;
+        y += 10;
+      });
+    }
+
+    doc.setFontSize(12);
+    doc.setLineWidth(0.5);
+    doc.line(10, y + 2, 200, y + 2);
+    doc.setFontSize(14);
+    doc.text("Suma:", 20, y + 12);
+    doc.text(`${totalCost.toFixed(2)} PLN`, 150, y + 12);
+
+    y += 50;
+
+    doc.setFontSize(18);
+    doc.text("Komentarz:", 20, y);
+
+    doc.setFontSize(12);
+    doc.text(visit.comment || "Brak komentarza do wizyty", 20, y + 10);
 
     doc.save(`raport_wizyty_${visit.id}.pdf`);
   };
@@ -279,7 +348,7 @@ export default function Profile() {
     <div className={styles.profilePage}>
       <div className={styles.leftSection}>
         <h2 className={styles.visitsHeader}>Twoje wizyty:</h2>
-        <Accordion type="multiple" className="w-full">
+        <Accordion type="single" className="w-full">
           {/* Nadchodzące */}
           <AccordionItem value="upcoming">
             <AccordionTrigger className="text-xl mt-4">
