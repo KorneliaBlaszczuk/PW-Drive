@@ -282,7 +282,7 @@ export default function Pricing() {
                 {isAdmin && isEditing && (
                     <Button onClick={handleAdd} className={styles.addButton}>Dodaj</Button>
                 )}
-                <p>Cena napraw podawana po umówieniu usługi.</p>
+                <p>Nie ma tego czego szukasz? Umów się na naprawę i uzgodnij szczegóły na miejscu.</p>
             </div>
             <div className={styles.rightContainer}>
                 <img className={styles.appLogo} src='/logo_black.png' alt='App logo black' />
