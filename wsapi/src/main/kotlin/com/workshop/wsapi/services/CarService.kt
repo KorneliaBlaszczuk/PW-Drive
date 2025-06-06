@@ -3,6 +3,8 @@ package com.workshop.wsapi.services
 import com.workshop.wsapi.errors.NotAnOwnerException
 import com.workshop.wsapi.models.*
 import com.workshop.wsapi.repositories.*
+import com.workshop.wsapi.security.isAdmin
+import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
@@ -14,32 +16,37 @@ class CarService {
     private lateinit var visitService: VisitService
 
     @Autowired
-    private lateinit var userRepository: UserRepository
-
-    @Autowired
     lateinit var carRepository: CarRepository
 
     @Autowired
     lateinit var visitRepository: VisitRepository
 
     @Autowired
-    lateinit var serviceRepository: ServiceRepository
+    lateinit var repairRepository: RepairRepository
 
+    @Autowired
+    lateinit var serviceRepository: ServiceRepository
 
     @Autowired
     lateinit var historyRepository: HistoryRepository
-
-    @Autowired
-    lateinit var repairRepository: RepairRepository
 
     @Autowired
     lateinit var userService: UserService
 
     fun isCarOwner(carId: Long, userDetails: UserDetails) {
         val car = getCar(carId)
-        if (car.user.id != userService.getUserByUsername(userDetails.username).id) {
+        if (car.user.id != userService.getUserByUsername(userDetails.username).id && !userDetails.isAdmin()
+        ) {
             throw NotAnOwnerException("You can only access your own cars")
         }
+    }
+
+    fun getCarDto(id: Long): CarDto {
+        val car = carRepository.findById(id).orElseThrow {
+            IllegalArgumentException("Car not found with id $id")
+        }
+        val carDto = CarDto(car.name, car.brand, car.nextInspection, car.model, car.year, car.mileage)
+        return carDto
     }
 
     fun getCar(id: Long): Car {
@@ -86,26 +93,17 @@ class CarService {
     ): Car? {
         isCarOwner(id, userDetails)
 
-        val oldCar = getCar(id)
-        val user = oldCar.user.id?.let {
-            userRepository.findById(it).orElseThrow {
-                IllegalArgumentException("User not found with id ${oldCar.user.id}")
-            }
-        }
-        if (user != null) {
-            val updatedCar = Car(
-                id = oldCar.id,
-                user = user,
-                name = editedCar.name,
-                brand = editedCar.brand,
-                nextInspection = editedCar.nextInspection,
-                model = editedCar.model,
-                year = editedCar.year,
-                mileage = editedCar.mileage
-            )
-            return carRepository.save(updatedCar)
-        }
-        return null
+        val existingCar = getCar(id)
+
+
+        existingCar.name = editedCar.name
+        existingCar.brand = editedCar.brand
+        existingCar.nextInspection = editedCar.nextInspection
+        existingCar.model = editedCar.model
+        existingCar.year = editedCar.year
+        existingCar.mileage = editedCar.mileage
+
+        return carRepository.save(existingCar)
     }
 
     fun getCarVisits(id: Long): Optional<List<Visit>> {
@@ -117,7 +115,7 @@ class CarService {
         isCarOwner(id, userDetails)
         val car = getCar(id)
         val service = visitDto.serviceId.let {
-            serviceRepository.findById(it).orElseThrow {
+            serviceRepository.findByIdAndIsDeprecatedFalse(it).orElseThrow {
                 IllegalArgumentException("Service not found with id ${visitDto.serviceId}")
             }
         }
@@ -132,7 +130,7 @@ class CarService {
             isReserved = false,
             time = visitDto.time,
             date = visitDto.date,
-            status = null,
+            status = "upcoming",
             comment = null
         )
         val savedVisit = visitRepository.save(newVisit)
@@ -154,7 +152,7 @@ class CarService {
             isReserved = false,
             time = visitDto.time,
             date = visitDto.date,
-            status = null,
+            status = "upcoming",
             comment = null
         )
         val savedVisit = visitRepository.save(newVisit)
@@ -162,6 +160,7 @@ class CarService {
     }
 
 
+    @Transactional
     fun deleteCar(id: Long, userDetails: UserDetails) {
         isCarOwner(id, userDetails)
         val car =
@@ -169,9 +168,15 @@ class CarService {
                 IllegalArgumentException("Car not found with id $id")
 
             }
-        if (car == null)
-            throw IllegalArgumentException("Invalid car id $id")
-        return carRepository.deleteById(id)
+
+        visitRepository.findAllByCar(car).forEach { visit ->
+            repairRepository.deleteByVisit(visit)
+        }
+
+        visitRepository.deleteAllByCar(car)
+
+        carRepository.delete(car)
+        return carRepository.delete(car)
 
     }
 }

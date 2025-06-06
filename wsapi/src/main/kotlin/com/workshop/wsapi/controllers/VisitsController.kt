@@ -1,9 +1,9 @@
 package com.workshop.wsapi.controllers
 
 import com.workshop.wsapi.models.AvailableSlotDTO
+import com.workshop.wsapi.models.Repair
 import com.workshop.wsapi.models.Visit
 import com.workshop.wsapi.models.VisitDto
-import com.workshop.wsapi.services.RepairService
 import com.workshop.wsapi.services.VisitService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.format.annotation.DateTimeFormat
@@ -18,10 +18,6 @@ import java.time.LocalDateTime
 @RestController
 @RequestMapping("/api/visits")
 class VisitsController {
-
-
-    @Autowired
-    private lateinit var repairService: RepairService
 
     @Autowired
     lateinit var visitService: VisitService
@@ -43,13 +39,13 @@ class VisitsController {
     }
 
     @PostMapping("{id}/repairs")
-    fun addRepair(@PathVariable id: Long): ResponseEntity<Any> {
-        return ResponseEntity.ok().body(visitService.addRepair(id))
+    fun addRepair(@PathVariable id: Long, @RequestBody @Validated repair: Repair): ResponseEntity<Any> {
+        return ResponseEntity.ok().body(visitService.addRepair(id, repair))
     }
 
     @GetMapping("{id}/repairs")
-    fun getRepairs(@PathVariable id: Long): ResponseEntity<Any> {
-        return ResponseEntity.ok().body(visitService.getRepairs(id))
+    fun getRepairs(@PathVariable id: Long, @AuthenticationPrincipal userDetails: UserDetails): ResponseEntity<Any> {
+        return ResponseEntity.ok().body(visitService.getRepairsWithAuthorization(id, userDetails))
     }
 
 
@@ -66,6 +62,5 @@ class VisitsController {
     fun deleteVisit(@PathVariable id: Long): ResponseEntity<Any> {
         return visitService.deleteVisit(id)
     }
-
 
 }
