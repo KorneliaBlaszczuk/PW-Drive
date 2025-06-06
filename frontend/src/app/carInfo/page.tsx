@@ -11,37 +11,9 @@ import { Input } from "@/components/ui/input";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { generateVisitReport } from "@/lib/generateVisitReport";
+import {Visit} from "@/types/visit";
+import {Car} from "@/types/car";
 import styles from "./page.module.scss";
-
-type Visit = {
-  createdAt: string;
-  date: string;
-  isReserved: boolean;
-  time: string;
-  car: Car;
-  service: Service | undefined;
-  id: number;
-  comment: string;
-  status: string;
-};
-
-type Service = {
-  id: number;
-  name: string;
-  price: number;
-  time: string;
-};
-
-type Car = {
-  mileage: number;
-  nextInspection: string;
-  year: number;
-  id: number;
-  id_user: number;
-  brand: string;
-  model: string;
-  name: string;
-};
 
 export default function CarInfo() {
   const searchParams = useSearchParams();

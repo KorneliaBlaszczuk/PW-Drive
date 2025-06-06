@@ -28,38 +28,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {generateVisitReport} from "@/lib/generateVisitReport";
+import {Visit} from "@/types/visit";
+import {Car} from "@/types/car";
 import styles from "./page.module.scss";
-
-
-type Visit = {
-  createdAt: string;
-  date: string;
-  isReserved: boolean;
-  time: string;
-  car: Car;
-  service: Service | undefined;
-  id: number;
-  comment: string;
-  status: string;
-};
-
-type Service = {
-  id: number;
-  name: string;
-  price: number;
-  time: string;
-};
-
-type Car = {
-  mileage: number;
-  nextInspection: string;
-  year: number;
-  id: number;
-  id_user: number;
-  brand: string;
-  model: string;
-  name: string;
-};
 
 export default function Profile() {
   const [visits, setVisits] = useState<Visit[]>([]);
