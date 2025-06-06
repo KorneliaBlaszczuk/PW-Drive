@@ -59,3 +59,18 @@ Button:hover {
   font-weight: bolder;
   transform: scale(1.05);
 }
+
+.inlineField {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  label {
+    font-weight: bold;
+  }
+
+  input {
+    flex: 1;
+  }
+}
