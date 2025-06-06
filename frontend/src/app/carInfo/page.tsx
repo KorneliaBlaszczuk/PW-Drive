@@ -270,51 +270,51 @@ export default function CarInfo() {
           <div className={styles.carDetails}>
             {isEditing ? (
               <>
-                <label>
-                  Nazwa:{" "}
+                <div className={styles.inlineField}>
+                  <label>Nazwa:</label>
                   <Input
                     value={editedCar?.name || ""}
                     onChange={(e) => handleInputChange("name", e.target.value)}
                   />
-                </label>
-                <label>
-                  Marka:{" "}
+                </div>
+                <div className={styles.inlineField}>
+                  <label>Marka:</label>
                   <Input
                     value={editedCar?.brand || ""}
                     onChange={(e) => handleInputChange("brand", e.target.value)}
                   />
-                </label>
-                <label>
-                  Model:{" "}
+                </div>
+                <div className={styles.inlineField}>
+                  <label>Model:</label>
                   <Input
                     value={editedCar?.model || ""}
                     onChange={(e) => handleInputChange("model", e.target.value)}
                   />
-                </label>
-                <label>
-                  Rocznik:{" "}
+                </div>
+                <div className={styles.inlineField}>
+                  <label>Rocznik:</label>
                   <Input
                     type="number"
                     value={editedCar?.year || ""}
                     onChange={(e) => handleInputChange("year", Number(e.target.value))}
                   />
-                </label>
-                <label>
-                  Przebieg (km):{" "}
+                </div>
+                <div className={styles.inlineField}>
+                  <label>Przebieg (km):</label>
                   <Input
                     type="number"
                     value={editedCar?.mileage || ""}
                     onChange={(e) => handleInputChange("mileage", Number(e.target.value))}
                   />
-                </label>
-                <label>
-                  Następny przegląd:{" "}
+                </div>
+                <div className={styles.inlineField}>
+                  <label>Następny przegląd:</label>
                   <Input
                     type="date"
                     value={editedCar?.nextInspection || ""}
                     onChange={(e) => handleInputChange("nextInspection", e.target.value)}
                   />
-                </label>
+                </div>
                 <div className="flex gap-2 mt-2">
                   <Button onClick={saveCarChanges}>Zapisz</Button>
                   <Button variant="secondary" onClick={() => setIsEditing(false)}>

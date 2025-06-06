@@ -4,6 +4,7 @@
   height: 85vh;
 
   .leftSection {
+    overflow-y: auto;
     padding: 5vh;
     width: 50%;
     font-size: 5vh;
@@ -15,6 +16,7 @@
   }
 
   .rightSection {
+    position: sticky;
     padding: 5vh;
     width: 50%;
     display: flex;
@@ -47,10 +49,13 @@
     .cars {
       display: flex;
       flex-direction: column;
-      align-items: center; /* Wyśrodkowanie przycisków w poziomie */
-      justify-content: center; /* Wyśrodkowanie w pionie jeśli potrzebne */
+      align-items: center;
+      /* Wyśrodkowanie przycisków w poziomie */
+      justify-content: center;
+      /* Wyśrodkowanie w pionie jeśli potrzebne */
       width: 20vw;
-      gap: 1vh; /* odstęp między przyciskami */
+      gap: 1vh;
+      /* odstęp między przyciskami */
 
       .carItem {
         background-color: white;
@@ -70,7 +75,7 @@
       }
 
 
-    Button {
+      Button {
         background-color: white;
         color: black;
         font-weight: bold;
@@ -82,7 +87,8 @@
       }
 
       Button:hover {
-        background-color: #f0f0f0; /* Lekki efekt na hover */
+        background-color: #f0f0f0;
+        /* Lekki efekt na hover */
       }
     }
 
