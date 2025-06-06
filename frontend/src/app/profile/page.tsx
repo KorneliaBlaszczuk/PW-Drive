@@ -256,7 +256,7 @@ export default function Profile() {
       doc.text(`rocznik: ${visit.car.year}`, 20, 90);
       doc.text(`przebieg: ${visit.car.mileage}`, 20, 100);
       doc.text(`nastepny przeglad: ${visit.car.nextInspection}`, 20, 110);
-          } else {
+    } else {
       doc.text("Brak danych o samochodzie", 12, 60);
     }
 
@@ -374,13 +374,21 @@ export default function Profile() {
                         {visit.car?.year || "'Brak rocznika samochodu'"})
                       </span>
 
-                      <Button
-                        variant="link"
-                        className="text-primary"
-                        onClick={() => generateVisitReport(visit)}
-                      >
-                        Pobierz raport →
-                      </Button>
+                      {!isAdmin ?
+                        <Button
+                          variant="link"
+                          className="text-primary"
+                          onClick={() => generateVisitReport(visit)}
+                        >
+                          Pobierz raport →
+                        </Button> : <Button
+                          variant="link"
+                          className="text-primary"
+                          onClick={() => router.push(`/report/${visit.id}`)}
+                        >
+                          Uzupełnij raport →
+                        </Button>
+                      }
                     </div>
                   ))}
 
@@ -426,13 +434,21 @@ export default function Profile() {
                         {visit.car?.year || "'Brak rocznika samochodu'"})
                       </span>
 
-                      <Button
-                        variant="link"
-                        className="text-primary"
-                        onClick={() => generateVisitReport(visit)}
-                      >
-                        Pobierz raport →
-                      </Button>
+                      {!isAdmin ?
+                        <Button
+                          variant="link"
+                          className="text-primary"
+                          onClick={() => generateVisitReport(visit)}
+                        >
+                          Pobierz raport →
+                        </Button> : <Button
+                          variant="link"
+                          className="text-primary"
+                          onClick={() => router.push(`/report/${visit.id}`)}
+                        >
+                          Uzupełnij raport →
+                        </Button>
+                      }
                     </div>
                   ))}
 
@@ -478,13 +494,21 @@ export default function Profile() {
                         {visit.car?.year || "'Brak rocznika samochodu'"})
                       </span>
 
-                      <Button
-                        variant="link"
-                        className="text-primary"
-                        onClick={() => generateVisitReport(visit)}
-                      >
-                        Pobierz raport →
-                      </Button>
+                      {!isAdmin ?
+                        <Button
+                          variant="link"
+                          className="text-primary"
+                          onClick={() => generateVisitReport(visit)}
+                        >
+                          Pobierz raport →
+                        </Button> : <Button
+                          variant="link"
+                          className="text-primary"
+                          onClick={() => router.push(`/report/${visit.id}`)}
+                        >
+                          Uzupełnij raport →
+                        </Button>
+                      }
                     </div>
                   ))}
 

@@ -57,14 +57,12 @@ export default function Report() {
     const [editService, setEditService] = useState("");
     const [editPrice, setEditPrice] = useState("");
 
-    // Funkcja rozpoczęcia edycji
     const startEditing = (index: number) => {
         setEditIndex(index);
         setEditService(repairs[index].service);
         setEditPrice(repairs[index].price);
     };
 
-    // Funkcja zatwierdzenia edycji
     const saveEdit = () => {
         if (editIndex === null) return;
         if (!editService || !editPrice) return;
@@ -81,14 +79,12 @@ export default function Report() {
         setEditPrice("");
     };
 
-    // Funkcja anulowania edycji
     const cancelEdit = () => {
         setEditIndex(null);
         setEditService("");
         setEditPrice("");
     };
 
-    // Funkcja usuwania wiersza
     const deleteRow = (index: number) => {
         const updatedRepairs = repairs.filter((_, i) => i !== index);
         setRepairs(updatedRepairs);
@@ -146,7 +142,6 @@ export default function Report() {
         const oldMileage = reportMeta.visit.car.mileage;
         const oldInspectionDate = reportMeta.visit.car.nextInspection;
 
-        // Przygotuj payload zgodnie z przykładem
         const payload = {
             visit: {
                 id: reportMeta.visit.id,
@@ -356,9 +351,9 @@ export default function Report() {
                         <SelectValue placeholder="Status wizyty" />
                     </SelectTrigger>
                     <SelectContent className="select-content">
-                        <SelectItem value="ready">Gotowe do odbioru</SelectItem>
-                        <SelectItem value="inprogress">W trakcie</SelectItem>
-                        <SelectItem value="waiting">Nadchodzące</SelectItem>
+                        <SelectItem value="history">Gotowe do odbioru</SelectItem>
+                        <SelectItem value="currents">W trakcie</SelectItem>
+                        <SelectItem value="upcoming">Nadchodzące</SelectItem>
                     </SelectContent>
                 </Select>
                 <Button className={styles.button} onClick={handleSave}>Zapisz</Button>

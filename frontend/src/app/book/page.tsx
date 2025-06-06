@@ -44,12 +44,6 @@ type WidgetSlot = {
   times: string[];
 };
 
-// const exampleSlots = [
-//   { date: "2025-05-19", times: ["09:00", "11:00", "13:00"] },
-//   { date: "2025-05-21", times: ["10:00", "14:00"] },
-//   { date: "2025-05-23", times: ["08:00", "12:00", "16:00"] },
-// ];
-
 function transformSlots(slots: Slot[]): WidgetSlot[] {
   const grouped: Record<string, string[]> = {};
 
@@ -216,6 +210,7 @@ export default function Book() {
           alert(
             `Zarezerwowano ${selectedService?.name} na ${selectedSlot.date} ${selectedSlot.time}`
           );
+          router.push("/");
         } else {
           alert(`Nie można zarezerować terminu`);
         }
