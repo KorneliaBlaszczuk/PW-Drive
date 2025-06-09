@@ -175,7 +175,7 @@ class VisitService {
     }
 
     fun saveRaportVisit(id: Long, visit: VisitRaportDto, userDetails: UserDetails) {
-        val visit = VisitDto(visit.service.id, visit.isReserved, visit.time, visit.date, visit.status, visit.comment)
+        val visit = VisitDto(visit.service?.id, visit.isReserved, visit.time, visit.date, visit.status, visit.comment)
         editVisit(id, visit, userDetails)
     }
 
