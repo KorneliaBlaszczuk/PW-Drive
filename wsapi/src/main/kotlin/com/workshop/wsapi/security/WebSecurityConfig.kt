@@ -88,7 +88,7 @@ class WebSecurityConfig {
                     .requestMatchers("/api/metadata/info-full").hasAuthority("WORKSHOP")
                     .requestMatchers("/api/metadata/{id}").hasAuthority("WORKSHOP")
                     .requestMatchers("/api/admin/**").hasAuthority("WORKSHOP")
-                    .requestMatchers("/api/visits/{id}/repairs").hasAuthority("WORKSHOP")
+//                    .requestMatchers("/api/visits/{id}/").hasAuthority("WORKSHOP")
                     .requestMatchers("/api/repairs/{id}").hasAuthority("WORKSHOP")
                     .requestMatchers(HttpMethod.DELETE, "/api/services/{id}").hasAuthority("WORKSHOP")
                     .requestMatchers(HttpMethod.POST, "/api/services").hasAuthority("WORKSHOP")
