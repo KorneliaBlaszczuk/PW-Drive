@@ -3,6 +3,7 @@ package com.workshop.wsapi.services
 import com.workshop.wsapi.models.*
 import com.workshop.wsapi.repositories.HistoryRepository
 import com.workshop.wsapi.repositories.RepairRepository
+import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
@@ -46,7 +47,7 @@ class RaportService {
         historyRepository.save(history)
     }
 
-    //    @Transactional
+    @Transactional
     fun updateReport(id: Long, raport: RaportDto, userDetails: UserDetails): Raport {
         val visit = visitService.getVisitById(id)
         val repairs = visitService.getRepairs(id)
