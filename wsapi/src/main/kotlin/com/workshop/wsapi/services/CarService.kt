@@ -175,8 +175,8 @@ class CarService {
 
         visitRepository.deleteAllByCar(car)
 
-        carRepository.delete(car)
-        return carRepository.delete(car)
+        historyRepository.deleteAllByCar(car)
 
+        return carRepository.delete(car)
     }
 }

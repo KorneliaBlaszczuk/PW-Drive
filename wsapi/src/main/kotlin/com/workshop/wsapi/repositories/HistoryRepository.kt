@@ -1,5 +1,6 @@
 package com.workshop.wsapi.repositories
 
+import com.workshop.wsapi.models.Car
 import com.workshop.wsapi.models.HistoryOfChange
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.NativeQuery
@@ -28,4 +29,6 @@ interface HistoryRepository : JpaRepository<HistoryOfChange, Long> {
 
     )
     fun getLatestInspectionDate(@Param("id") id: Long): HistoryOfChange?
+
+    fun deleteAllByCar(car: Car)
 }
