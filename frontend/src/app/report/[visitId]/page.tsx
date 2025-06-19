@@ -29,17 +29,9 @@ import { Calendar } from "@/components/ui/calendar";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
+import {Car} from "@/types/car";
 import { useRouter, useParams } from "next/navigation";
-
 import styles from './page.module.scss';
-
-type Car = {
-    brand: string;
-    model: string;
-    year: number;
-    mileage: number;
-    nextInspection: string;
-};
 
 export default function Report() {
     const [carData, setCarData] = useState<Car | null>(null);
