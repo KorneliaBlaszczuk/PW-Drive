@@ -1,9 +1,7 @@
-'use client'
+'use client';
 
 import ChartWithToggle, { ChartData } from "@/components/ChartWithToggle";
-import { Visit } from "@/types/visit";
 import { useEffect, useState } from "react";
-import { transformVisitsToChartData } from "@/lib/transformVisitsToChartData";
 import { getDaysInMonth } from "date-fns";
 
 const MONTHS_ORDER = [
@@ -12,7 +10,6 @@ const MONTHS_ORDER = [
 ];
 
 export default function StatisticsPage() {
-    const [visits, setVisits] = useState<Visit[]>([]);
     const [chartData, setChartData] = useState<ChartData | null>(null);
     const [userId, setUserId] = useState<string | null>(null);
     const [isAdmin, setAdmin] = useState(false);
@@ -21,6 +18,8 @@ export default function StatisticsPage() {
     const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
     const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth());
     const [selectedDay, setSelectedDay] = useState<number>(new Date().getDate());
+
+    const daysInMonth = getDaysInMonth(new Date(selectedYear, selectedMonth));
 
     useEffect(() => {
         const role = sessionStorage.getItem("role");
@@ -34,14 +33,10 @@ export default function StatisticsPage() {
     }, []);
 
     useEffect(() => {
-        if (!userId) return;
-
-        async function fetchVisits() {
+        async function fetchStats() {
+            const formattedDate = `${selectedYear}-${String(selectedMonth + 1).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`;
             try {
-                const url = isAdmin
-                    ? `http://localhost:8080/api/admin/visits`
-                    : `http://localhost:8080/api/users/${userId}/visits`;
-
+                const url = `http://localhost:8080/api/admin/stats/visits-count?startDate=${formattedDate}&period=${range}`;
                 const response = await fetch(url, {
                     method: "GET",
                     headers: {
@@ -50,18 +45,78 @@ export default function StatisticsPage() {
                 });
 
                 if (!response.ok) {
-                    throw new Error("Failed to fetch visits");
+                    throw new Error("Failed to fetch stats");
                 }
 
-                const data: Visit[] = await response.json();
-                setVisits(data);
+                const raw = await response.json();
+                // alert(raw); // Commented out alert for better UX
+
+                let parsedData: ChartData = { year: [], month: [], day: [] };
+
+                if (range === "year") {
+                    const monthMap: Record<string, number> = MONTHS_ORDER.reduce((acc, month) => {
+                        acc[month] = 0;
+                        return acc;
+                    }, {} as Record<string, number>);
+
+                    raw.forEach((entry: { month: number, count: number }) => {
+                        const label = MONTHS_ORDER[entry.month - 1]; // backend month is 1-based
+                        monthMap[label] = entry.count;
+                    });
+
+                    parsedData.year = MONTHS_ORDER.map((month, index) => ({
+                        label: month,
+                        value: monthMap[month],
+                        time: MONTHS_ORDER[index],  // miesiąc
+                    }));
+                } else if (range === "month") {
+                    const daysInMonth = getDaysInMonth(new Date(selectedYear, selectedMonth));
+                    const dayMap: Record<number, number> = {};
+
+                    for (let i = 1; i <= daysInMonth; i++) {
+                        dayMap[i] = 0;
+                    }
+
+                    raw.forEach((entry: { date: string, count: number }) => {
+                        const day = new Date(entry.date).getDate();
+                        dayMap[day] = entry.count;
+                    });
+
+                    parsedData.month = Array.from({ length: daysInMonth }, (_, i) => ({
+                        label: `${i + 1}`,
+                        value: dayMap[i + 1],
+                        time: (i + 1).toString(), //dzień
+                    }));
+
+                } else if (range === "day") {
+                    const hourMap: Record<number, number> = {};
+
+                    for (let h = 0; h < 24; h++) {
+                        hourMap[h] = 0;
+                    }
+
+                    raw.forEach((entry: { hour: number, count: number }) => {
+                        hourMap[entry.hour] = entry.count;
+                    });
+
+                    parsedData.day = Array.from({ length: 24 }, (_, h) => ({
+                        label: `${h}:00`,
+                        value: hourMap[h],
+                        time: (h).toString(), //godzina
+                    }));
+
+                }
+                setChartData(parsedData);
+
             } catch (error) {
-                console.error("Error fetching visits:", error);
+                console.error("Error fetching stats:", error);
             }
         }
 
-        fetchVisits();
-    }, [userId, isAdmin]);
+        if (userId && isAdmin) {
+            fetchStats();
+        }
+    }, [userId, isAdmin, range, selectedYear, selectedMonth, selectedDay]);
 
     // Resetuj day i month przy zmianie zakresu, aby uniknąć błędów
     useEffect(() => {
@@ -73,27 +128,8 @@ export default function StatisticsPage() {
         }
     }, [range]);
 
-    // Przygotuj dane do wykresu na podstawie filtrów i zakresu
-    useEffect(() => {
-        if (visits.length === 0) return;
-
-        const filters = { year: selectedYear } as { year: number; month?: number; day?: number };
-        if (range === "month") {
-            filters.month = selectedMonth;
-        } else if (range === "day") {
-            filters.month = selectedMonth;
-            filters.day = selectedDay;
-        }
-
-        setChartData(transformVisitsToChartData(visits, filters));
-    }, [visits, selectedYear, selectedMonth, selectedDay, range]);
-
-    const daysInMonth = getDaysInMonth(new Date(selectedYear, selectedMonth));
-
     function handleRangeChange(newRange: "day" | "month" | "year") {
         setRange(newRange);
-
-        // Opcjonalnie resetuj filtry:
         if (newRange === "year") {
             setSelectedMonth(0);
             setSelectedDay(1);
@@ -101,7 +137,6 @@ export default function StatisticsPage() {
             setSelectedDay(1);
         }
     }
-
 
     return (
         <div className="p-6">
@@ -177,14 +212,13 @@ export default function StatisticsPage() {
             </div>
 
             {/* Wykres - przekazujemy tylko dane i zakres, bez onRangeChange */}
-            {chartData && chartData.day.length > 0 ? (
+            {chartData && chartData[range].length > 0 ? (
                 <ChartWithToggle
                     dataByRange={chartData}
                     currentRange={range}
                     onRangeChange={handleRangeChange}
                     disableRangeToggle={true}
                 />
-
             ) : (
                 <p className="text-gray-500">Brak danych do wykresu.</p>
             )}
