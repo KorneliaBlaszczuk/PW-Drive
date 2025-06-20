@@ -213,12 +213,15 @@ export default function StatisticsPage() {
 
             {/* Wykres - przekazujemy tylko dane i zakres, bez onRangeChange */}
             {chartData && chartData[range].length > 0 ? (
-                <ChartWithToggle
-                    dataByRange={chartData}
-                    currentRange={range}
-                    onRangeChange={handleRangeChange}
-                    disableRangeToggle={true}
-                />
+                <>
+                    <h2 className="text-xl font-semibold mb-4">Wykres wizyt</h2>
+                    <ChartWithToggle
+                        dataByRange={chartData}
+                        currentRange={range}
+                        onRangeChange={handleRangeChange}
+                        disableRangeToggle={true}
+                    />
+                </>
             ) : (
                 <p className="text-gray-500">Brak danych do wykresu.</p>
             )}
