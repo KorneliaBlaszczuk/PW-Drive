@@ -25,6 +25,15 @@
     justify-content: center;
     background-color: rgba(40, 76, 220, 0.55);
     gap: 1rem;
+    position: relative;
+
+    .stats {
+      width: 5vh;
+      height: 5vh;
+      position: absolute;
+      top: 4rem;
+      right: 4rem;
+    }
 
     .icon {
       width: 15vh;
