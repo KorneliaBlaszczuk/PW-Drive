@@ -16,6 +16,11 @@ class DailyServicesRepairsSummaryService {
     @Autowired
     lateinit var repository: DailyServicesRepairsSummaryRepository
 
+
+    fun getNames(): List<String> {
+        return repository.getNames()
+    }
+
     fun getSummary(
         startDate: LocalDate,
         period: SRStatsPeriod,

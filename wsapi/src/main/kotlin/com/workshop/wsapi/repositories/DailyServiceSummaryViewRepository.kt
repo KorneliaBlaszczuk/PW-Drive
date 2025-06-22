@@ -32,7 +32,12 @@ class DailyServicesRepairsSummaryRepository {
 
     @PersistenceContext
     private lateinit var entityManager: EntityManager
-    
+
+    fun getNames(): List<String> {
+        val query = entityManager.createNativeQuery("SELECT distinct name from daily_services_repairs_summary")
+        return query.resultList.map { it.toString() }
+    }
+
     fun getStatsPerDayForCategoryServices(
         startDate: LocalDate,
         endDate: LocalDate,

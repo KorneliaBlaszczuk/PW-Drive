@@ -98,5 +98,10 @@ class AdminController {
         )
         return ResponseEntity.ok(stats)
     }
+
+    @GetMapping("/stats/services-repairs/names")
+    fun getServicesRepairsNamesFromView(): ResponseEntity<List<String>> {
+        return ResponseEntity.ok(servicesRepairsSummaryService.getNames())
+    }
 }
 
