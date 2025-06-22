@@ -123,63 +123,68 @@ export default function Profile() {
   }, []);
 
   useEffect(() => {
-    const fetchSimultaneousVisits = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/metadata/info-full', {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-          },
-        });
-        if (!response.ok) {
-          throw new Error('Błąd podczas pobierania danych');
+    const role = sessionStorage.getItem("role");
+    if (role === "WORKSHOP") {
+      const fetchSimultaneousVisits = async () => {
+        try {
+          const response = await fetch('http://localhost:8080/api/metadata/info-full', {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            },
+          });
+          if (!response.ok) {
+            throw new Error('Błąd podczas pobierania danych');
+          }
+
+          const data = await response.json();
+          setVisitsCount(data.simultaneousVisits);
+
+        } catch (error) {
+          console.error('Błąd pobierania godzin:', error);
         }
-
-        const data = await response.json();
-        console.log(data.simultaneousVisits);
-        setVisitsCount(data.simultaneousVisits);
-
-      } catch (error) {
-        console.error('Błąd pobierania godzin:', error);
       }
+      fetchSimultaneousVisits();
     }
-    fetchSimultaneousVisits();
   }, []);
 
   useEffect(() => {
-    const fetchWorkingHours = async () => {
-      try {
-        const response = await fetch('http://localhost:8080/api/hours', {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('Błąd podczas pobierania danych');
-        }
-
-        const data = await response.json();
-
-        const parsedHours = data.map((item: any) => {
-          const dayPL = dayMap[item.dayOfWeek]; // 'poniedziałek' itd.
-          return {
-            [dayPL]: {
-              start: item.isOpen ? item.openHour.slice(0, 5) : '',
-              end: item.isOpen ? item.closeHour.slice(0, 5) : '',
+    const role = sessionStorage.getItem("role");
+    if (role === "WORKSHOP") {
+      const fetchWorkingHours = async () => {
+        try {
+          const response = await fetch('http://localhost:8080/api/hours', {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem('token')}`,
             },
-          };
-        });
+          });
 
-        const hoursObj = Object.assign({}, ...parsedHours);
-        setWorkingHours(hoursObj);
-      } catch (error) {
-        console.error('Błąd pobierania godzin:', error);
-      }
-    };
+          if (!response.ok) {
+            throw new Error('Błąd podczas pobierania danych');
+          }
 
-    fetchWorkingHours();
+          const data = await response.json();
+
+          const parsedHours = data.map((item: any) => {
+            const dayPL = dayMap[item.dayOfWeek]; // 'poniedziałek' itd.
+            return {
+              [dayPL]: {
+                start: item.isOpen ? item.openHour.slice(0, 5) : '',
+                end: item.isOpen ? item.closeHour.slice(0, 5) : '',
+              },
+            };
+          });
+
+          const hoursObj = Object.assign({}, ...parsedHours);
+          setWorkingHours(hoursObj);
+        } catch (error) {
+          console.error('Błąd pobierania godzin:', error);
+        }
+      };
+
+      fetchWorkingHours();
+    }
   }, []);
 
 
