@@ -44,8 +44,27 @@ export default function Profile() {
   const [visibleHistory, setVisibleHistory] = useState(5);
 
   const [visitsCount, setVisitsCount] = useState(5);
-  const [startTime, setStartTime] = useState("09:00");
-  const [endTime, setEndTime] = useState("17:00");
+  const [workingHours, setWorkingHours] = useState<{
+    [day: string]: { start: string; end: string }
+  }>({
+    poniedziałek: { start: '09:00', end: '17:00' },
+    wtorek: { start: '09:00', end: '17:00' },
+    środa: { start: '09:00', end: '17:00' },
+    czwartek: { start: '09:00', end: '17:00' },
+    piątek: { start: '09:00', end: '17:00' },
+    sobota: { start: '09:00', end: '17:00' },
+  });
+
+  const handleTimeChange = (day: string, field: 'start' | 'end', value: string) => {
+    setWorkingHours(prev => ({
+      ...prev,
+      [day]: {
+        ...prev[day],
+        [field]: value
+      }
+    }));
+  };
+
 
   const [currentCarsPage, setCurrentCarsPage] = useState(1);
   const carsPerPage = 3;
@@ -173,14 +192,6 @@ export default function Profile() {
     } catch (error) {
       console.error("Błąd przy usuwaniu auta:", error);
     }
-  };
-
-  const handleStartTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setStartTime(e.target.value);
-  };
-
-  const handleEndTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEndTime(e.target.value);
   };
 
   const handleVisitsCountChange = (value: string) => {
@@ -499,30 +510,36 @@ export default function Profile() {
         ) : (
           <div className={styles.workshop}>
             <div>
-              <p>Godziny pracy:</p>
-              <div className="flex items-center space-x-4">
-                <div className="flex flex-col">
-                  <label className="mb-1 text-sm text-gray-700">
-                    Godzina rozpoczęcia
-                  </label>
-                  <input
-                    type="time"
-                    value={startTime}
-                    onChange={handleStartTimeChange}
-                    className="border px-3 py-2 rounded-md"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label className="mb-1 text-sm text-gray-700">
-                    Godzina zakończenia
-                  </label>
-                  <input
-                    type="time"
-                    value={endTime}
-                    onChange={handleEndTimeChange}
-                    className="border px-3 py-2 rounded-md"
-                  />
-                </div>
+              <p className="mb-2 font-medium">Godziny pracy:</p>
+              <div className="grid grid-cols-3 gap-6">
+                {[
+                  ['poniedziałek', 'wtorek', 'środa'],
+                  ['czwartek', 'piątek', 'sobota'],
+                ].map((row,) => (
+                  row.map((day) => (
+                    <div key={day} className="flex flex-col">
+                      <p className="capitalize font-semibold mb-1">{day}</p>
+                      <div className="flex space-x-3">
+                        <div className="flex flex-col">
+                          <input
+                            type="time"
+                            value={workingHours[day].start}
+                            onChange={(e) => handleTimeChange(day, 'start', e.target.value)}
+                            className="border px-3 py-2 rounded-md"
+                          />
+                        </div>
+                        <div className="flex flex-col">
+                          <input
+                            type="time"
+                            value={workingHours[day].end}
+                            onChange={(e) => handleTimeChange(day, 'end', e.target.value)}
+                            className="border px-3 py-2 rounded-md"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ))}
               </div>
             </div>
 
