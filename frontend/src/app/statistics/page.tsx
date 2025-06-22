@@ -3,6 +3,8 @@
 import ChartWithToggle, { ChartData } from "@/components/ChartWithToggle";
 import { useEffect, useState } from "react";
 import { getDaysInMonth } from "date-fns";
+import { Service } from "@/types/service";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 
 const MONTHS_ORDER = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -13,8 +15,11 @@ export default function StatisticsPage() {
     const [chartData, setChartData] = useState<ChartData | null>(null);
     const [userId, setUserId] = useState<string | null>(null);
     const [isAdmin, setAdmin] = useState(false);
+    const [services, setServices] = useState<Service[]>([]);
+    const [chosenServices, setChosenServices] = useState<Service[]>([]);
 
     const [range, setRange] = useState<"day" | "month" | "year">("year");
+    const [category, setCategory] = useState<"all" | "services" | "repairs">("all");
     const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
     const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth());
     const [selectedDay, setSelectedDay] = useState<number>(new Date().getDate());
@@ -30,6 +35,27 @@ export default function StatisticsPage() {
         if (storedUserId) {
             setUserId(storedUserId);
         }
+    }, []);
+
+    useEffect(() => {
+        async function getServices() {
+            try {
+                const response = await fetch("http://localhost:8080/api/services", {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error("Failed to fetch services");
+                }
+                const data = await response.json();
+                setServices(data);
+            } catch (error) {
+                console.error("Error fetching services:", error);
+            }
+        }
+        getServices();
     }, []);
 
     useEffect(() => {
@@ -49,7 +75,6 @@ export default function StatisticsPage() {
                 }
 
                 const raw = await response.json();
-                // alert(raw); // Commented out alert for better UX
 
                 let parsedData: ChartData = { year: [], month: [], day: [] };
 
@@ -60,7 +85,7 @@ export default function StatisticsPage() {
                     }, {} as Record<string, number>);
 
                     raw.forEach((entry: { month: number, count: number }) => {
-                        const label = MONTHS_ORDER[entry.month - 1]; // backend month is 1-based
+                        const label = MONTHS_ORDER[entry.month - 1];
                         monthMap[label] = entry.count;
                     });
 
@@ -141,6 +166,48 @@ export default function StatisticsPage() {
     return (
         <div className="p-6">
             <h1 className="text-2xl font-bold mb-4">Statystyki</h1>
+
+            {/* Kategoria */}
+            <div className="mb-4">
+                <label>
+                    Kategoria:
+                    <select
+                        value={category}
+                        onChange={e => setCategory(e.target.value as "all" | "services" | "repairs")}
+                        className="ml-2 border p-1"
+                    >
+                        <option value="all">Wszystko</option>
+                        <option value="services">Usługi</option>
+                        <option value="repairs">Naprawy</option>
+                    </select>
+                </label>
+            </div>
+
+            {/* Usługi */}
+            {category === 'services' && (
+                <div className="mb-4">
+                    <label className="block font-medium mb-1">Usługi:</label>
+                    <ToggleGroup
+                        type="multiple"
+                        value={chosenServices.map(service => service.id.toString())}
+                        onValueChange={(ids: string[]) => {
+                            const updated = services.filter(svc => ids.includes(svc.id.toString()));
+                            setChosenServices(updated);
+                        }}
+                        className="flex flex-wrap gap-2"
+                    >
+                        {services.map((service) => (
+                            <ToggleGroupItem
+                                key={service.id}
+                                value={service.id.toString()}
+                                className="border px-3 py-1 rounded-md inline-flex items-center justify-center text-center break-words whitespace-normal text-sm leading-snug data-[state=on]:bg-blue-600 data-[state=on]:text-white"
+                            >
+                                {service.name}
+                            </ToggleGroupItem>
+                        ))}
+                    </ToggleGroup>
+                </div>
+            )}
 
             {/* Sterowanie zakresem tylko tutaj */}
             <div className="mb-4">

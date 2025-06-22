@@ -221,7 +221,7 @@ export default function Report() {
                             className={cn(styles.calendarInput)}
                         >
                             <CalendarIcon className="mr-2 h-4 w-4" />
-                            {date ? format(date, "PPP") : <span className={styles.calendarPlaceholder}>data następnego przebiegu</span>}
+                            {date ? format(date, "PPP") : <span className={styles.calendarPlaceholder}>data następnego przeglądu</span>}
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
