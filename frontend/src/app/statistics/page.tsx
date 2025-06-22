@@ -274,12 +274,11 @@ export default function StatisticsPage() {
                     Zakres:
                     <select
                         value={range}
-                        onChange={e => setRange(e.target.value as "day" | "month" | "year")}
+                        onChange={e => setRange(e.target.value as "month" | "year")}
                         className="ml-2 border p-1"
                     >
                         <option value="year">Rok</option>
                         <option value="month">Miesiąc</option>
-                        <option value="day">Dzień</option>
                     </select>
                 </label>
             </div>
@@ -318,29 +317,11 @@ export default function StatisticsPage() {
                 </label>
             </div>
 
-            {/* Dzień */}
-            <div className="mb-6">
-                <label>
-                    Dzień:
-                    <select
-                        value={selectedDay}
-                        onChange={e => setSelectedDay(Number(e.target.value))}
-                        disabled={range !== "day"}
-                        className={`ml-2 border p-1 ${range !== "day" ? "bg-gray-200 cursor-not-allowed" : ""}`}
-                    >
-                        {Array.from({ length: daysInMonth }, (_, i) => i + 1).map((d) => (
-                            <option key={d} value={d}>
-                                {d}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-            </div>
 
             {/* Wykres - przekazujemy tylko dane i zakres, bez onRangeChange */}
             {chartData && chartData[range].length > 0 ? (
                 <>
-                    <h2 className="text-xl font-semibold mb-4">Wykres wizyt</h2>
+                    <h2 className="text-xl font-semibold mb-4">Wykres usług i napraw</h2>
                     <ChartWithToggle
                         dataByRange={chartData}
                         currentRange={range}

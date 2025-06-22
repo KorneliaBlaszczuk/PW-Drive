@@ -299,7 +299,7 @@ export default function Profile() {
 
   const handleVisitsCountChange = async (value: string) => {
     const numericValue = Number(value);
-    setVisitsCount(Number(value));
+    setVisitsCount(numericValue);
 
     try {
       const res = await fetch("http://localhost:8080/api/metadata/1", {
