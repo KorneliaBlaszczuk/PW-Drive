@@ -65,8 +65,10 @@ export default function Profile() {
     niedziela: { start: '', end: '' },
   }));
 
-  const saveSingleDay = async (dayPL: string, values: { start: string; end: string }) => {
-    const dayOfWeek = Object.keys(dayMap).find((key) => dayMap[key] === dayPL);
+  const saveSingleDay = async (dayPL: string | null, values: { start: string | null; end: string | null } | null) => {    const dayOfWeek = Object.keys(dayMap).find((key) => dayMap[key] === dayPL);
+    if (!dayPL || !values) {
+      return;
+    }
 
     const payload = {
       dayOfWeek,
@@ -106,6 +108,8 @@ export default function Profile() {
       const { start, end } = updated[day];
       if (start && end) {
         saveSingleDay(day, { start, end });
+      } else {
+        saveSingleDay(day, { start: null, end: null });
       }
       return updated;
     });
