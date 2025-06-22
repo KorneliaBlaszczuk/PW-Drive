@@ -32,6 +32,17 @@ import { Visit } from "@/types/visit";
 import { Car } from "@/types/car";
 import styles from "./page.module.scss";
 
+const dayMap: { [key: string]: string } = {
+  MONDAY: 'poniedziałek',
+  TUESDAY: 'wtorek',
+  WEDNESDAY: 'środa',
+  THURSDAY: 'czwartek',
+  FRIDAY: 'piątek',
+  SATURDAY: 'sobota',
+  SUNDAY: 'niedziela',
+};
+
+
 export default function Profile() {
   const [visits, setVisits] = useState<Visit[]>([]);
   const [cars, setCars] = useState<Car[]>([]);
@@ -44,27 +55,58 @@ export default function Profile() {
   const [visibleHistory, setVisibleHistory] = useState(5);
 
   const [visitsCount, setVisitsCount] = useState(5);
-  const [workingHours, setWorkingHours] = useState<{
-    [day: string]: { start: string; end: string }
-  }>({
-    poniedziałek: { start: '09:00', end: '17:00' },
-    wtorek: { start: '09:00', end: '17:00' },
-    środa: { start: '09:00', end: '17:00' },
-    czwartek: { start: '09:00', end: '17:00' },
-    piątek: { start: '09:00', end: '17:00' },
-    sobota: { start: '09:00', end: '17:00' },
-  });
+  const [workingHours, setWorkingHours] = useState<{ [day: string]: { start: string; end: string } }>(() => ({
+    poniedziałek: { start: '', end: '' },
+    wtorek: { start: '', end: '' },
+    środa: { start: '', end: '' },
+    czwartek: { start: '', end: '' },
+    piątek: { start: '', end: '' },
+    sobota: { start: '', end: '' },
+    niedziela: { start: '', end: '' },
+  }));
 
-  const handleTimeChange = (day: string, field: 'start' | 'end', value: string) => {
-    setWorkingHours(prev => ({
-      ...prev,
-      [day]: {
-        ...prev[day],
-        [field]: value
+  const saveSingleDay = async (dayPL: string, values: { start: string; end: string }) => {
+    const dayOfWeek = Object.keys(dayMap).find((key) => dayMap[key] === dayPL);
+
+    const payload = {
+      dayOfWeek,
+      isOpen: !!(values.start && values.end),
+      openHour: values.start ? `${values.start}:00` : null,
+      closeHour: values.end ? `${values.end}:00` : null,
+    };
+
+    try {
+      const res = await fetch("http://localhost:8080/api/admin/hours", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        console.error("Error saving: ", await res.text());
       }
-    }));
+    } catch (err) {
+      console.error(err);
+    }
   };
 
+  const handleTimeChange = (day: string, field: "start" | "end", value: string) => {
+    setWorkingHours((prev) => {
+      const updated = {
+        ...prev,
+        [day]: {
+          ...prev[day],
+          [field]: value,
+        },
+      };
+
+      saveSingleDay(day, updated[day]);
+      return updated;
+    });
+  };
 
   const [currentCarsPage, setCurrentCarsPage] = useState(1);
   const carsPerPage = 3;
@@ -76,6 +118,46 @@ export default function Profile() {
       setAdmin(true);
     }
   }, []);
+
+  useEffect(() => {
+    const fetchWorkingHours = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/hours', {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Błąd podczas pobierania danych');
+        }
+
+        const data = await response.json();
+
+        const parsedHours = data.map((item: any) => {
+          console.log(item);
+          const dayPL = dayMap[item.dayOfWeek]; // 'poniedziałek' itd.
+          console.log(dayPL);
+          return {
+            [dayPL]: {
+              start: item.isOpen ? item.openHour.slice(0, 5) : '',
+              end: item.isOpen ? item.closeHour.slice(0, 5) : '',
+            },
+          };
+        });
+
+        const hoursObj = Object.assign({}, ...parsedHours);
+        setWorkingHours(hoursObj);
+      } catch (error) {
+        console.error('Błąd pobierania godzin:', error);
+      }
+    };
+
+    console.log(workingHours);
+    fetchWorkingHours();
+  }, []);
+
 
   useEffect(() => {
     const storedUserId = sessionStorage.getItem("id");
@@ -512,34 +594,26 @@ export default function Profile() {
             <div>
               <p className="mb-2 font-medium">Godziny pracy:</p>
               <div className="grid grid-cols-3 gap-6">
-                {[
-                  ['poniedziałek', 'wtorek', 'środa'],
-                  ['czwartek', 'piątek', 'sobota'],
-                ].map((row,) => (
-                  row.map((day) => (
+                {['poniedziałek', 'wtorek', 'środa', 'czwartek', 'piątek', 'sobota', 'niedziela'].map((day) => (
                     <div key={day} className="flex flex-col">
                       <p className="capitalize font-semibold mb-1">{day}</p>
                       <div className="flex space-x-3">
-                        <div className="flex flex-col">
-                          <input
+                        <input
                             type="time"
-                            value={workingHours[day].start}
+                            value={workingHours[day]?.start || ''}
                             onChange={(e) => handleTimeChange(day, 'start', e.target.value)}
                             className="border px-3 py-2 rounded-md"
-                          />
-                        </div>
-                        <div className="flex flex-col">
-                          <input
+                        />
+                        <input
                             type="time"
-                            value={workingHours[day].end}
+                            value={workingHours[day]?.end || ''}
                             onChange={(e) => handleTimeChange(day, 'end', e.target.value)}
                             className="border px-3 py-2 rounded-md"
-                          />
-                        </div>
+                        />
                       </div>
                     </div>
-                  ))
                 ))}
+
               </div>
             </div>
 
