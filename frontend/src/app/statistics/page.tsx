@@ -15,11 +15,12 @@ export default function StatisticsPage() {
     const [chartData, setChartData] = useState<ChartData | null>(null);
     const [userId, setUserId] = useState<string | null>(null);
     const [isAdmin, setAdmin] = useState(false);
-    const [services, setServices] = useState<Service[]>([]);
-    const [chosenServices, setChosenServices] = useState<Service[]>([]);
+    const [options, setOptions] = useState<string[]>([]);
+    const [chosen, setChosen] = useState<string[]>([]);
 
     const [range, setRange] = useState<"day" | "month" | "year">("year");
-    const [category, setCategory] = useState<"all" | "services" | "repairs">("all");
+    const [category, setCategory] = useState<"all" | "service" | "repair">("all");
+    const [choice, setChoice] = useState<"category" | "names">();
     const [selectedYear, setSelectedYear] = useState<number>(new Date().getFullYear());
     const [selectedMonth, setSelectedMonth] = useState<number>(new Date().getMonth());
     const [selectedDay, setSelectedDay] = useState<number>(new Date().getDate());
@@ -38,9 +39,9 @@ export default function StatisticsPage() {
     }, []);
 
     useEffect(() => {
-        async function getServices() {
+        async function getOptions() {
             try {
-                const response = await fetch("http://localhost:8080/api/services", {
+                const response = await fetch("http://localhost:8080/api/admin/stats/services-repairs/names", {
                     method: "GET",
                     headers: {
                         Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -50,19 +51,29 @@ export default function StatisticsPage() {
                     throw new Error("Failed to fetch services");
                 }
                 const data = await response.json();
-                setServices(data);
+                setOptions(data);
             } catch (error) {
                 console.error("Error fetching services:", error);
             }
         }
-        getServices();
+        getOptions();
     }, []);
 
     useEffect(() => {
         async function fetchStats() {
             const formattedDate = `${selectedYear}-${String(selectedMonth + 1).padStart(2, '0')}-${String(selectedDay).padStart(2, '0')}`;
+
             try {
-                const url = `http://localhost:8080/api/admin/stats/visits-count?startDate=${formattedDate}&period=${range}`;
+                let url;
+                if (choice === 'category' && category !== 'all') {
+                    url = `http://localhost:8080/api/admin/stats/services-repairs-stats?period=${range}&startDate=${formattedDate}&category=${category}`;
+                } else if (choice === 'names') {
+                    const joinedServices = chosen.join(",");
+                    url = `http://localhost:8080/api/admin/stats/services-repairs-stats?period=${range}&startDate=${formattedDate}&services=${encodeURIComponent(joinedServices)}`;
+                } else {
+                    url = `http://localhost:8080/api/admin/stats/services-repairs-stats?period=${range}&startDate=${formattedDate}`;
+                }
+
                 const response = await fetch(url, {
                     method: "GET",
                     headers: {
@@ -74,63 +85,92 @@ export default function StatisticsPage() {
                     throw new Error("Failed to fetch stats");
                 }
 
-                const raw = await response.json();
+                const raw: Array<{
+                    month?: number;
+                    date?: string;
+                    hour?: number;
+                    quantity: number;
+                    revenue: number;
+                }> = await response.json();
 
-                let parsedData: ChartData = { year: [], month: [], day: [] };
+                const parsedData: ChartData = { year: [], month: [], day: [] };
 
                 if (range === "year") {
-                    const monthMap: Record<string, number> = MONTHS_ORDER.reduce((acc, month) => {
-                        acc[month] = 0;
-                        return acc;
-                    }, {} as Record<string, number>);
+                    const quantityMap: Record<string, number> = {};
+                    const revenueMap: Record<string, number> = {};
 
-                    raw.forEach((entry: { month: number, count: number }) => {
-                        const label = MONTHS_ORDER[entry.month - 1];
-                        monthMap[label] = entry.count;
+                    MONTHS_ORDER.forEach(month => {
+                        quantityMap[month] = 0;
+                        revenueMap[month] = 0;
                     });
 
-                    parsedData.year = MONTHS_ORDER.map((month, index) => ({
+                    raw.forEach(entry => {
+                        if (entry.month) {
+                            const monthLabel = MONTHS_ORDER[entry.month - 1];
+                            quantityMap[monthLabel] += entry.quantity;
+                            revenueMap[monthLabel] += entry.revenue;
+                        }
+                    });
+
+                    parsedData.year = MONTHS_ORDER.map(month => ({
                         label: month,
-                        value: monthMap[month],
-                        time: MONTHS_ORDER[index],  // miesiąc
+                        value: quantityMap[month] || 0,
+                        value2: revenueMap[month] || 0,
+                        time: month,
                     }));
+
                 } else if (range === "month") {
                     const daysInMonth = getDaysInMonth(new Date(selectedYear, selectedMonth));
-                    const dayMap: Record<number, number> = {};
+                    const quantityMap: Record<number, number> = {};
+                    const revenueMap: Record<number, number> = {};
 
                     for (let i = 1; i <= daysInMonth; i++) {
-                        dayMap[i] = 0;
+                        quantityMap[i] = 0;
+                        revenueMap[i] = 0;
                     }
 
-                    raw.forEach((entry: { date: string, count: number }) => {
-                        const day = new Date(entry.date).getDate();
-                        dayMap[day] = entry.count;
+                    raw.forEach(entry => {
+                        if (entry.date) {
+                            const day = new Date(entry.date).getDate();
+                            quantityMap[day] += entry.quantity;
+                            revenueMap[day] += entry.revenue;
+                        }
                     });
 
-                    parsedData.month = Array.from({ length: daysInMonth }, (_, i) => ({
-                        label: `${i + 1}`,
-                        value: dayMap[i + 1],
-                        time: (i + 1).toString(), //dzień
-                    }));
+                    parsedData.month = Array.from({ length: daysInMonth }, (_, i) => {
+                        const day = i + 1;
+                        return {
+                            label: day.toString(),
+                            value: quantityMap[day] || 0,
+                            value2: revenueMap[day] || 0,
+                            time: day.toString(),
+                        };
+                    });
 
                 } else if (range === "day") {
-                    const hourMap: Record<number, number> = {};
+                    const quantityMap: Record<number, number> = {};
+                    const revenueMap: Record<number, number> = {};
 
                     for (let h = 0; h < 24; h++) {
-                        hourMap[h] = 0;
+                        quantityMap[h] = 0;
+                        revenueMap[h] = 0;
                     }
 
-                    raw.forEach((entry: { hour: number, count: number }) => {
-                        hourMap[entry.hour] = entry.count;
+                    raw.forEach(entry => {
+                        if (entry.hour !== undefined) {
+                            quantityMap[entry.hour] += entry.quantity;
+                            revenueMap[entry.hour] += entry.revenue;
+                        }
                     });
 
                     parsedData.day = Array.from({ length: 24 }, (_, h) => ({
                         label: `${h}:00`,
-                        value: hourMap[h],
-                        time: (h).toString(), //godzina
+                        value: quantityMap[h] || 0,
+                        value2: revenueMap[h] || 0,
+                        time: h.toString(),
                     }));
-
                 }
+
                 setChartData(parsedData);
 
             } catch (error) {
@@ -138,10 +178,11 @@ export default function StatisticsPage() {
             }
         }
 
+
         if (userId && isAdmin) {
             fetchStats();
         }
-    }, [userId, isAdmin, range, selectedYear, selectedMonth, selectedDay]);
+    }, [userId, isAdmin, range, selectedYear, selectedMonth, selectedDay, choice, chosen, category]);
 
     // Resetuj day i month przy zmianie zakresu, aby uniknąć błędów
     useEffect(() => {
@@ -167,47 +208,65 @@ export default function StatisticsPage() {
         <div className="p-6">
             <h1 className="text-2xl font-bold mb-4">Statystyki</h1>
 
-            {/* Kategoria */}
+            {/* Wybór */}
             <div className="mb-4">
                 <label>
-                    Kategoria:
+                    Wykresy dla:
                     <select
-                        value={category}
-                        onChange={e => setCategory(e.target.value as "all" | "services" | "repairs")}
+                        value={choice}
+                        onChange={e => setChoice(e.target.value as "category" | "names")}
                         className="ml-2 border p-1"
                     >
-                        <option value="all">Wszystko</option>
-                        <option value="services">Usługi</option>
-                        <option value="repairs">Naprawy</option>
+                        <option value=""></option>
+                        <option value="category">Kategorii</option>
+                        <option value="names">Usług i Napraw</option>
                     </select>
                 </label>
             </div>
 
-            {/* Usługi */}
-            {category === 'services' && (
+            {/* Kategoria */}
+            {choice == 'category' &&
                 <div className="mb-4">
-                    <label className="block font-medium mb-1">Usługi:</label>
+                    <label>
+                        Kategoria:
+                        <select
+                            value={category}
+                            onChange={e => setCategory(e.target.value as "all" | "service" | "repair")}
+                            className="ml-2 border p-1"
+                        >
+                            <option value="all">Wszystko</option>
+                            <option value="service">Usługi</option>
+                            <option value="repair">Naprawy</option>
+                        </select>
+                    </label>
+                </div>
+            }
+
+            {/* Usługi i naprawy */}
+            {choice === 'names' && (
+                <div className="mb-4">
+                    <label className="block font-medium mb-1">Usługi i naprawy:</label>
                     <ToggleGroup
                         type="multiple"
-                        value={chosenServices.map(service => service.id.toString())}
+                        value={chosen}
                         onValueChange={(ids: string[]) => {
-                            const updated = services.filter(svc => ids.includes(svc.id.toString()));
-                            setChosenServices(updated);
+                            setChosen(ids);
                         }}
                         className="flex flex-wrap gap-2"
                     >
-                        {services.map((service) => (
+                        {options.map((option) => (
                             <ToggleGroupItem
-                                key={service.id}
-                                value={service.id.toString()}
+                                key={option}
+                                value={option}
                                 className="border px-3 py-1 rounded-md inline-flex items-center justify-center text-center break-words whitespace-normal text-sm leading-snug data-[state=on]:bg-blue-600 data-[state=on]:text-white"
                             >
-                                {service.name}
+                                {option}
                             </ToggleGroupItem>
                         ))}
                     </ToggleGroup>
                 </div>
             )}
+
 
             {/* Sterowanie zakresem tylko tutaj */}
             <div className="mb-4">
@@ -287,6 +346,7 @@ export default function StatisticsPage() {
                         currentRange={range}
                         onRangeChange={handleRangeChange}
                         disableRangeToggle={true}
+                        valueKey="value"
                     />
                     <h2 className="text-xl font-semibold mb-4 mt-4">Wykres zarobków</h2>
                     <ChartWithToggle
@@ -294,6 +354,7 @@ export default function StatisticsPage() {
                         currentRange={range}
                         onRangeChange={handleRangeChange}
                         disableRangeToggle={true}
+                        valueKey="value2"
                     />
                 </>
             ) : (
