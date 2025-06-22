@@ -16,7 +16,7 @@ class VisitsStatsService {
     fun getVisitsYearStats(year: Int): List<VisitCountPerMonth> {
         val stats = visitRepository.countVisitsPerMonth(
             LocalDate.of(year, 1, 1),
-            LocalDate.of(year, 1, 1)
+            LocalDate.of(year + 1, 1, 1)
         )
         return stats
     }
