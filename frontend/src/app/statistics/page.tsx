@@ -328,6 +328,7 @@ export default function StatisticsPage() {
                         onRangeChange={handleRangeChange}
                         disableRangeToggle={true}
                         valueKey="value"
+                        label="Ilość"
                     />
                     <h2 className="text-xl font-semibold mb-4 mt-4">Wykres zarobków</h2>
                     <ChartWithToggle
@@ -336,6 +337,7 @@ export default function StatisticsPage() {
                         onRangeChange={handleRangeChange}
                         disableRangeToggle={true}
                         valueKey="value2"
+                        label="Suma"
                     />
                 </>
             ) : (
