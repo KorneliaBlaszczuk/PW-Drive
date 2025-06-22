@@ -55,12 +55,196 @@ class DailyServicesRepairsSummaryRepository {
         )
         query.setParameter("startDate", startDate)
         query.setParameter("endDate", endDate)
+
         return query.resultList.map { mapToMonthRevenueDto(it as Array<*>) }
     }
 
-    /* TODO add queries for filtering services and repairs by names */
 
-    /* TODO add queries for categories: services and repairs */
+    fun getRevenuePerDayForCategoryServices(
+        startDate: LocalDate,
+        endDate: LocalDate,
+        names: List<String>?
+    ): List<ServicesRepairsDayRevenueDto> {
+        var query = entityManager.createNativeQuery("");
+        if (names.isNullOrEmpty()) {
+            query = entityManager.createNativeQuery(
+                """
+            SELECT name, date, cast(SUM(total_price) as int) FROM daily_services_repairs_summary
+            WHERE date >= :startDate AND date < :endDate AND NAME not like 'Naprawa:%'
+            group by name, date 
+            order by date
+            """
+            )
+        } else {
+            query = entityManager.createNativeQuery(
+                """
+            SELECT name, date, cast(SUM(total_price) as int) FROM daily_services_repairs_summary
+            WHERE date >= :startDate AND date < :endDate AND NAME not like 'Naprawa:%' AND name in (:names)
+            group by name, date 
+            order by date
+            """
+            )
+        }
+        query.setParameter("startDate", startDate)
+        query.setParameter("endDate", endDate)
+        query.setParameter("names", names)
+        return query.resultList.map { mapToDayRevenueDto(it as Array<*>) }
+    }
+
+    fun getRevenuePerDayForCategoryRepairs(
+        startDate: LocalDate,
+        endDate: LocalDate,
+        names: List<String>?
+    ): List<ServicesRepairsDayRevenueDto> {
+        var query = entityManager.createNativeQuery("");
+        if (names.isNullOrEmpty()) {
+            query = entityManager.createNativeQuery(
+                """
+            SELECT name, date, cast(SUM(total_price) as int) FROM daily_services_repairs_summary
+            WHERE date >= :startDate AND date < :endDate AND NAME like 'Naprawa:%'
+            group by name, date 
+            order by date
+            """
+            )
+        } else {
+            query = entityManager.createNativeQuery(
+                """
+            SELECT name, date, cast(SUM(total_price) as int) FROM daily_services_repairs_summary
+            WHERE date >= :startDate AND date < :endDate AND NAME like 'Naprawa:%' AND name in (:names)
+            group by name, date 
+            order by date
+            """
+            )
+        }
+        query.setParameter("startDate", startDate)
+        query.setParameter("endDate", endDate)
+        query.setParameter("names", names)
+        return query.resultList.map { mapToDayRevenueDto(it as Array<*>) }
+    }
+
+    fun getRevenuePerDayForCategoryAny(
+        startDate: LocalDate,
+        endDate: LocalDate,
+        names: List<String>?
+    ): List<ServicesRepairsDayRevenueDto> {
+        var query = entityManager.createNativeQuery("");
+        if (names.isNullOrEmpty()) {
+            query = entityManager.createNativeQuery(
+                """
+            SELECT name, date, cast(SUM(total_price) as int) FROM daily_services_repairs_summary
+            WHERE date >= :startDate AND date < :endDate
+            group by name, date 
+            order by date
+            """
+            )
+        } else {
+            query = entityManager.createNativeQuery(
+                """
+            SELECT name, date, cast(SUM(total_price) as int) FROM daily_services_repairs_summary
+            WHERE date >= :startDate AND date < :endDate  AND name in (:names)
+            group by name, date 
+            order by date
+            """
+            )
+        }
+        query.setParameter("startDate", startDate)
+        query.setParameter("endDate", endDate)
+        query.setParameter("names", names)
+        return query.resultList.map { mapToDayRevenueDto(it as Array<*>) }
+    }
+
+
+    fun getRevenuePerMonthForCategoryServices(
+        startDate: LocalDate, endDate: LocalDate,
+        names: List<String>?
+    ): List<ServicesRepairsMonthRevenueDto> {
+        var query = entityManager.createNativeQuery("");
+        if (names.isNullOrEmpty()) {
+            query = entityManager.createNativeQuery(
+                """
+            SELECT name, cast(extract(month from date) as int), cast(SUM(total_price) as int) FROM daily_services_repairs_summary
+            WHERE date >= :startDate AND date < :endDate AND name not like 'Naprawa:%'
+            group by name, extract(month from date)
+            order by extract(month from date)
+            """
+            )
+        } else {
+            query = entityManager.createNativeQuery(
+                """
+            SELECT name, cast(extract(month from date) as int), cast(SUM(total_price) as int) FROM daily_services_repairs_summary
+            WHERE date >= :startDate AND date < :endDate AND name not like 'Naprawa:%' name in (:names)
+            group by name, extract(month from date)
+            order by extract(month from date)
+            """
+            )
+        }
+        query.setParameter("startDate", startDate)
+        query.setParameter("endDate", endDate)
+        query.setParameter("names", names)
+        return query.resultList.map { mapToMonthRevenueDto(it as Array<*>) }
+    }
+
+
+    fun getRevenuePerMonthForCategoryRepairs(
+        startDate: LocalDate, endDate: LocalDate,
+        names: List<String>?
+    ): List<ServicesRepairsMonthRevenueDto> {
+        var query = entityManager.createNativeQuery("");
+        if (names.isNullOrEmpty()) {
+            query = entityManager.createNativeQuery(
+                """
+            SELECT name, cast(extract(month from date) as int), cast(SUM(total_price) as int) FROM daily_services_repairs_summary
+            WHERE date >= :startDate AND date < :endDate AND name like 'Naprawa:%'
+            group by name, extract(month from date)
+            order by extract(month from date)
+            """
+            )
+        } else {
+            query = entityManager.createNativeQuery(
+                """
+            SELECT name, cast(extract(month from date) as int), cast(SUM(total_price) as int) FROM daily_services_repairs_summary
+            WHERE date >= :startDate AND date < :endDate AND name like 'Naprawa:%' name in (:names)
+            group by name, extract(month from date)
+            order by extract(month from date)
+            """
+            )
+        }
+        query.setParameter("startDate", startDate)
+        query.setParameter("endDate", endDate)
+        query.setParameter("names", names)
+        return query.resultList.map { mapToMonthRevenueDto(it as Array<*>) }
+    }
+
+    fun getRevenuePerMonthForCategoryAny(
+        startDate: LocalDate, endDate: LocalDate,
+        names: List<String>?
+    ): List<ServicesRepairsMonthRevenueDto> {
+        var query = entityManager.createNativeQuery("");
+        if (names.isNullOrEmpty()) {
+            query = entityManager.createNativeQuery(
+                """
+            SELECT name, cast(extract(month from date) as int), cast(SUM(total_price) as int) FROM daily_services_repairs_summary
+            WHERE date >= :startDate AND date < :endDate 
+            group by name, extract(month from date)
+            order by extract(month from date)
+            """
+            )
+        } else {
+            query = entityManager.createNativeQuery(
+                """
+            SELECT name, cast(extract(month from date) as int), cast(SUM(total_price) as int) FROM daily_services_repairs_summary
+            WHERE date >= :startDate AND date < :endDate AND name in (:names)
+            group by name, extract(month from date)
+            order by extract(month from date)
+            """
+            )
+        }
+        query.setParameter("startDate", startDate)
+        query.setParameter("endDate", endDate)
+        query.setParameter("names", names)
+        return query.resultList.map { mapToMonthRevenueDto(it as Array<*>) }
+    }
+
 
     private fun mapToDayRevenueDto(row: Array<*>): ServicesRepairsDayRevenueDto {
         return ServicesRepairsDayRevenueDto(
