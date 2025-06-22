@@ -54,7 +54,7 @@ export default function Profile() {
   const [visibleCurrent, setVisibleCurrent] = useState(5);
   const [visibleHistory, setVisibleHistory] = useState(5);
 
-  const [visitsCount, setVisitsCount] = useState(5);
+  const [visitsCount, setVisitsCount] = useState(null);
   const [workingHours, setWorkingHours] = useState<{ [day: string]: { start: string; end: string } }>(() => ({
     poniedziałek: { start: '', end: '' },
     wtorek: { start: '', end: '' },
@@ -120,6 +120,30 @@ export default function Profile() {
   }, []);
 
   useEffect(() => {
+    const fetchSimultaneousVisits = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/api/metadata/info-full', {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Błąd podczas pobierania danych');
+        }
+
+        const data = await response.json();
+        console.log(data.simultaneousVisits);
+        setVisitsCount(data.simultaneousVisits);
+
+      } catch (error) {
+        console.error('Błąd pobierania godzin:', error);
+      }
+    }
+    fetchSimultaneousVisits();
+  }, []);
+
+  useEffect(() => {
     const fetchWorkingHours = async () => {
       try {
         const response = await fetch('http://localhost:8080/api/hours', {
@@ -136,9 +160,7 @@ export default function Profile() {
         const data = await response.json();
 
         const parsedHours = data.map((item: any) => {
-          console.log(item);
           const dayPL = dayMap[item.dayOfWeek]; // 'poniedziałek' itd.
-          console.log(dayPL);
           return {
             [dayPL]: {
               start: item.isOpen ? item.openHour.slice(0, 5) : '',
@@ -154,7 +176,6 @@ export default function Profile() {
       }
     };
 
-    console.log(workingHours);
     fetchWorkingHours();
   }, []);
 
@@ -276,8 +297,26 @@ export default function Profile() {
     }
   };
 
-  const handleVisitsCountChange = (value: string) => {
+  const handleVisitsCountChange = async (value: string) => {
+    const numericValue = Number(value);
     setVisitsCount(Number(value));
+
+    try {
+      const res = await fetch("http://localhost:8080/api/metadata/1", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ simultaneousVisits: numericValue }),
+      });
+
+      if (!res.ok) {
+        console.error("Błąd podczas zapisywania liczby wizyt:", await res.text());
+      }
+    } catch (error) {
+      console.error("Błąd sieci:", error);
+    }
   };
 
   // Filter visits based on status
@@ -620,8 +659,8 @@ export default function Profile() {
             <div>
               <p>Liczba jednoczesnych wizyt:</p>
               <Select
-                value={visitsCount.toString()}
-                onValueChange={handleVisitsCountChange}
+                  value={visitsCount !== null ? visitsCount.toString() : ""}
+                  onValueChange={handleVisitsCountChange}
               >
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Wybierz liczbę" />
