@@ -134,14 +134,13 @@ export default function CarInfo() {
       <div className={styles.leftSection}>
         <h1 className={styles.infoHeader}>
           Informacje o samochodzie
-          <Link href={`/carStatistics?carId=${carId}`} passHref legacyBehavior>
-            <a style={{marginLeft: "12px", display: "inline-flex", alignItems: "center"}}>
-              <img
-                  src="https://img.icons8.com/ios/24/bar-chart--v1.png"
-                  alt="Ikona wykresu"
-                  style={{height: "24px", verticalAlign: "middle"}}
-              />
-            </a>
+          <Link href={`/carStatistics?carId=${carId}`} passHref
+                style={{marginLeft: "12px", display: "inline-flex", alignItems: "center"}}>
+            <img
+                src="https://img.icons8.com/ios/24/bar-chart--v1.png"
+                alt="Ikona wykresu"
+                style={{height: "24px", verticalAlign: "middle"}}
+            />
           </Link>
         </h1>
 
@@ -157,69 +156,69 @@ export default function CarInfo() {
                       />
                     </div>
                     <div className={styles.inlineField}>
-                  <label>Marka:</label>
-                  <Input
-                    value={editedCar?.brand || ""}
-                    onChange={(e) => handleInputChange("brand", e.target.value)}
-                  />
-                </div>
-                <div className={styles.inlineField}>
-                  <label>Model:</label>
-                  <Input
-                    value={editedCar?.model || ""}
-                    onChange={(e) => handleInputChange("model", e.target.value)}
-                  />
-                </div>
-                <div className={styles.inlineField}>
-                  <label>Rocznik:</label>
-                  <Input
-                    type="number"
-                    value={editedCar?.year || ""}
-                    onChange={(e) => handleInputChange("year", Number(e.target.value))}
-                  />
-                </div>
-                <div className={styles.inlineField}>
-                  <label>Przebieg (km):</label>
-                  <Input
-                    type="number"
-                    value={editedCar?.mileage || ""}
-                    onChange={(e) => handleInputChange("mileage", Number(e.target.value))}
-                  />
-                </div>
-                <div className={styles.inlineField}>
-                  <label>Następny przegląd:</label>
-                  <Input
-                    type="date"
-                    value={editedCar?.nextInspection || ""}
-                    onChange={(e) => handleInputChange("nextInspection", e.target.value)}
-                  />
-                </div>
-                <div className="flex gap-2 mt-2">
-                  <Button onClick={saveCarChanges}>Zapisz</Button>
-                  <Button variant="secondary" onClick={() => setIsEditing(false)}>
-                    Anuluj
-                  </Button>
-                </div>
-              </>
-            ) : (
-              <>
-                <p><strong>Nazwa:</strong> {car.name}</p>
-                <p><strong>Marka:</strong> {car.brand}</p>
-                <p><strong>Model:</strong> {car.model}</p>
-                <p><strong>Rocznik:</strong> {car.year}</p>
-                <p><strong>Przebieg:</strong> {car.mileage} km</p>
-                <p><strong>Następny przegląd:</strong> {car.nextInspection || "Brak informacji"}</p>
-                <Button className="mt-2 mb-3 text-lg" onClick={() => {
-                  setEditedCar(car);
-                  setIsEditing(true);
-                }}>
-                  Edytuj
-                </Button>
-              </>
-            )}
-          </div>
+                      <label>Marka:</label>
+                      <Input
+                          value={editedCar?.brand || ""}
+                          onChange={(e) => handleInputChange("brand", e.target.value)}
+                      />
+                    </div>
+                    <div className={styles.inlineField}>
+                      <label>Model:</label>
+                      <Input
+                          value={editedCar?.model || ""}
+                          onChange={(e) => handleInputChange("model", e.target.value)}
+                      />
+                    </div>
+                    <div className={styles.inlineField}>
+                      <label>Rocznik:</label>
+                      <Input
+                          type="number"
+                          value={editedCar?.year || ""}
+                          onChange={(e) => handleInputChange("year", Number(e.target.value))}
+                      />
+                    </div>
+                    <div className={styles.inlineField}>
+                      <label>Przebieg (km):</label>
+                      <Input
+                          type="number"
+                          value={editedCar?.mileage || ""}
+                          onChange={(e) => handleInputChange("mileage", Number(e.target.value))}
+                      />
+                    </div>
+                    <div className={styles.inlineField}>
+                      <label>Następny przegląd:</label>
+                      <Input
+                          type="date"
+                          value={editedCar?.nextInspection || ""}
+                          onChange={(e) => handleInputChange("nextInspection", e.target.value)}
+                      />
+                    </div>
+                    <div className="flex gap-2 mt-2">
+                      <Button onClick={saveCarChanges}>Zapisz</Button>
+                      <Button variant="secondary" onClick={() => setIsEditing(false)}>
+                        Anuluj
+                      </Button>
+                    </div>
+                  </>
+              ) : (
+                  <>
+                    <p><strong>Nazwa:</strong> {car.name}</p>
+                    <p><strong>Marka:</strong> {car.brand}</p>
+                    <p><strong>Model:</strong> {car.model}</p>
+                    <p><strong>Rocznik:</strong> {car.year}</p>
+                    <p><strong>Przebieg:</strong> {car.mileage} km</p>
+                    <p><strong>Następny przegląd:</strong> {car.nextInspection || "Brak informacji"}</p>
+                    <Button className="mt-2 mb-3 text-lg" onClick={() => {
+                      setEditedCar(car);
+                      setIsEditing(true);
+                    }}>
+                      Edytuj
+                    </Button>
+                  </>
+              )}
+            </div>
         ) : (
-          <p>Ładowanie danych samochodu...</p>
+            <p>Ładowanie danych samochodu...</p>
         )}
       </div>
 
@@ -227,13 +226,13 @@ export default function CarInfo() {
         <h2 className={styles.name}>Wizyty</h2>
         <div className={styles.visitsAccordion}>
           {visits.length > 0 ? (
-            <Accordion type="single" className="w-full">
-              {/* Nadchodzące */}
-              <AccordionItem value="upcoming">
-                <AccordionTrigger className="text-xl mt-4">
-                  Nadchodzące
-                </AccordionTrigger>
-                <AccordionContent>
+              <Accordion type="single" className="w-full">
+                {/* Nadchodzące */}
+                <AccordionItem value="upcoming">
+                  <AccordionTrigger className="text-xl mt-4">
+                    Nadchodzące
+                  </AccordionTrigger>
+                  <AccordionContent>
                   {upcomingVisits.slice(0, visibleUpcoming).map((visit) => (
                     <div
                       key={visit.id}
