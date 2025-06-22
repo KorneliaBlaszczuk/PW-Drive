@@ -22,6 +22,7 @@ class DailyServicesRepairsSummaryService {
         category: SRStatsCategory,
         services: List<String>? = null
     ): List<ServiceRepairsRevenue> {
+
         when (category) {
             SRStatsCategory.service ->
                 return when (period) {

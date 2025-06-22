@@ -87,7 +87,9 @@ class DailyServicesRepairsSummaryRepository {
         }
         query.setParameter("startDate", startDate)
         query.setParameter("endDate", endDate)
-        query.setParameter("names", names)
+        if (!names.isNullOrEmpty()) {
+            query.setParameter("names", names)
+        }
         return query.resultList.map { mapToDayRevenueDto(it as Array<*>) }
     }
 
@@ -118,7 +120,9 @@ class DailyServicesRepairsSummaryRepository {
         }
         query.setParameter("startDate", startDate)
         query.setParameter("endDate", endDate)
-        query.setParameter("names", names)
+        if (!names.isNullOrEmpty()) {
+            query.setParameter("names", names)
+        }
         return query.resultList.map { mapToDayRevenueDto(it as Array<*>) }
     }
 
@@ -149,7 +153,9 @@ class DailyServicesRepairsSummaryRepository {
         }
         query.setParameter("startDate", startDate)
         query.setParameter("endDate", endDate)
-        query.setParameter("names", names)
+        if (!names.isNullOrEmpty()) {
+            query.setParameter("names", names)
+        }
         return query.resultList.map { mapToDayRevenueDto(it as Array<*>) }
     }
 
@@ -172,7 +178,7 @@ class DailyServicesRepairsSummaryRepository {
             query = entityManager.createNativeQuery(
                 """
             SELECT name, cast(extract(month from date) as int), cast(SUM(total_price) as int) FROM daily_services_repairs_summary
-            WHERE date >= :startDate AND date < :endDate AND name not like 'Naprawa:%' name in (:names)
+            WHERE date >= :startDate AND date < :endDate AND name not like 'Naprawa:%' AND name in (:names)
             group by name, extract(month from date)
             order by extract(month from date)
             """
@@ -180,7 +186,10 @@ class DailyServicesRepairsSummaryRepository {
         }
         query.setParameter("startDate", startDate)
         query.setParameter("endDate", endDate)
-        query.setParameter("names", names)
+        if (!names.isNullOrEmpty()) {
+            query.setParameter("names", names)
+        }
+
         return query.resultList.map { mapToMonthRevenueDto(it as Array<*>) }
     }
 
@@ -203,7 +212,7 @@ class DailyServicesRepairsSummaryRepository {
             query = entityManager.createNativeQuery(
                 """
             SELECT name, cast(extract(month from date) as int), cast(SUM(total_price) as int) FROM daily_services_repairs_summary
-            WHERE date >= :startDate AND date < :endDate AND name like 'Naprawa:%' name in (:names)
+            WHERE date >= :startDate AND date < :endDate AND name like 'Naprawa:%' AND name in (:names)
             group by name, extract(month from date)
             order by extract(month from date)
             """
@@ -211,7 +220,9 @@ class DailyServicesRepairsSummaryRepository {
         }
         query.setParameter("startDate", startDate)
         query.setParameter("endDate", endDate)
-        query.setParameter("names", names)
+        if (!names.isNullOrEmpty()) {
+            query.setParameter("names", names)
+        }
         return query.resultList.map { mapToMonthRevenueDto(it as Array<*>) }
     }
 
@@ -241,7 +252,9 @@ class DailyServicesRepairsSummaryRepository {
         }
         query.setParameter("startDate", startDate)
         query.setParameter("endDate", endDate)
-        query.setParameter("names", names)
+        if (!names.isNullOrEmpty()) {
+            query.setParameter("names", names)
+        }
         return query.resultList.map { mapToMonthRevenueDto(it as Array<*>) }
     }
 
