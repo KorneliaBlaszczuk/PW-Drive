@@ -27,9 +27,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import {generateVisitReport} from "@/lib/generateVisitReport";
-import {Visit} from "@/types/visit";
-import {Car} from "@/types/car";
+import { generateVisitReport } from "@/lib/generateVisitReport";
+import { Visit } from "@/types/visit";
+import { Car } from "@/types/car";
 import styles from "./page.module.scss";
 
 export default function Profile() {
@@ -397,6 +397,15 @@ export default function Profile() {
 
       {/* Right section for cars and user name */}
       <div className={styles.rightSection}>
+        {isAdmin && (
+          <Link href="/statistics" passHref>
+            <img
+              className={styles.stats}
+              src="https://img.icons8.com/ios/50/bar-chart--v1.png"
+              alt="Statistics Icon"
+            />
+          </Link>
+        )}
         <Image
           src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png"
           alt="Użytkownik"
@@ -538,6 +547,6 @@ export default function Profile() {
           </div>
         )}
       </div>
-    </div>
+    </div >
   );
 }
