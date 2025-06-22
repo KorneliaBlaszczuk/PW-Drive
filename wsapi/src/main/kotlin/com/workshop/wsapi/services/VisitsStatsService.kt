@@ -9,14 +9,14 @@ import org.springframework.stereotype.Service
 import java.time.LocalDate
 
 @Service
-class StatsService {
+class VisitsStatsService {
     @Autowired
     lateinit var visitRepository: VisitRepository
 
     fun getVisitsYearStats(year: Int): List<VisitCountPerMonth> {
         val stats = visitRepository.countVisitsPerMonth(
             LocalDate.of(year, 1, 1),
-            LocalDate.of(year + 1, 1, 1)
+            LocalDate.of(year, 1, 1)
         )
         return stats
     }
