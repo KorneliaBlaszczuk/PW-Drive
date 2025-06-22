@@ -3,9 +3,9 @@ package com.workshop.wsapi.services
 import com.workshop.wsapi.controllers.AdminController.SRStatsCategory
 import com.workshop.wsapi.controllers.AdminController.SRStatsPeriod
 import com.workshop.wsapi.repositories.DailyServicesRepairsSummaryRepository
-import com.workshop.wsapi.repositories.ServiceRepairsRevenue
-import com.workshop.wsapi.repositories.ServicesRepairsDayRevenueDto
-import com.workshop.wsapi.repositories.ServicesRepairsMonthRevenueDto
+import com.workshop.wsapi.repositories.ServiceRepairsStats
+import com.workshop.wsapi.repositories.ServicesRepairsDayStatsDto
+import com.workshop.wsapi.repositories.ServicesRepairsMonthStatsDto
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDate
@@ -21,7 +21,7 @@ class DailyServicesRepairsSummaryService {
         period: SRStatsPeriod,
         category: SRStatsCategory,
         services: List<String>? = null
-    ): List<ServiceRepairsRevenue> {
+    ): List<ServiceRepairsStats> {
 
         when (category) {
             SRStatsCategory.service ->
@@ -44,68 +44,52 @@ class DailyServicesRepairsSummaryService {
         }
     }
 
-    fun getMonthStatsServices(startDate: LocalDate, services: List<String>?): List<ServicesRepairsDayRevenueDto> {
+    fun getMonthStatsServices(startDate: LocalDate, services: List<String>?): List<ServicesRepairsDayStatsDto> {
         val monthStart = LocalDate.of(startDate.year, startDate.month, 1)
-        val stats = repository.getRevenuePerDayForCategoryServices(
+        val stats = repository.getStatsPerDayForCategoryServices(
             monthStart,
             monthStart.plusMonths(1), services
         )
         return stats
     }
 
-    fun getMonthStatsRepairs(startDate: LocalDate, services: List<String>?): List<ServicesRepairsDayRevenueDto> {
+    fun getMonthStatsRepairs(startDate: LocalDate, services: List<String>?): List<ServicesRepairsDayStatsDto> {
         val monthStart = LocalDate.of(startDate.year, startDate.month, 1)
-        val stats = repository.getRevenuePerDayForCategoryRepairs(
+        val stats = repository.getStatsPerDayForCategoryRepairs(
             monthStart,
             monthStart.plusMonths(1), services
         )
         return stats
     }
 
-    fun getMonthStatsAny(startDate: LocalDate, services: List<String>?): List<ServicesRepairsDayRevenueDto> {
+    fun getMonthStatsAny(startDate: LocalDate, services: List<String>?): List<ServicesRepairsDayStatsDto> {
         val monthStart = LocalDate.of(startDate.year, startDate.month, 1)
-        val stats = repository.getRevenuePerDayForCategoryAny(
+        val stats = repository.getStatsPerDayForCategoryAny(
             monthStart,
             monthStart.plusMonths(1), services
         )
         return stats
     }
 
-    fun getYearStatsAny(year: Int, services: List<String>?): List<ServicesRepairsMonthRevenueDto> {
-        return repository.getRevenuePerMonthForCategoryAny(
+    fun getYearStatsAny(year: Int, services: List<String>?): List<ServicesRepairsMonthStatsDto> {
+        return repository.getStatsPerMonthForCategoryAny(
             LocalDate.of(year, 1, 1),
             LocalDate.of(year + 1, 1, 1), services
         )
     }
 
-    fun getYearStatsRepairs(year: Int, services: List<String>?): List<ServicesRepairsMonthRevenueDto> {
-        return repository.getRevenuePerMonthForCategoryRepairs(
+    fun getYearStatsRepairs(year: Int, services: List<String>?): List<ServicesRepairsMonthStatsDto> {
+        return repository.getStatsPerMonthForCategoryRepairs(
             LocalDate.of(year, 1, 1),
             LocalDate.of(year + 1, 1, 1), services
         )
     }
 
 
-    fun getYearStatsServices(year: Int, services: List<String>?): List<ServicesRepairsMonthRevenueDto> {
-        return repository.getRevenuePerMonthForCategoryServices(
+    fun getYearStatsServices(year: Int, services: List<String>?): List<ServicesRepairsMonthStatsDto> {
+        return repository.getStatsPerMonthForCategoryServices(
             LocalDate.of(year, 1, 1),
             LocalDate.of(year + 1, 1, 1), services
         )
-    }
-
-    fun getYearStats(year: Int): List<ServicesRepairsMonthRevenueDto> {
-        return repository.getRevenuePerMonth(
-            LocalDate.of(year, 1, 1),
-            LocalDate.of(year + 1, 1, 1),
-        )
-    }
-
-    fun getMonthStats(startDate: LocalDate): List<ServicesRepairsDayRevenueDto> {
-        val monthStart = LocalDate.of(startDate.year, startDate.month, 1)
-        val stats = repository.getRevenuePerDay(
-            monthStart,
-            monthStart.plusMonths(1)
-        )
-        return stats
     }
 }

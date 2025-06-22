@@ -2,7 +2,7 @@ package com.workshop.wsapi.controllers
 
 import com.workshop.wsapi.models.OpeningHour
 import com.workshop.wsapi.models.dtos.VisitCountStats
-import com.workshop.wsapi.repositories.ServiceRepairsRevenue
+import com.workshop.wsapi.repositories.ServiceRepairsStats
 import com.workshop.wsapi.services.DailyServicesRepairsSummaryService
 import com.workshop.wsapi.services.OpeningHoursService
 import com.workshop.wsapi.services.VisitService
@@ -82,14 +82,14 @@ class AdminController {
         all
     }
 
-    @GetMapping("/stats/services-repairs-revenue")
+    @GetMapping("/stats/services-repairs-stats")
     fun getServicesRepairsStats(
         @RequestParam("period") period: SRStatsPeriod,
         @RequestParam("startDate") startDate: LocalDate,
         @RequestParam("category") category: SRStatsCategory = SRStatsCategory.all,
         @RequestParam(required = false) services: List<String>?
 
-    ): ResponseEntity<List<ServiceRepairsRevenue>> {
+    ): ResponseEntity<List<ServiceRepairsStats>> {
         val stats = servicesRepairsSummaryService.getSummary(
             startDate = startDate,
             period = period,
