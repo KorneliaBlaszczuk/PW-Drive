@@ -14,6 +14,7 @@ import { generateVisitReport } from "@/lib/generateVisitReport";
 import {Visit} from "@/types/visit";
 import {Car} from "@/types/car";
 import styles from "./page.module.scss";
+import Link from "next/link";
 
 export default function CarInfo() {
   const searchParams = useSearchParams();
@@ -131,20 +132,31 @@ export default function CarInfo() {
   return (
     <div className={styles.carInfo}>
       <div className={styles.leftSection}>
-        <h1 className={styles.infoHeader}>Informacje o samochodzie</h1>
+        <h1 className={styles.infoHeader}>
+          Informacje o samochodzie
+          <Link href={`/carStatistics?carId=${carId}`} passHref legacyBehavior>
+            <a style={{marginLeft: "12px", display: "inline-flex", alignItems: "center"}}>
+              <img
+                  src="https://img.icons8.com/ios/24/bar-chart--v1.png"
+                  alt="Ikona wykresu"
+                  style={{height: "24px", verticalAlign: "middle"}}
+              />
+            </a>
+          </Link>
+        </h1>
 
         {car ? (
-          <div className={styles.carDetails}>
-            {isEditing ? (
-              <>
-                <div className={styles.inlineField}>
-                  <label>Nazwa:</label>
-                  <Input
-                    value={editedCar?.name || ""}
-                    onChange={(e) => handleInputChange("name", e.target.value)}
-                  />
-                </div>
-                <div className={styles.inlineField}>
+            <div className={styles.carDetails}>
+              {isEditing ? (
+                  <>
+                    <div className={styles.inlineField}>
+                      <label>Nazwa:</label>
+                      <Input
+                          value={editedCar?.name || ""}
+                          onChange={(e) => handleInputChange("name", e.target.value)}
+                      />
+                    </div>
+                    <div className={styles.inlineField}>
                   <label>Marka:</label>
                   <Input
                     value={editedCar?.brand || ""}
