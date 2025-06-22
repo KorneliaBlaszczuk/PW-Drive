@@ -288,9 +288,16 @@ export default function StatisticsPage() {
                         onRangeChange={handleRangeChange}
                         disableRangeToggle={true}
                     />
+                    <h2 className="text-xl font-semibold mb-4 mt-4">Wykres zarobków</h2>
+                    <ChartWithToggle
+                        dataByRange={chartData}
+                        currentRange={range}
+                        onRangeChange={handleRangeChange}
+                        disableRangeToggle={true}
+                    />
                 </>
             ) : (
-                <p className="text-gray-500">Brak danych do wykresu.</p>
+                <p className="text-gray-500">Brak danych do wykresów.</p>
             )}
         </div>
     );
