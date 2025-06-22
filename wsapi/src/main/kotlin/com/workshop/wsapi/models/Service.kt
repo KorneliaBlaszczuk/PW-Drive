@@ -17,7 +17,9 @@ data class Service(
     @Column(name = "id_service", nullable = false)
     val id: Long? = null,
 
+    @Column(unique = true)
     val name: String = "",
+
     var price: Int = 0,
 
     @Column(nullable = false)
