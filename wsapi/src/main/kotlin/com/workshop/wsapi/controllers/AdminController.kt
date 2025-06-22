@@ -2,9 +2,11 @@ package com.workshop.wsapi.controllers
 
 import com.workshop.wsapi.models.OpeningHour
 import com.workshop.wsapi.models.dtos.VisitCountStats
+import com.workshop.wsapi.repositories.ServiceRepairsRevenue
+import com.workshop.wsapi.services.DailyServicesRepairsSummaryService
 import com.workshop.wsapi.services.OpeningHoursService
-import com.workshop.wsapi.services.StatsService
 import com.workshop.wsapi.services.VisitService
+import com.workshop.wsapi.services.VisitsStatsService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
@@ -20,7 +22,10 @@ class AdminController {
     lateinit var visitService: VisitService
 
     @Autowired
-    lateinit var statsService: StatsService
+    lateinit var visitsStatsService: VisitsStatsService
+
+    @Autowired
+    lateinit var servicesRepairsSummaryService: DailyServicesRepairsSummaryService
 
     @Autowired
     lateinit var openingService: OpeningHoursService
@@ -45,7 +50,7 @@ class AdminController {
     }
 
     @Suppress("EnumEntryName")
-    enum class Period {
+    enum class VisitStatsPeriod {
         year,
         month,
         day
@@ -53,14 +58,44 @@ class AdminController {
 
     @GetMapping("/stats/visits-count")
     fun getVisitsStats(
-        @RequestParam("period") period: Period,
+        @RequestParam("period") period: VisitStatsPeriod,
         @RequestParam("startDate") startDate: LocalDate
     ): ResponseEntity<List<VisitCountStats>> {
         val stats = when (period) {
-            Period.year -> statsService.getVisitsYearStats(startDate.year)
-            Period.month -> statsService.getVisitsMonthStats(startDate)
-            Period.day -> statsService.getVisitsDayStats(startDate)
+            VisitStatsPeriod.year -> visitsStatsService.getVisitsYearStats(startDate.year)
+            VisitStatsPeriod.month -> visitsStatsService.getVisitsMonthStats(startDate)
+            VisitStatsPeriod.day -> visitsStatsService.getVisitsDayStats(startDate)
         }
+        return ResponseEntity.ok(stats)
+    }
+
+    @Suppress("EnumEntryName")
+    enum class SRStatsPeriod {
+        year,
+        month,
+    }
+
+    @Suppress("EnumEntryName")
+    enum class SRStatsCategory {
+        service,
+        repair,
+        all
+    }
+
+    @GetMapping("/stats/services-repairs-revenue")
+    fun getServicesRepairsStats(
+        @RequestParam("period") period: SRStatsPeriod,
+        @RequestParam("startDate") startDate: LocalDate,
+        @RequestParam("category") category: SRStatsCategory = SRStatsCategory.all,
+        @RequestParam(required = false) services: List<String>?
+
+    ): ResponseEntity<List<ServiceRepairsRevenue>> {
+        val stats = servicesRepairsSummaryService.getSummary(
+            startDate = startDate,
+            period = period,
+            category = category,
+            services = services
+        )
         return ResponseEntity.ok(stats)
     }
 }
