@@ -48,7 +48,7 @@ const ChartWithToggle = ({
             <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={dataByRange[currentRange]}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis />
+                    <XAxis dataKey="label"/>
                     <YAxis  label={{ value: label, angle: -90, position: 'insideLeft' }}/>
                     <Tooltip formatter={(value: number, name: string) => {
                         if (name === 'value') return [value, 'Ilość'];
