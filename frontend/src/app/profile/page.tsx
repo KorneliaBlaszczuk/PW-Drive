@@ -103,7 +103,10 @@ export default function Profile() {
         },
       };
 
-      saveSingleDay(day, updated[day]);
+      const { start, end } = updated[day];
+      if (start && end) {
+        saveSingleDay(day, { start, end });
+      }
       return updated;
     });
   };
