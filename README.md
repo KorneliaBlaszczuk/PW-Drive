@@ -80,12 +80,9 @@ Należy również dodać opcję `enviroment variables` i w nim podać ścieżkę
 ## Potencjalne problemy
 1. Port 8080 already in use  
 Należy zakończyć proces zajmujący port 8080. 
-- z poziomu menedżera zadań
-<br>
+- z poziomu menedżera zadań<br>
 W zakładce `Szczegóły` szukamy procesu o nazwie `httpd.exe`. Klikamy na niego lewym przyciskim myszy, a następnie na opcję `Zakończ zadanie`.
-<br>
-- z poziomu terminala (Windows)
-<br>
+- z poziomu terminala (Windows)<br>
 Aby zidentyfikować proces używający portu 8080:
 
 ```bash
@@ -104,9 +101,7 @@ Aby zakończyć ten proces:
 taskkill /PID 12345 /F
 ```
 
-<br>
-- z poziomu terminala (Linux / macOS)
-<br>
+- z poziomu terminala (Linux / macOS)<br>
 Sprawdzenie procesu:
 
 ```bash
