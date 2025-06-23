@@ -82,24 +82,30 @@ Należy również dodać opcję `enviroment variables` i w nim podać ścieżkę
 Należy zakończyć proces zajmujący port 8080. 
 <br>
 - z poziomu menedżera zadań
+<br>
 W zakładce `Szczegóły` szukamy procesu o nazwie `httpd.exe`. Klikamy na niego lewym przyciskim myszy, a następnie na opcję `Zakończ zadanie`.
 <br>
 - z poziomu terminala (Windows)
+<br>
 Aby zidentyfikować proces używający portu 8080:
 ```bash
-netstat -aon | findstr :8080```
+netstat -aon | findstr :8080
+```
 Wynik zawiera numer PID (ostatnia kolumna), np.:
 ```bash
 TCP    0.0.0.0:8080     0.0.0.0:0     LISTENING     12345
 ```
 Aby zakończyć ten proces:
 ```bash
-taskkill /PID 12345 /F```
+taskkill /PID 12345 /F
+```
 <br>
 - z poziomu terminala (Linux / macOS)
+<br>
 Sprawdzenie procesu:
 ```bash
-lsof -i :8080```
+lsof -i :8080
+```
 Zakończenie procesu (np. o PID 12345):
 ```bash
 kill -9 12345
