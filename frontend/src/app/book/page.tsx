@@ -190,29 +190,32 @@ export default function Book() {
   const handleReservation = async () => {
     if (selectedCarId && (selectedService || repair) && selectedSlot) {
       if (!repair) {
-        const response = await fetch(
-          `http://localhost:8080/api/cars/${selectedCar?.id}/visit-service`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-            },
-            body: JSON.stringify({
-              serviceId: 3,
-              time: `${selectedSlot.time}`,
-              date: `${selectedSlot.date}`,
-            }),
-          }
-        );
-
-        if (response.ok) {
-          alert(
-            `Zarezerwowano ${selectedService?.name} na ${selectedSlot.date} ${selectedSlot.time}`
+        if (selectedService) {
+          const response = await fetch(
+            `http://localhost:8080/api/cars/${selectedCar?.id}/visit-service`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+              },
+              body: JSON.stringify({
+                serviceId: `${selectedService.id}`,
+                time: `${selectedSlot.time}`,
+                date: `${selectedSlot.date}`,
+              }),
+            }
           );
-          router.push("/");
+          if (response.ok) {
+            alert(
+              `Zarezerwowano ${selectedService?.name} na ${selectedSlot.date} ${selectedSlot.time}`
+            );
+            router.push("/");
+          } else {
+            alert(`Nie można zarezerować terminu`);
+          }
         } else {
-          alert(`Nie można zarezerować terminu`);
+          alert(`Proszę wybrać usługę`);
         }
       } else {
         const response = await fetch(
