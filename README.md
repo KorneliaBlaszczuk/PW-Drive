@@ -88,25 +88,34 @@ W zakładce `Szczegóły` szukamy procesu o nazwie `httpd.exe`. Klikamy na niego
 - z poziomu terminala (Windows)
 <br>
 Aby zidentyfikować proces używający portu 8080:
+
 ```bash
 netstat -aon | findstr :8080
 ```
+
 Wynik zawiera numer PID (ostatnia kolumna), np.:
+
 ```bash
 TCP    0.0.0.0:8080     0.0.0.0:0     LISTENING     12345
 ```
+
 Aby zakończyć ten proces:
+
 ```bash
 taskkill /PID 12345 /F
 ```
+
 <br>
 - z poziomu terminala (Linux / macOS)
 <br>
 Sprawdzenie procesu:
+
 ```bash
 lsof -i :8080
 ```
+
 Zakończenie procesu (np. o PID 12345):
+
 ```bash
 kill -9 12345
 ```
