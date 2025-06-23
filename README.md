@@ -80,7 +80,6 @@ Należy również dodać opcję `enviroment variables` i w nim podać ścieżkę
 ## Potencjalne problemy
 1. Port 8080 already in use  
 Należy zakończyć proces zajmujący port 8080. 
-<br>
 - z poziomu menedżera zadań
 <br>
 W zakładce `Szczegóły` szukamy procesu o nazwie `httpd.exe`. Klikamy na niego lewym przyciskim myszy, a następnie na opcję `Zakończ zadanie`.
