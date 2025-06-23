@@ -37,6 +37,16 @@ Został opracowany trigger dotyczący tabeli metadane - zapewnia on maksymalnie 
 
 Kod triggera znajduje się w pliku triiger_metadata.sql
 
+## Część analityczno-statystyczna
+Opracowano wykresy dla admina (ułatwiające analizę funkcjonowania warsztatu) oraz dla samochodu (pozwalające kontrolować historię zmiany przebiegu samochodu). 
+
+### Wykresy dla administratora
+- Wykres napraw i usług w wybranym okresie czasu,
+- Wykres zarobków warsztatu w wybranym okresie.
+
+### Wykres dla samochodu
+- Wykres historii zmiany przebiegu samochodu.
+
 ## Dobór technologii
 
 1. Baza danych
@@ -51,3 +61,17 @@ Kod triggera znajduje się w pliku triiger_metadata.sql
  ## Scenariusze i dane testowe
 
 Wiekszość danych testowych została wprowadzona podczas testowania poszczególnych komponentów aplikacji.
+
+## Uruchomienie projektu
+Zalecane uruchomienie w aplikacji IntelliJ IDEA.
+
+1. W folderze `frontend` należy zainstalować bibliotekę `yarn`, a następnie wpisać w terminalu polecenie:
+```bash
+yarn dev
+```
+2. W folderze `wsapi` należy umieścić plik `.env` oraz skonfigurować w aplikacji Spring Boot - WsapiApplication.
+W sekcji `build and run` należy wpisać następujące opcje:
+- java 22
+- wsapi.main 
+- com.workshop.wspai.WsapiApplication
+Należy również dodać opcję `enviroment variables` i w nim podać ścieżkę do pliku `.env`.
