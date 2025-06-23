@@ -74,4 +74,33 @@ W sekcji `build and run` należy wpisać następujące opcje:
 - java 22
 - wsapi.main 
 - com.workshop.wspai.WsapiApplication
+<br>
 Należy również dodać opcję `enviroment variables` i w nim podać ścieżkę do pliku `.env`.
+
+## Potencjalne problemy
+1. Port 8080 already in use  
+Należy zakończyć proces zajmujący port 8080. 
+<br>
+- z poziomu menedżera zadań
+W zakładce `Szczegóły` szukamy procesu o nazwie `httpd.exe`. Klikamy na niego lewym przyciskim myszy, a następnie na opcję `Zakończ zadanie`.
+<br>
+- z poziomu terminala (Windows)
+Aby zidentyfikować proces używający portu 8080:
+```bash
+netstat -aon | findstr :8080```
+Wynik zawiera numer PID (ostatnia kolumna), np.:
+```bash
+TCP    0.0.0.0:8080     0.0.0.0:0     LISTENING     12345
+```
+Aby zakończyć ten proces:
+```bash
+taskkill /PID 12345 /F```
+<br>
+- z poziomu terminala (Linux / macOS)
+Sprawdzenie procesu:
+```bash
+lsof -i :8080```
+Zakończenie procesu (np. o PID 12345):
+```bash
+kill -9 12345
+```
