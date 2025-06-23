@@ -1,0 +1,85 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="126E1D05-D5E5-6A4B-57FE-032F4813B5A3" name="History_of__changes">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>0E29AF08-DCC0-2A44-DB7B-F44A2E1779CA</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_change" id="118FC460-74E5-9969-00E4-638C0F6B6E0D">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>C3F94305-FC7C-5521-C65E-F737C4360FB1</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="id_car" id="64E040E6-CDC4-1B3C-3F25-D34948FF9EDD">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>BC353C6A-EDA3-EC7D-D9B7-BAD838FA95F7</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="change_date" id="FDB3E3C9-0B93-7CB4-C94B-8F2D8F4F27C1">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>F7D4928D-DC35-0FB6-D019-70BA24F92BA1</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Cars_id_car" id="48A79087-3E5D-D5AE-D13A-E923F6C362C8">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>D7A9E934-0D7B-5240-3DA2-99F4C5AAA496</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="F16723E1-FB2C-2AE4-B01B-64BB245B733A" referredColumn="FC846873-2389-862E-7F2B-52B92401C591"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="C0BFBAA2-F9E7-4FF8-4E43-C061CD049241" name="History_of__changes_PK">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>78A3036A-0F78-3396-86D0-FBBEF206E606</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="118FC460-74E5-9969-00E4-638C0F6B6E0D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="40AF9A4A-18AF-22CD-09FE-4E94AA30472E" name="History_of__changes_Cars_FK">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>66B2F126-AB01-9C47-27DE-55B1BE1A4FF9</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="48A79087-3E5D-D5AE-D13A-E923F6C362C8"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

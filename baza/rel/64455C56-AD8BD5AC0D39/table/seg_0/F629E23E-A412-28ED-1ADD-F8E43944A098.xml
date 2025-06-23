@@ -1,0 +1,140 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="F629E23E-A412-28ED-1ADD-F8E43944A098" name="Cars">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>7EAFDA7D-FDDC-DEE3-F965-AD995E233B73</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_car" id="FC846873-2389-862E-7F2B-52B92401C591">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>FC3B2C9C-F1EE-A06C-040F-392801B84827</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="id_user" id="E61ACAA4-19B1-3691-9432-D6C5F434848C">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>43D475EA-69B2-76D9-227A-B9121BF38BAF</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="name" id="8F1B41CA-8F4B-79B9-6ECB-5CEA566DC4FD">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>49BEEE1F-6ED7-BEC6-A59D-866BCD5F9B84</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="car_brand" id="7F7817DE-7347-4DAA-4D65-D6054CF2C2BF">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>1435652C-E2A2-D47E-793F-03D4EFE2572F</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="car_model" id="E37ECBA3-08C0-BD63-7996-B6A12CA3AFEF">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>5E1E6DFB-A3B3-F2AC-6D6D-DE04E84D9F1E</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="car_year" id="B449609E-8C8F-3533-8427-EF9C8291FD42">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>60C5530F-B6D5-9023-375E-E3CA162078BE</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="car_mileage" id="0BA48A6E-F755-C2B3-96B8-72E4737829A0">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>7C3E9031-D2E8-81AD-B2E0-402572EB5E5D</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="next_car_inspection_date" id="E136DD52-72E5-A31D-EBE0-D85F32FE8725">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>BCA49634-5B2C-0111-3B67-99DA1168D3AD</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Users_id_user" id="ECA07DAB-8305-6599-BC19-8A431401799A">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>B64BBE17-6C97-83EE-BFFE-3725D6AE9377</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="A7E8EFCB-D1C6-78AC-8EAD-3B603163F466" referredColumn="6C422716-072D-EF37-0845-4082CB9139CA"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="2AD14D15-4CB7-DA44-DBF8-BB0CFF387536" name="Cars_PK">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>4BAEF0AC-11FB-FE86-976C-AA420A33E0DD</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FC846873-2389-862E-7F2B-52B92401C591"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="A358268B-016D-7016-8B17-FD68E7246073" name="Cars_Users_FK">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>CA087F3F-3D0C-E045-C61F-67432E5387C7</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="ECA07DAB-8305-6599-BC19-8A431401799A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

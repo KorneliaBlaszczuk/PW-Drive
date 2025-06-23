@@ -1,0 +1,158 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="69424F29-1BAF-CE59-00C4-51236852DB20" name="Reservations">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>E1985E1E-9B79-C972-1D3D-B34B78092D6A</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="id_reservation" id="7A3CF470-71FC-E9A0-53F6-459005B7469A">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>D4BDC077-A913-E9C7-AA9D-565A3B77F3DA</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="id_service" id="3C25BF02-687C-9977-1978-BC37F6B1DCD8">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>743D93A4-E40C-B69D-C3DF-8FA91DEB52EF</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="id_car" id="60337475-EFEE-9AEB-8D02-8F3A3D696A95">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>959B7E18-8753-4198-6353-3AF15CC11D4D</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="time" id="6D311305-C678-7354-B275-A2B538342BAC">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>7F0A0B27-E721-E8B9-3673-AA81A72340E2</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT014</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="date" id="623C4EED-BA2F-91E5-04E9-E73D7F685A1E">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>F9CE12BF-7F25-8C35-7DBE-DBC8B1C03617</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="created_at" id="84B09E38-FC8C-AA9C-2564-B80C7E1BC29F">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>A8E55B29-F189-001E-30A9-02DB61CB8FC1</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT015</logicalDatatype>
+<dataTypePrecision>12</dataTypePrecision>
+<dataTypeScale>6</dataTypeScale>
+<ownDataTypeParameters>,12,6</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="Cars_id_car" id="54011DFA-E58D-15D8-ECB8-D79FBB04483D">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>35776A4C-4FED-DA73-35A0-4F9842B44C0F</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="9CF46228-5D88-02F4-9A59-5F6C53EC5F48" referredColumn="FC846873-2389-862E-7F2B-52B92401C591"/>
+</associations>
+</Column>
+<Column name="Services_id_service" id="80BE73DA-E3B2-30D3-6DE7-F10CA3B2D6A2">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>777FDFFF-D1A8-29B2-F7B0-7AF83A372D99</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="551EFAAD-7878-2931-DC6A-AD8A38780ADE" referredColumn="35FAF438-0DC8-9A75-F6A9-68AEAE920034"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="AF345A42-2C38-627B-AB42-1C03454B4DA2" name="Reservations_PK">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>72B8D0F5-46F3-FE23-038E-F25130FF2980</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="7A3CF470-71FC-E9A0-53F6-459005B7469A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="D6274E23-5028-9164-3137-FC0C9B91DDC0" name="Reservations__IDX">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<relationGeneratorID>4203B293-0D56-3269-DE1B-C5875907E96E</relationGeneratorID>
+<indexColumnUsage>
+<colUsage columnID="80BE73DA-E3B2-30D3-6DE7-F10CA3B2D6A2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="DB6DBE82-17E1-932D-0F2E-0689E5AD3259" name="Reservations_Cars_FK">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>F411520E-E625-4D7C-8892-A5DBEA5DA1DF</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="54011DFA-E58D-15D8-ECB8-D79FBB04483D"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="9DE6DFAA-B1D1-BD27-3B70-1206B8E2CC60" name="Reservations_Services_FK">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>4203B293-0D56-3269-DE1B-C5875907E96E</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="80BE73DA-E3B2-30D3-6DE7-F10CA3B2D6A2"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

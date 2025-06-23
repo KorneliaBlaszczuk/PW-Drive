@@ -1,0 +1,80 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="B42F43E8-B11E-7CB9-3F49-96F7C9838C19" name="Metadata">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>FD885415-068C-CD4D-E437-3DEAD25F2BA2</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="company_name" id="097B42A6-B7B3-2E02-09BA-91E3905DDA03">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>1CB9E76B-DE2C-0E62-ADC1-FEA2A80B72B9</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="simultaneous_number_of_visits" id="CCA148C4-ABF6-4EA1-170F-4B5B968DED95">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<comment><![CDATA[default 1]]></comment>
+<generatorID>DA0D09E2-2E53-483D-2E11-16A29476F106</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="address" id="F949A096-82B4-1EB2-8E89-0FDE3C1BE983">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>349A6CC1-CE95-63AD-C1D8-79A54EAE8A5A</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="e_mail" id="8B07BF4C-928C-C5F2-A2BE-EB98242869C5">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>800F057F-78C7-FBE5-F5F7-A2D2B85B46D0</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="phone_number" id="F2EB9020-0EEE-7237-3905-7B3F76D61C93">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>833F0E76-EECC-6B03-E8D9-4C330376E468</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="description" id="8FA8A8F5-25D5-B12C-1C3F-3F64E4824C83">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>4DD41384-596C-0770-EDC1-E8F3A8BD6C62</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+</Table>

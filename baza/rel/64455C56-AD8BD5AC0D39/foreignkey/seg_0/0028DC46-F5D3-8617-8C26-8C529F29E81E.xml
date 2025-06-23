@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="0028DC46-F5D3-8617-8C26-8C529F29E81E" containerWithKeyObject="FBF8CCAC-73AE-A422-164F-D6C9886964D4" localFKIndex="BAD7C87A-EDD7-093F-39EE-EDEEF1D33596" name="Mileage_History_of__changes_FK">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 10:02:54 UTC</createdTime>
+<generatorID>640E4C62-1D0A-502C-6C0E-74B32C2C39B3</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<referredTableLongName>History_of__changes</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>126E1D05-D5E5-6A4B-57FE-032F4813B5A3</referredTableID>
+<keyObject>C0BFBAA2-F9E7-4FF8-4E43-C061CD049241</keyObject>
+<referredKeyID>C0BFBAA2-F9E7-4FF8-4E43-C061CD049241</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>id_change</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

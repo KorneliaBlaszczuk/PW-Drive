@@ -1,0 +1,172 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="204DABFD-04A2-3E83-4276-2DD3AEB1DAF6" name="Visits">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:10:23 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_visit" id="7D1AC96B-B422-73C6-B77D-A4E21F66A52E">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:10:44 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_service" id="08E10236-9640-B8AD-5069-FF0C773C18B8">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:11:02 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_car" id="5EE055F8-313D-BA2F-5B7E-DB46B425BBC8">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:12:16 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="time" id="58E1326A-790C-4489-678D-9E470AC90D35">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:14:38 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT014</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="date" id="FDD91CEA-AEB2-354A-1298-C9EA47886EAC">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:12:41 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="status" id="8AE62A4F-91B8-78CF-7F61-7D23EC871932">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-02 18:30:07 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="is_reservation" id="3E076949-72A0-AD5E-1492-ABA416CB04AC">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-25 14:33:45 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1 CHAR</dataTypeSize>
+<ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="created_at" id="C362838D-89DC-3C9A-EB3B-68E633DD40B4">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-05-19 18:55:03 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="comment" id="BA733462-CCFC-8460-22AA-4DE102BB0FCB">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-02 18:32:15 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_car1" id="2C3C628C-3E65-F2DF-35A4-B5C2E78993A1">
+<createdBy>Brydzix</createdBy>
+<createdTime>2025-04-17 20:10:39 UTC</createdTime>
+<generatorID>564E0A77-E9E5-317A-EA20-B107D777EFBC</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
+</engineerTo>
+<referedAttribute>FC3B2C9C-F1EE-A06C-040F-392801B84827</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="id_service1" id="1A687B90-874B-4EB0-992E-CBC7E6D44273">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-22 09:47:44 UTC</createdTime>
+<generatorID>E6116795-8792-1DAE-BABC-BFF87A09AE19</generatorID>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
+</engineerTo>
+<referedAttribute>7160EF3D-FF0C-5DBA-B93D-048576CA430C</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="66581F66-65CC-1DEF-3FF6-992BB231E75D" name="Services PK">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 13:11:01 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="8963EBF5-59C5-B7B8-3200-55F7763DB1C2" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>7D1AC96B-B422-73C6-B77D-A4E21F66A52E</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

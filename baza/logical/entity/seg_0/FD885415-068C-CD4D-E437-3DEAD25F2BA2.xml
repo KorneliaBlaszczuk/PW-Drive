@@ -1,0 +1,93 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="FD885415-068C-CD4D-E437-3DEAD25F2BA2" name="Metadata">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 11:40:12 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="company_name" id="1CB9E76B-DE2C-0E62-ADC1-FEA2A80B72B9">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 11:44:46 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="  simultaneous_number_of_visits" id="DA0D09E2-2E53-483D-2E11-16A29476F106">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 11:43:49 UTC</createdTime>
+<comment><![CDATA[default 1]]></comment>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="address" id="349A6CC1-CE95-63AD-C1D8-79A54EAE8A5A">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 11:46:53 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="e_mail" id="800F057F-78C7-FBE5-F5F7-A2D2B85B46D0">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 11:47:37 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="phone_number" id="833F0E76-EECC-6B03-E8D9-4C330376E468">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-01 11:47:56 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="description" id="4DD41384-596C-0770-EDC1-E8F3A8BD6C62">
+<createdBy>a_rac</createdBy>
+<createdTime>2025-04-02 18:43:44 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT040</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+</Entity>

@@ -1,0 +1,96 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="C31E2A15-231E-33BF-5F5F-3DD916629237" name="Opening Hours">
+<createdBy>Brydzix</createdBy>
+<createdTime>2025-04-17 21:00:39 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="id_hours" id="3C38828D-E461-F22B-72FB-7C023897866C">
+<createdBy>Brydzix</createdBy>
+<createdTime>2025-04-17 21:00:55 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="day_of_the_week" id="119C2DBA-F338-E17A-CF6C-74F37305609B">
+<createdBy>Brydzix</createdBy>
+<createdTime>2025-04-17 21:01:42 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT011</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="is_open" id="3B72329E-6838-10C5-148A-20DCEFCE0615">
+<createdBy>Brydzix</createdBy>
+<createdTime>2025-04-17 21:02:30 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1</dataTypeSize>
+<ownDataTypeParameters>1,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="open_hour" id="07BEE9D0-8A7A-F57B-4E6D-424B59E6CA69">
+<createdBy>Brydzix</createdBy>
+<createdTime>2025-04-17 21:02:05 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT014</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="close_hour" id="EFBEF87F-6415-B05A-140D-8ABA74999D6B">
+<createdBy>Brydzix</createdBy>
+<createdTime>2025-04-17 21:02:18 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT014</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="D5AB9F85-38BD-AB4E-303F-4736B848CCE5" name="Opening Hours PK">
+<createdBy>Brydzix</createdBy>
+<createdTime>2025-04-17 21:01:12 UTC</createdTime>
+<ownerDesignName>baza</ownerDesignName>
+<engineerTo>
+<item key="64455C56-485C-923E-E251-AD8BD5AC0D39" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>3C38828D-E461-F22B-72FB-7C023897866C</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
