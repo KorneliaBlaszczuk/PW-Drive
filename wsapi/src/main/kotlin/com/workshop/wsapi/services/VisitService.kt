@@ -191,8 +191,8 @@ class VisitService {
     }
 
     fun saveRaportVisit(id: Long, visit: VisitRaportDto, userDetails: UserDetails) {
-        val visitDto = VisitDto(visit.service.id, visit.isReserved, visit.time, visit.date, visit.status, visit.comment)
-        editVisit(id, visitDto, userDetails)
+        val visit = VisitDto(visit.service?.id, visit.isReserved, visit.time, visit.date, visit.status, visit.comment)
+        editVisit(id, visit, userDetails)
     }
 
     fun isVisitPossible(visit: NoServiceVisitDTO): Boolean {

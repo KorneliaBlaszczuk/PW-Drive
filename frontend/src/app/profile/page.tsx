@@ -27,10 +27,21 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import {generateVisitReport} from "@/lib/generateVisitReport";
-import {Visit} from "@/types/visit";
-import {Car} from "@/types/car";
+import { generateVisitReport } from "@/lib/generateVisitReport";
+import { Visit } from "@/types/visit";
+import { Car } from "@/types/car";
 import styles from "./page.module.scss";
+
+const dayMap: { [key: string]: string } = {
+  MONDAY: 'poniedziałek',
+  TUESDAY: 'wtorek',
+  WEDNESDAY: 'środa',
+  THURSDAY: 'czwartek',
+  FRIDAY: 'piątek',
+  SATURDAY: 'sobota',
+  SUNDAY: 'niedziela',
+};
+
 
 export default function Profile() {
   const [visits, setVisits] = useState<Visit[]>([]);
@@ -43,9 +54,66 @@ export default function Profile() {
   const [visibleCurrent, setVisibleCurrent] = useState(5);
   const [visibleHistory, setVisibleHistory] = useState(5);
 
-  const [visitsCount, setVisitsCount] = useState(5);
-  const [startTime, setStartTime] = useState("09:00");
-  const [endTime, setEndTime] = useState("17:00");
+  const [visitsCount, setVisitsCount] = useState(null);
+  const [workingHours, setWorkingHours] = useState<{ [day: string]: { start: string; end: string } }>(() => ({
+    poniedziałek: { start: '', end: '' },
+    wtorek: { start: '', end: '' },
+    środa: { start: '', end: '' },
+    czwartek: { start: '', end: '' },
+    piątek: { start: '', end: '' },
+    sobota: { start: '', end: '' },
+    niedziela: { start: '', end: '' },
+  }));
+
+  const saveSingleDay = async (dayPL: string | null, values: { start: string | null; end: string | null } | null) => {    const dayOfWeek = Object.keys(dayMap).find((key) => dayMap[key] === dayPL);
+    if (!dayPL || !values) {
+      return;
+    }
+
+    const payload = {
+      dayOfWeek,
+      isOpen: !!(values.start && values.end),
+      openHour: values.start ? `${values.start}:00` : null,
+      closeHour: values.end ? `${values.end}:00` : null,
+    };
+
+    try {
+      const res = await fetch("http://localhost:8080/api/admin/hours", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        console.error("Error saving: ", await res.text());
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleTimeChange = (day: string, field: "start" | "end", value: string) => {
+    setWorkingHours((prev) => {
+      const updated = {
+        ...prev,
+        [day]: {
+          ...prev[day],
+          [field]: value,
+        },
+      };
+
+      const { start, end } = updated[day];
+      if (start && end) {
+        saveSingleDay(day, { start, end });
+      } else {
+        saveSingleDay(day, { start: null, end: null });
+      }
+      return updated;
+    });
+  };
 
   const [currentCarsPage, setCurrentCarsPage] = useState(1);
   const carsPerPage = 3;
@@ -57,6 +125,72 @@ export default function Profile() {
       setAdmin(true);
     }
   }, []);
+
+  useEffect(() => {
+    const role = sessionStorage.getItem("role");
+    if (role === "WORKSHOP") {
+      const fetchSimultaneousVisits = async () => {
+        try {
+          const response = await fetch('http://localhost:8080/api/metadata/info-full', {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            },
+          });
+          if (!response.ok) {
+            throw new Error('Błąd podczas pobierania danych');
+          }
+
+          const data = await response.json();
+          setVisitsCount(data.simultaneousVisits);
+
+        } catch (error) {
+          console.error('Błąd pobierania godzin:', error);
+        }
+      }
+      fetchSimultaneousVisits();
+    }
+  }, []);
+
+  useEffect(() => {
+    const role = sessionStorage.getItem("role");
+    if (role === "WORKSHOP") {
+      const fetchWorkingHours = async () => {
+        try {
+          const response = await fetch('http://localhost:8080/api/hours', {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            },
+          });
+
+          if (!response.ok) {
+            throw new Error('Błąd podczas pobierania danych');
+          }
+
+          const data = await response.json();
+
+          const parsedHours = data.map((item: any) => {
+            const dayPL = dayMap[item.dayOfWeek]; // 'poniedziałek' itd.
+            return {
+              [dayPL]: {
+                start: item.isOpen ? item.openHour.slice(0, 5) : '',
+                end: item.isOpen ? item.closeHour.slice(0, 5) : '',
+              },
+            };
+          });
+
+          const hoursObj = Object.assign({}, ...parsedHours);
+          setWorkingHours(hoursObj);
+        } catch (error) {
+          console.error('Błąd pobierania godzin:', error);
+        }
+      };
+
+      fetchWorkingHours();
+    }
+  }, []);
+
 
   useEffect(() => {
     const storedUserId = sessionStorage.getItem("id");
@@ -175,16 +309,26 @@ export default function Profile() {
     }
   };
 
-  const handleStartTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setStartTime(e.target.value);
-  };
+  const handleVisitsCountChange = async (value: string) => {
+    const numericValue = Number(value);
+    setVisitsCount(numericValue);
 
-  const handleEndTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEndTime(e.target.value);
-  };
+    try {
+      const res = await fetch("http://localhost:8080/api/metadata/1", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ simultaneousVisits: numericValue }),
+      });
 
-  const handleVisitsCountChange = (value: string) => {
-    setVisitsCount(Number(value));
+      if (!res.ok) {
+        console.error("Błąd podczas zapisywania liczby wizyt:", await res.text());
+      }
+    } catch (error) {
+      console.error("Błąd sieci:", error);
+    }
   };
 
   // Filter visits based on status
@@ -397,6 +541,15 @@ export default function Profile() {
 
       {/* Right section for cars and user name */}
       <div className={styles.rightSection}>
+        {isAdmin && (
+          <Link href="/statistics" passHref>
+            <img
+              className={styles.stats}
+              src="https://img.icons8.com/ios/50/bar-chart--v1.png"
+              alt="Statistics Icon"
+            />
+          </Link>
+        )}
         <Image
           src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png"
           alt="Użytkownik"
@@ -490,38 +643,36 @@ export default function Profile() {
         ) : (
           <div className={styles.workshop}>
             <div>
-              <p>Godziny pracy:</p>
-              <div className="flex items-center space-x-4">
-                <div className="flex flex-col">
-                  <label className="mb-1 text-sm text-gray-700">
-                    Godzina rozpoczęcia
-                  </label>
-                  <input
-                    type="time"
-                    value={startTime}
-                    onChange={handleStartTimeChange}
-                    className="border px-3 py-2 rounded-md"
-                  />
-                </div>
-                <div className="flex flex-col">
-                  <label className="mb-1 text-sm text-gray-700">
-                    Godzina zakończenia
-                  </label>
-                  <input
-                    type="time"
-                    value={endTime}
-                    onChange={handleEndTimeChange}
-                    className="border px-3 py-2 rounded-md"
-                  />
-                </div>
+              <p className="mb-2 font-medium">Godziny pracy:</p>
+              <div className="grid grid-cols-3 gap-6">
+                {['poniedziałek', 'wtorek', 'środa', 'czwartek', 'piątek', 'sobota', 'niedziela'].map((day) => (
+                    <div key={day} className="flex flex-col">
+                      <p className="capitalize font-semibold mb-1">{day}</p>
+                      <div className="flex space-x-3">
+                        <input
+                            type="time"
+                            value={workingHours[day]?.start || ''}
+                            onChange={(e) => handleTimeChange(day, 'start', e.target.value)}
+                            className="border px-3 py-2 rounded-md"
+                        />
+                        <input
+                            type="time"
+                            value={workingHours[day]?.end || ''}
+                            onChange={(e) => handleTimeChange(day, 'end', e.target.value)}
+                            className="border px-3 py-2 rounded-md"
+                        />
+                      </div>
+                    </div>
+                ))}
+
               </div>
             </div>
 
             <div>
               <p>Liczba jednoczesnych wizyt:</p>
               <Select
-                value={visitsCount.toString()}
-                onValueChange={handleVisitsCountChange}
+                  value={visitsCount !== null ? visitsCount.toString() : ""}
+                  onValueChange={handleVisitsCountChange}
               >
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Wybierz liczbę" />
@@ -538,6 +689,6 @@ export default function Profile() {
           </div>
         )}
       </div>
-    </div>
+    </div >
   );
 }

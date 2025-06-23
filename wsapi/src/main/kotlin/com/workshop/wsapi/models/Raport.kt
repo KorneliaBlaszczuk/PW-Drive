@@ -38,7 +38,7 @@ class CarRaportDto(
 
 data class VisitRaportDto(
     val id: Long,
-    val service: Service,
+    val service: Service?,
     val car: CarRaportDto,
     val createdAt: String,
     val isReserved: Boolean,

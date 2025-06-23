@@ -29,7 +29,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
-import {Car} from "@/types/car";
+import { Car } from "@/types/car";
 import { useRouter, useParams } from "next/navigation";
 import styles from './page.module.scss';
 
@@ -209,6 +209,7 @@ export default function Report() {
                 <h3>Nowy przepieg / następny termin przeglądu</h3>
                 <Input
                     className={styles.Input}
+                    type="number"
                     placeholder="przebieg"
                     value={przebieg}
                     onChange={(e) => setPrzebieg(e.target.value)}
@@ -220,7 +221,7 @@ export default function Report() {
                             className={cn(styles.calendarInput)}
                         >
                             <CalendarIcon className="mr-2 h-4 w-4" />
-                            {date ? format(date, "PPP") : <span className={styles.calendarPlaceholder}>data następnego przebiegu</span>}
+                            {date ? format(date, "PPP") : <span className={styles.calendarPlaceholder}>data następnego przeglądu</span>}
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0">
@@ -262,7 +263,7 @@ export default function Report() {
                                     <TableCell className="text-right">
                                         {editIndex === index ? (
                                             <input
-                                                type="text"
+                                                type="number"
                                                 value={editPrice}
                                                 onChange={(e) => setEditPrice(e.target.value)}
                                                 className="border rounded px-2 py-1 w-20 text-right"
@@ -321,7 +322,7 @@ export default function Report() {
                             className="border rounded px-3 py-0.5 w-1/2"
                         />
                         <input
-                            type="text"
+                            type="number"
                             placeholder="Cena"
                             value={newPrice}
                             onChange={(e) => setNewPrice(e.target.value)}
