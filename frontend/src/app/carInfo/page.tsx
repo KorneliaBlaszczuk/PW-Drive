@@ -8,40 +8,12 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { jsPDF } from "jspdf";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { generateVisitReport } from "@/lib/generateVisitReport";
+import {Visit} from "@/types/visit";
+import {Car} from "@/types/car";
 import styles from "./page.module.scss";
-
-type Visit = {
-  createdAt: string;
-  date: string;
-  isReserved: boolean;
-  time: string;
-  car: Car;
-  service: Service | undefined;
-  id: number;
-  comment: string;
-  status: string;
-};
-
-type Service = {
-  id: number;
-  name: string;
-  price: number;
-  time: string;
-};
-
-type Car = {
-  mileage: number;
-  nextInspection: string;
-  year: number;
-  id: number;
-  id_user: number;
-  brand: string;
-  model: string;
-  name: string;
-};
 
 export default function CarInfo() {
   const searchParams = useSearchParams();
@@ -141,41 +113,6 @@ export default function CarInfo() {
     } catch (error) {
       console.error("Błąd zapisu samochodu:", error);
     }
-  };
-
-  const generateVisitReport = (visit: Visit) => {
-    const doc = new jsPDF();
-
-    // Nagłówek
-    doc.setFontSize(24);
-    doc.text("Raport wizyty", 20, 20);
-    doc.text(`z ${visit.date} ${visit.time}`, 20, 30);
-
-    doc.setFontSize(18);
-    doc.text("Informacje o samochodzie: ", 12, 50);
-
-    doc.setFontSize(12);
-    doc.text(`nazwa: ${visit.car.name}`, 12, 60);
-    doc.text(`marka: ${visit.car.brand}`, 12, 70);
-    doc.text(`model: ${visit.car.model}`, 12, 80);
-    doc.text(`rocznik: ${visit.car.year}`, 12, 90);
-    doc.text(`przebieg: ${visit.car.mileage}`, 12, 100);
-    doc.text(`nastepny przeglad: ${visit.car.nextInspection}`, 12, 110);
-
-    doc.setFontSize(18);
-    doc.text(`Typ uslugi: ${visit.service?.name || "Naprawa"}`, 12, 120);
-
-    doc.text(
-      `Wycena: ${visit.service?.name || "Naprawa"} - ${visit.service?.price || "-"
-      } PLN`,
-      12,
-      130
-    );
-    if (visit.comment) {
-      doc.text(`Komentarz: ${visit.comment}`, 12, 150);
-    }
-
-    doc.save(`raport_wizyty_${visit.id}.pdf`);
   };
 
   const upcomingVisits = visits.filter((v) => v.status === "upcoming");

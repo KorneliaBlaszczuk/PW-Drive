@@ -13,25 +13,9 @@ import {
 import { addDays, format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import {Car} from "@/types/car"
+import {Service} from "@/types/service";
 import styles from "./page.module.scss";
-
-type Car = {
-  mileage: number;
-  nextInspection: string;
-  year: number;
-  id: number;
-  id_user: number;
-  brand: string;
-  model: string;
-  name: string;
-};
-
-type Service = {
-  id: number;
-  name: string;
-  price: number;
-  time: string;
-};
 
 type Slot = {
   date: string;
